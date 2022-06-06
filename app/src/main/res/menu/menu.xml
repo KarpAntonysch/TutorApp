@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item
+        android:title="@string/Schedule"
+        android:icon="@drawable/ic_main_fragment"
+        android:orderInCategory="2"
+        />
+    <item
+        android:title="@string/Statistic"
+        android:icon="@drawable/ic_statistic"
+        android:orderInCategory="3"
+        />
+    <item
+        android:title="@string/Journal"
+        android:icon="@drawable/ic_journal"
+        android:orderInCategory="1"
+        />
+</menu>
