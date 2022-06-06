@@ -2,19 +2,19 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
     <item
         android:title="@string/Schedule"
-        android:id="@+id/iconOfMainFragment"
+        android:id="@+id/mainFragment"
         android:icon="@drawable/ic_main_fragment"
         android:orderInCategory="2"
         />
     <item
         android:title="@string/Statistic"
-        android:id="@+id/iconOfStatisticFragment"
+        android:id="@+id/statisticFragment"
         android:icon="@drawable/ic_statistic"
         android:orderInCategory="3"
         />
     <item
         android:title="@string/Journal"
-        android:id="@+id/iconOfJournalFragment"
+        android:id="@+id/studentJournalFragment"
         android:icon="@drawable/ic_journal"
         android:orderInCategory="1"
         />
