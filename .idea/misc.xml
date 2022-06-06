@@ -3,9 +3,15 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
+        <entry key="..\:/Users/ANTON/AndroidStudioProjects/Tutor/app/src/main/res/drawable/ic_calendar.xml" value="0.2703125" />
+        <entry key="..\:/Users/ANTON/AndroidStudioProjects/Tutor/app/src/main/res/drawable/ic_journal.xml" value="0.14635416666666667" />
+        <entry key="..\:/Users/ANTON/AndroidStudioProjects/Tutor/app/src/main/res/drawable/ic_main_fragment.xml" value="0.2703125" />
+        <entry key="..\:/Users/ANTON/AndroidStudioProjects/Tutor/app/src/main/res/drawable/ic_statistic.xml" value="0.2703125" />
+        <entry key="..\:/Users/ANTON/AndroidStudioProjects/Tutor/app/src/main/res/drawable/ic_statistics.xml" value="0.2703125" />
         <entry key="..\:/Users/ANTON/AndroidStudioProjects/Tutor/app/src/main/res/layout/fragment_main.xml" value="0.25416666666666665" />
         <entry key="..\:/Users/ANTON/AndroidStudioProjects/Tutor/app/src/main/res/layout/fragment_statistic.xml" value="0.24010416666666667" />
         <entry key="..\:/Users/ANTON/AndroidStudioProjects/Tutor/app/src/main/res/layout/fragment_student_journal.xml" value="0.25416666666666665" />
+        <entry key="..\:/Users/ANTON/AndroidStudioProjects/Tutor/app/src/main/res/menu/botton_menu.xml" value="0.25416666666666665" />
       </map>
     </option>
   </component>
