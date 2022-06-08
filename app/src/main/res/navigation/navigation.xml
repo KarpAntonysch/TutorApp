@@ -7,17 +7,17 @@
 
     <fragment
         android:id="@+id/mainFragment"
-        android:name="com.example.tutor.MainFragment"
+        android:name="com.example.tutor.main.MainFragment"
         android:label="fragment_main"
         tools:layout="@layout/fragment_main" />
     <fragment
         android:id="@+id/statisticFragment"
-        android:name="com.example.tutor.StatisticFragment"
+        android:name="com.example.tutor.statistic.StatisticFragment"
         android:label="fragment_statistic"
         tools:layout="@layout/fragment_statistic" />
     <fragment
         android:id="@+id/studentJournalFragment"
-        android:name="com.example.tutor.StudentJournalFragment"
+        android:name="com.example.tutor.journal.StudentJournalFragment"
         android:label="fragment_student_journal"
         tools:layout="@layout/fragment_student_journal" />
 </navigation>
