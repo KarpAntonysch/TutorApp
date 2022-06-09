@@ -8,7 +8,7 @@
     tools:context=".journal.StudentJournalFragment">
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
-        android:id="@+id/add_uchenick"
+        android:id="@+id/addStudent"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginBottom="64dp"

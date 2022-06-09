@@ -19,5 +19,14 @@
         android:id="@+id/studentJournalFragment"
         android:name="com.example.tutor.journal.StudentJournalFragment"
         android:label="fragment_student_journal"
-        tools:layout="@layout/fragment_student_journal" />
+        tools:layout="@layout/fragment_student_journal" >
+        <action
+            android:id="@+id/action_studentJournalFragment_to_addStudentToJournal"
+            app:destination="@id/addStudentToJournal" />
+    </fragment>
+    <fragment
+        android:id="@+id/addStudentToJournal"
+        android:name="com.example.tutor.journal.AddStudentToJournalFragment"
+        android:label="fragment_add_student_to_journal"
+        tools:layout="@layout/fragment_add_student_to_journal" />
 </navigation>
