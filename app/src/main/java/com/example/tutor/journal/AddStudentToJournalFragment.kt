@@ -9,7 +9,7 @@ import android.view.ViewGroup
 import com.example.tutor.R
 import com.example.tutor.databinding.FragmentAddStudentToJournalBinding
 
-class AddStudentToJournal : Fragment() {
+class AddStudentToJournalFragment : Fragment() {
 lateinit var binding: FragmentAddStudentToJournalBinding
 
     override fun onCreateView(
