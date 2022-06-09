@@ -8,16 +8,16 @@ import java.io.Serializable
 
 @Entity(tableName = "studentTable")
 data class StudentEntity(
-    @ColumnInfo(name="firstName")
+    @ColumnInfo(name = "firstName")
     val firstName: String,
-    @ColumnInfo(name="secondName")
+    @ColumnInfo(name = "secondName")
     val secondName: String,
-    @ColumnInfo(name="price")
+    @ColumnInfo(name = "price")
     val price: Int,
-    @ColumnInfo(name="schoolClass")
-val schoolClass: Int
-): Serializable {
+    @ColumnInfo(name = "schoolClass")
+    val schoolClass: Int,
+) : Serializable {
     @PrimaryKey(autoGenerate = true)
-    var id:Int=0
+    var id: Int = 0
 
 }
