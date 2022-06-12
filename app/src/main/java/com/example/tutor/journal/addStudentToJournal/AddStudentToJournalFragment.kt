@@ -1,4 +1,4 @@
-package com.example.tutor.journal
+package com.example.tutor.journal.addStudentToJournal
 
 import android.os.Binder
 import android.os.Bundle

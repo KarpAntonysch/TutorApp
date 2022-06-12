@@ -1,4 +1,4 @@
-package com.example.tutor.journal
+package com.example.tutor.journal.studentJournal
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -23,7 +23,7 @@ class StudentJournalFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        binding.addStudent.setOnClickListener{
+        binding.btnAddStudent.setOnClickListener{
             findNavController().navigate(R.id.action_studentJournalFragment_to_addStudentToJournal)
         }
 
