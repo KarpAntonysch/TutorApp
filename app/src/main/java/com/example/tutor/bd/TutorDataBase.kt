@@ -16,7 +16,7 @@ abstract class TutorDataBase : RoomDatabase() {
         private var database: TutorDataBase? = null// определяем базу данных
 
         @Synchronized//защита от одновременного выполнения несколькими потоками
-        fun getInstance(context: Context): TutorDataBase { //  инициализируем БД
+        fun getDataBase(context: Context): TutorDataBase { //  инициализируем БД
             return if (database == null) {
                 database = Room.databaseBuilder(context, TutorDataBase::class.java, "bd").build()
                 database as TutorDataBase
