@@ -34,6 +34,10 @@ class StudentJournalAdapter :
         holder.bind(currentStudent)
     }
 
+    override fun getItemCount(): Int {
+        return currentList.size
+    }
+
     class StudentComparator : DiffUtil.ItemCallback<StudentEntity>() {
         override fun areItemsTheSame(oldItem: StudentEntity, newItem: StudentEntity): Boolean {
             return oldItem == newItem
