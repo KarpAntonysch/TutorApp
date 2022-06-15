@@ -33,6 +33,7 @@ lateinit var binding: FragmentAddStudentToJournalBinding
         binding.btnAddToDB.setOnClickListener{
             val studentEntity = getStudentValues()
             addStudentEntityToDB(studentEntity)
+
         }
     }
     fun addStudentEntityToDB(studentEntity: StudentEntity){
