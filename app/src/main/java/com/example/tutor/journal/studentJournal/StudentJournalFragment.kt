@@ -7,18 +7,20 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
-import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.tutor.R
 import com.example.tutor.adapters.StudentJournalAdapter
+import com.example.tutor.bd.StudentEntity
 import com.example.tutor.databinding.FragmentStudentJournalBinding
 import com.example.tutor.journal.StudentJournalViewModel
 import com.example.tutor.journal.StudentJournalViewModelFactory
 
 
-class StudentJournalFragment : Fragment() {
+
+class StudentJournalFragment : Fragment(),StudentJournalAdapter.Listener {
     lateinit var binding: FragmentStudentJournalBinding
     lateinit var recyclerView: RecyclerView
+    private var adapter=StudentJournalAdapter(this)
     private val studentJournalViewModel: StudentJournalViewModel by viewModels {
         StudentJournalViewModelFactory((requireActivity().application as StudentApplication).repository)
     }
@@ -37,14 +39,18 @@ class StudentJournalFragment : Fragment() {
         }
         realizationOfRV()
 
+
     }
     private fun realizationOfRV(){
         recyclerView=binding.allStudentsRV
-        val adapter=StudentJournalAdapter()
         recyclerView.adapter=adapter
         studentJournalViewModel.allStudents.observe(viewLifecycleOwner)
             {studentList ->
                 studentList.let { adapter.submitList(it) }
             }
+    }
+    
+    override fun onClick(studentEntity: StudentEntity) {
+        studentJournalViewModel.deleteStudent(studentEntity)
     }
 }

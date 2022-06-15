@@ -2,8 +2,6 @@ package com.example.tutor.journal.addStudentToJournal
 
 import androidx.lifecycle.*
 import com.example.tutor.bd.StudentEntity
-import com.example.tutor.journal.StudentJournalViewModel
-import com.example.tutor.journal.studentJournal.StudentApplication
 import com.example.tutor.repository.StudentRepository
 import kotlinx.coroutines.launch
 import java.lang.IllegalArgumentException
@@ -14,7 +12,7 @@ class AddStudentToJournalViewModel(private val repository: StudentRepository):Vi
 
     // Создаем метод-оболочку insert, который вызывает insert из репозитория
     fun insert(studentEntity: StudentEntity)=viewModelScope.launch {
-        repository.insert(studentEntity)
+        repository.insertStudent(studentEntity)
     }
 }
 

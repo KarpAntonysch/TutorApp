@@ -13,8 +13,10 @@ class StudentRepository(private val studentDAO: StudentDAO) {
 
     @Suppress("RedundantSuspendModifier")
     @WorkerThread
-    suspend fun insert(studentEntity: StudentEntity) {
+    suspend fun insertStudent(studentEntity: StudentEntity) {
         studentDAO.insertStudent(studentEntity)
-
+    }
+    suspend fun deleteStudent(studentEntity: StudentEntity){
+        studentDAO.deleteStudent(studentEntity)
     }
 }

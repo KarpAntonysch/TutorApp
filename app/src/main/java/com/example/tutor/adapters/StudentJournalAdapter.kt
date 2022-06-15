@@ -10,20 +10,21 @@ import com.example.tutor.R
 import com.example.tutor.bd.StudentEntity
 import com.example.tutor.databinding.StudentJournalItemBinding
 
-class StudentJournalAdapter :
+class StudentJournalAdapter(val listener:Listener) :
     ListAdapter<StudentEntity, StudentJournalAdapter.StudentViewHolder>(StudentComparator()) {
 
     class StudentViewHolder(view: View) : RecyclerView.ViewHolder(view) {
         val binding = StudentJournalItemBinding.bind(view)
-        fun bind(studentEntity: StudentEntity,position: Int) {
-
+        fun bind(studentEntity: StudentEntity,position: Int,listener:Listener)  {
             binding.tvID.text= (position + 1).toString()
             binding.tvName.text = studentEntity.firstName
             binding.tvSecondName.text = studentEntity.secondName
             binding.tvSchoolClass.text = studentEntity.schoolClass.toString()
+            binding.btnDelete.setOnClickListener{
+                listener.onClick(studentEntity)
+            }
         }
     }
-
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): StudentViewHolder {
         val view = LayoutInflater.from(parent.context)
             .inflate(R.layout.student_journal_item, parent, false)
@@ -32,7 +33,7 @@ class StudentJournalAdapter :
 
     override fun onBindViewHolder(holder: StudentViewHolder, position: Int) {
         val currentStudent = getItem(position)
-        holder.bind(currentStudent,position)
+        holder.bind(currentStudent,position,listener)
     }
 
     class StudentComparator : DiffUtil.ItemCallback<StudentEntity>() {
@@ -43,5 +44,10 @@ class StudentJournalAdapter :
         override fun areContentsTheSame(oldItem: StudentEntity, newItem: StudentEntity): Boolean {
             return oldItem == newItem
         }
+    }
+
+    // интерфейс для обработки нажатий в RV
+    interface Listener{
+        fun onClick(studentEntity: StudentEntity)
     }
 }
