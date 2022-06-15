@@ -15,8 +15,9 @@ class StudentJournalAdapter :
 
     class StudentViewHolder(view: View) : RecyclerView.ViewHolder(view) {
         val binding = StudentJournalItemBinding.bind(view)
-        fun bind(studentEntity: StudentEntity) {
-            binding.tvID.text =studentEntity.id++.toString()
+        fun bind(studentEntity: StudentEntity,position: Int) {
+
+            binding.tvID.text= (position + 1).toString()
             binding.tvName.text = studentEntity.firstName
             binding.tvSecondName.text = studentEntity.secondName
             binding.tvSchoolClass.text = studentEntity.schoolClass.toString()
@@ -31,7 +32,7 @@ class StudentJournalAdapter :
 
     override fun onBindViewHolder(holder: StudentViewHolder, position: Int) {
         val currentStudent = getItem(position)
-        holder.bind(currentStudent)
+        holder.bind(currentStudent,position)
     }
 
     class StudentComparator : DiffUtil.ItemCallback<StudentEntity>() {
