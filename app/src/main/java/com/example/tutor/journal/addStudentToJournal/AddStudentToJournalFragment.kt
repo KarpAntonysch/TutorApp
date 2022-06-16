@@ -13,6 +13,7 @@ import com.example.tutor.R
 import com.example.tutor.bd.StudentEntity
 import com.example.tutor.databinding.FragmentAddStudentToJournalBinding
 import com.example.tutor.journal.studentJournal.StudentApplication
+import java.io.FileReader
 
 class AddStudentToJournalFragment : Fragment() {
 lateinit var binding: FragmentAddStudentToJournalBinding
@@ -31,11 +32,14 @@ lateinit var binding: FragmentAddStudentToJournalBinding
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         binding.btnAddToDB.setOnClickListener{
-            val studentEntity = getStudentValues()
-            addStudentEntityToDB(studentEntity)
-
+            if (!empty()){
+                val studentEntity = getStudentValues()
+                addStudentEntityToDB(studentEntity)
+                activity?.onBackPressed()
+            }
         }
     }
+
     fun addStudentEntityToDB(studentEntity: StudentEntity){
         studentViewModel.insert(studentEntity)
     }
@@ -45,8 +49,17 @@ lateinit var binding: FragmentAddStudentToJournalBinding
         val secondName:String = binding.edSecondName.text.toString()
         val schoolClass:Int = binding.edClass.text.toString().toInt()
         val price:Int = binding.edPrice.text.toString().toInt()
-
         return StudentEntity(firstName, secondName, price, schoolClass)
     }
-
+    // Проверка на заполнение полей
+    private fun empty():Boolean{
+        binding.apply {
+            if (edFirstName.text.isNullOrEmpty())edFirstName.error="Заполните поле"
+            if (edSecondName.text.isNullOrEmpty())edSecondName.error="Заполните поле"
+            if (edClass.text.isNullOrEmpty())edClass.error="Заполните поле"
+            if (edPrice.text.isNullOrEmpty())edPrice.error="Заполните поле"
+            return edFirstName.text.isNullOrEmpty() || edSecondName.text.isNullOrEmpty() ||
+                    edClass.text.isNullOrEmpty() || edPrice.text.isNullOrEmpty()
+        }
+    }
 }
