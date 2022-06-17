@@ -1,10 +1,16 @@
 package com.example.tutor.journal.studentJournal
 
+import android.app.AlertDialog
+import android.app.Dialog
+import android.content.DialogInterface
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.fragment.app.DialogFragment
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.FragmentManager
+import androidx.fragment.app.FragmentResultListener
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.RecyclerView
@@ -49,8 +55,29 @@ class StudentJournalFragment : Fragment(),StudentJournalAdapter.Listener {
                 studentList.let { adapter.submitList(it) }
             }
     }
-    
-    override fun onClick(studentEntity: StudentEntity) {
-        studentJournalViewModel.deleteStudent(studentEntity)
+
+    // функция из интерфеса для открытия диалогового окна
+    override fun openDialogFragment() {
+        showDialogFragment()
+    }
+    // функция из интерфейса для подстверждения удаления
+    override fun onClickToDeleteStudent(studentEntity: StudentEntity) {
+        setupDialogFragmentListener(studentEntity)
+    }
+
+    // Функция вызова диалогового окна из JournalDialogFragment
+    fun showDialogFragment(){
+        val dialogFragment = JourmalDialogFragment()
+        dialogFragment.show(activity!!.supportFragmentManager,JourmalDialogFragment.TAG)
+    }
+    // Функция инициализации кнопок в диалоговом окне из JournalDialogFragment
+    fun setupDialogFragmentListener(studentEntity: StudentEntity){
+        activity!!.supportFragmentManager.setFragmentResultListener(JourmalDialogFragment.REQUEST_KEY,this,
+        FragmentResultListener{_,result ->
+            val which = result.getInt(JourmalDialogFragment.KEY_RESPONSE)
+            when(which){
+                DialogInterface.BUTTON_POSITIVE -> studentJournalViewModel.deleteStudent(studentEntity)
+            }
+        })
     }
 }

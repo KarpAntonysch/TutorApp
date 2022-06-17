@@ -21,9 +21,13 @@ class StudentJournalAdapter(val listener: Listener) :
             tvName.text = studentEntity.firstName
             tvSecondName.text = studentEntity.secondName
             tvSchoolClass.text = studentEntity.schoolClass.toString()
-            btnDelete.setOnClickListener {
-                listener.onClick(studentEntity)
+            // Реализация кнопки удаления объекта из РВ с использованием интерфейса для обращения к
+            //StudentJournalFragment  и DialogFragment
+            btnDelete.setOnClickListener {//при нажатии только открываем диалоговое окно
+                listener.openDialogFragment()
             }
+            listener.onClickToDeleteStudent(studentEntity)// целенаправленно выносим функцию за пределы
+            // слушателя, что б при повороте экрана состояние сохранилось и можно было подтвердить удаление
         }
     }
 
@@ -48,8 +52,12 @@ class StudentJournalAdapter(val listener: Listener) :
         }
     }
 
+
     // интерфейс для обработки нажатий в RV
     interface Listener {
-        fun onClick(studentEntity: StudentEntity)
+        // функция для открытия диалогового окна при удалении
+        fun openDialogFragment()
+        //функция для удаления ученика из БД в диалоговом окне
+        fun onClickToDeleteStudent(studentEntity: StudentEntity)
     }
 }
