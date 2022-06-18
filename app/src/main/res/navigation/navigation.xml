@@ -9,7 +9,11 @@
         android:id="@+id/mainFragment"
         android:name="com.example.tutor.MainFragment"
         android:label="fragment_main"
-        tools:layout="@layout/fragment_main" />
+        tools:layout="@layout/fragment_main" >
+        <action
+            android:id="@+id/action_mainFragment_to_addStudentToDaySchedule"
+            app:destination="@id/addStudentToDaySchedule" />
+    </fragment>
     <fragment
         android:id="@+id/statisticFragment"
         android:name="com.example.tutor.StatisticFragment"
@@ -20,4 +24,13 @@
         android:name="com.example.tutor.StudentJournalFragment"
         android:label="fragment_student_journal"
         tools:layout="@layout/fragment_student_journal" />
+    <fragment
+        android:id="@+id/addStudentToDaySchedule"
+        android:name="com.example.tutor.AddStudentToDaySchedule"
+        android:label="fragment_add_student_to_day_schedule"
+        tools:layout="@layout/fragment_add_student_to_day_schedule" >
+        <action
+            android:id="@+id/action_addStudentToDaySchedule_to_mainFragment"
+            app:destination="@id/mainFragment" />
+    </fragment>
 </navigation>
