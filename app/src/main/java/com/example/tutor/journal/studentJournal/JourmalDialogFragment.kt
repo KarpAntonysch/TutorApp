@@ -20,16 +20,6 @@ class JourmalDialogFragment : DialogFragment() {
             .create()
     }
 
-    override fun onDismiss(dialog: DialogInterface) {
-        super.onDismiss(dialog)
-
-    }
-
-    override fun onCancel(dialog: DialogInterface) {
-        super.onCancel(dialog)
-
-    }
-
     companion object {
         @JvmStatic
         val TAG = JourmalDialogFragment::class.java.simpleName
