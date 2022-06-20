@@ -7,7 +7,7 @@ import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.example.tutor.R
-import com.example.tutor.bd.StudentEntity
+import com.example.tutor.bd.entities.StudentEntity
 import com.example.tutor.databinding.StudentJournalItemBinding
 
 class StudentJournalAdapter(val listener: Listener) :

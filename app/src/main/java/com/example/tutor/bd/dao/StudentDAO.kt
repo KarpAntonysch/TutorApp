@@ -1,7 +1,7 @@
 package com.example.tutor.bd.dao
 
 import androidx.room.*
-import com.example.tutor.bd.StudentEntity
+import com.example.tutor.bd.entities.StudentEntity
 import kotlinx.coroutines.flow.Flow
 
 

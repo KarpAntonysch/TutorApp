@@ -1,8 +1,8 @@
 package com.example.tutor.repository
 
 import androidx.annotation.WorkerThread
-import com.example.tutor.bd.StudentEntity
 import com.example.tutor.bd.dao.StudentDAO
+import com.example.tutor.bd.entities.StudentEntity
 import kotlinx.coroutines.flow.Flow
 
 

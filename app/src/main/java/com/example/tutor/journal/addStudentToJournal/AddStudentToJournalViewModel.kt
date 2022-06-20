@@ -1,10 +1,11 @@
 package com.example.tutor.journal.addStudentToJournal
 
-import androidx.lifecycle.*
-import com.example.tutor.bd.StudentEntity
+import androidx.lifecycle.ViewModel
+import androidx.lifecycle.ViewModelProvider
+import androidx.lifecycle.viewModelScope
+import com.example.tutor.bd.entities.StudentEntity
 import com.example.tutor.repository.StudentRepository
 import kotlinx.coroutines.launch
-import java.lang.IllegalArgumentException
 
 class AddStudentToJournalViewModel(private val repository: StudentRepository):ViewModel() {
 
