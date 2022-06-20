@@ -26,11 +26,12 @@ class MainFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
-
+    // передадим дату (Long) через  Bundle
+        val bundle = Bundle()
         binding.btnAddToCalendar.setOnClickListener {
-            binding.calendarView.date
-            findNavController().navigate(R.id.action_mainFragment_to_addStudentToDaySchedule)
+            val currentDate = binding.calendarView.date
+            bundle.putLong("ArgForDate",currentDate)
+            findNavController().navigate(R.id.action_mainFragment_to_addStudentToDaySchedule,bundle)
         }
     }
 }

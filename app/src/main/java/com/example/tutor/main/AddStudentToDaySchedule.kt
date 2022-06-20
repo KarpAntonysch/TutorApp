@@ -1,21 +1,42 @@
 package com.example.tutor.main
 
+import android.icu.text.SimpleDateFormat
+import android.os.Binder
+import android.os.Build
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.annotation.RequiresApi
 import com.example.tutor.R
+import com.example.tutor.databinding.FragmentAddStudentToDayScheduleBinding
+import java.util.*
 
 
 class AddStudentToDaySchedule : Fragment() {
+    lateinit var binding: FragmentAddStudentToDayScheduleBinding
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?,
     ): View? {
-        // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_add_student_to_day_schedule, container, false)
+        binding = FragmentAddStudentToDayScheduleBinding.inflate(inflater,container,false)
+        return binding.root
+    }
+
+    @RequiresApi(Build.VERSION_CODES.N)
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        //Прием Bundle
+        val currentDate = arguments?.getLong("ArgForDate")
+        fun convertLongToTime(time: Long): String {
+            val date = Date(time)
+            val format = SimpleDateFormat("dd.MM.yyyy HH:mm:ss")
+            return format.format(date)
+        }
+
+        binding.tvDate.text = convertLongToTime(currentDate!!)
     }
 
 }
