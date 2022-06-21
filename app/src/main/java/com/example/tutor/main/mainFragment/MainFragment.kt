@@ -1,4 +1,4 @@
-package com.example.tutor.main
+package com.example.tutor.main.mainFragment
 
 import android.os.Build
 import android.os.Bundle
@@ -33,13 +33,13 @@ class MainFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
     // передадим дату (Long) через  Bundle
         val bundle = Bundle()
-
-        var currentDate = binding.calendarView.date// текущая дата в Long
-    //   выбранная пользователем дата  в Long
-
+        var currentDate = binding.calendarView.date
         binding.calendarView.setOnDateChangeListener { _, year, moth, dayOfMoth ->
+            // возвращает календарь с установленными по умолчанию часовым поясом и языком
             val currentCalendar: Calendar = Calendar.getInstance()
+            // устанавливаем выбранную дату
             currentCalendar.set(year, moth, dayOfMoth)
+            // возвращает дату и время в Long
             currentDate = currentCalendar.timeInMillis
         }
         binding.btnAddToCalendar.setOnClickListener {

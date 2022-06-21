@@ -1,4 +1,4 @@
-package com.example.tutor.main
+package com.example.tutor.main.addStudentToSchedule
 
 import android.icu.text.SimpleDateFormat
 import android.os.Binder

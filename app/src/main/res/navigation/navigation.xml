@@ -7,7 +7,7 @@
 
     <fragment
         android:id="@+id/mainFragment"
-        android:name="com.example.tutor.main.MainFragment"
+        android:name="com.example.tutor.main.mainFragment.MainFragment"
         android:label="fragment_main"
         tools:layout="@layout/fragment_main" >
         <action
@@ -30,7 +30,7 @@
     </fragment>
     <fragment
         android:id="@+id/addStudentToDaySchedule"
-        android:name="com.example.tutor.main.AddStudentToDaySchedule"
+        android:name="com.example.tutor.main.addStudentToSchedule.AddStudentToDaySchedule"
         android:label="fragment_add_student_to_day_schedule"
         tools:layout="@layout/fragment_add_student_to_day_schedule" >
         <action
