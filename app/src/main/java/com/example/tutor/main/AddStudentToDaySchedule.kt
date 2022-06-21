@@ -32,7 +32,7 @@ class AddStudentToDaySchedule : Fragment() {
         val currentDate = arguments?.getLong("ArgForDate")
         fun convertLongToTime(time: Long): String {
             val date = Date(time)
-            val format = SimpleDateFormat("dd.MM.yyyy HH:mm:ss")
+            val format = SimpleDateFormat("dd.MM.yyyy")
             return format.format(date)
         }
 
