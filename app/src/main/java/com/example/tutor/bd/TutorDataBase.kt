@@ -4,6 +4,7 @@ import android.content.Context
 import androidx.room.Database
 import androidx.room.Room
 import androidx.room.RoomDatabase
+import com.example.tutor.bd.dao.ScheduleDAO
 import com.example.tutor.bd.dao.StudentDAO
 import com.example.tutor.bd.entities.StudentEntity
 
@@ -11,6 +12,7 @@ import com.example.tutor.bd.entities.StudentEntity
 abstract class TutorDataBase : RoomDatabase() {
     // для каждой DAO определяем метод для свзязи с этой DAO
     abstract fun getStudentDAO(): StudentDAO
+    abstract fun getScheduleDAO(): ScheduleDAO
 
     companion object {
         @Volatile// делает объект видимым для всех потоков

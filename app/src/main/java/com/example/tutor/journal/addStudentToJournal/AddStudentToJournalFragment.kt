@@ -13,7 +13,7 @@ import com.example.tutor.journal.studentJournal.StudentApplication
 class AddStudentToJournalFragment : Fragment() {
 lateinit var binding: FragmentAddStudentToJournalBinding
     private val studentViewModel: AddStudentToJournalViewModel by viewModels {
-        AddStudentToJournalViewModelFactory((requireActivity().application as StudentApplication).repository)
+        AddStudentToJournalViewModelFactory((requireActivity().application as StudentApplication).studentRepository)
     }
 
     override fun onCreateView(

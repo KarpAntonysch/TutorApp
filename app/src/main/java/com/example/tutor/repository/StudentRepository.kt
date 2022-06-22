@@ -24,12 +24,3 @@ class StudentRepository(private val studentDAO: StudentDAO) {
 }
 
 
-class ScheduleRepository(private val scheduleDAO: ScheduleDAO){
-
-    @Suppress("RedundantSuspendModifier")
-    @WorkerThread
-    suspend fun insertSchedule(scheduleEntity: ScheduleEntity) {
-       scheduleDAO.insertSchedule(scheduleEntity)
-    }
-
-}
