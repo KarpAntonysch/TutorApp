@@ -1,7 +1,9 @@
 package com.example.tutor.repository
 
 import androidx.annotation.WorkerThread
+import com.example.tutor.bd.dao.ScheduleDAO
 import com.example.tutor.bd.dao.StudentDAO
+import com.example.tutor.bd.entities.ScheduleEntity
 import com.example.tutor.bd.entities.StudentEntity
 import kotlinx.coroutines.flow.Flow
 
@@ -19,4 +21,15 @@ class StudentRepository(private val studentDAO: StudentDAO) {
     suspend fun deleteStudent(studentEntity: StudentEntity){
         studentDAO.deleteStudent(studentEntity)
     }
+}
+
+
+class ScheduleRepository(private val scheduleDAO: ScheduleDAO){
+
+    @Suppress("RedundantSuspendModifier")
+    @WorkerThread
+    suspend fun insertSchedule(scheduleEntity: ScheduleEntity) {
+       scheduleDAO.insertSchedule(scheduleEntity)
+    }
+
 }
