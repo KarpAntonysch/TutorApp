@@ -16,7 +16,8 @@ class AddStudentToJournalViewModel(private val repository: StudentRepository):Vi
         repository.insertStudent(studentEntity)
     }
 }
-
+// эта конструкция необходима для того, что б проинициализировать VM в фрагменте с передачей в
+// конструктор ссылки на репозиторий
 class AddStudentToJournalViewModelFactory(private val repository: StudentRepository): ViewModelProvider.Factory{
     override fun <T:ViewModel> create(modelClass:Class<T>): T{
         if (modelClass.isAssignableFrom(AddStudentToJournalViewModel::class.java)){
