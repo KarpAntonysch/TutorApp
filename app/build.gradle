@@ -50,10 +50,6 @@ android {
         viewBinding true
     }
 
-    // тоже для тестирования миграция, хз на сколько нужно
-    sourceSets {
-        androidTest.assets.srcDirs += files("$projectDir/schemas".toString())
-    }
 }
 
 dependencies {
