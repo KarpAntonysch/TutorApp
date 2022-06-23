@@ -1,11 +1,13 @@
 package com.example.tutor.main.addStudentToSchedule
 
+import android.annotation.SuppressLint
 import android.icu.text.SimpleDateFormat
 import android.os.Build
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.TimePicker
 import androidx.annotation.RequiresApi
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
@@ -20,6 +22,8 @@ class AddStudentToDaySchedule : Fragment() {
     private val scheduleViewModel: AddStudentToScheduleViewModel by viewModels {
         AddStudentToScheduleViewModelFactory((requireActivity().application as DBlication).scheduleRepository)
     }
+    lateinit var  timePicker:TimePicker
+
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -33,10 +37,12 @@ class AddStudentToDaySchedule : Fragment() {
     @RequiresApi(Build.VERSION_CODES.N)
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        timePicker = binding.timePicker
+        timePicker.setIs24HourView(true)
+
 
         getCurrentDate()
     }
-
 
     //Прием даты с помощью Bundle
     @RequiresApi(Build.VERSION_CODES.N)
@@ -46,8 +52,19 @@ class AddStudentToDaySchedule : Fragment() {
             val date = Date(time)
             val format = SimpleDateFormat("dd.MM.yyyy")
             return format.format(date)
+
         }
+
+
         binding.tvDate.text = convertLongToTime(currentDate!!)
+    }
+
+
+    // Выбор времени с использованием TimePicker
+    fun getCurrentTime(){
+        timePicker.setOnTimeChangedListener { _, hour, minute ->
+            // нужно вытащить время в long
+        }
     }
 
     // добавление объекта расписания в БД
@@ -55,9 +72,11 @@ class AddStudentToDaySchedule : Fragment() {
         scheduleViewModel.insert(scheduleEntity)
     }
 
-    fun getScheduleValues() : ScheduleEntity{
-        val dateWithTime : Long
+    /*fun getScheduleValues() : ScheduleEntity{
+        val currentDate = arguments?.getLong("ArgForDate")
+        val currentTime = binding.edTime.toString().toLong()
+        val dateWithTime : Long = currentTime + currentDate!!
         val studentId : Int
         return ScheduleEntity(dateWithTime,studentId)
-    }
+    }*/
 }

@@ -35,28 +35,39 @@
         app:layout_constraintTop_toBottomOf="@+id/tvDate"
         app:layout_constraintVertical_bias="0.0" />
 
-    <EditText
-        android:id="@+id/edTime"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="32dp"
-        android:ems="10"
-        android:hint="Время"
-        android:inputType="textPersonName"
-        android:minHeight="48dp"
-        app:layout_constraintEnd_toEndOf="@+id/edName"
-        app:layout_constraintStart_toStartOf="@+id/edName"
-        app:layout_constraintTop_toBottomOf="@+id/edName" />
-
     <Button
-        android:id="@+id/button"
+        android:id="@+id/btnAddSchedule"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="32dp"
+        android:layout_marginTop="24dp"
         android:text="Добавить"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="@+id/edTime"
-        app:layout_constraintStart_toStartOf="@+id/edTime"
-        app:layout_constraintTop_toBottomOf="@+id/edTime"
+        app:layout_constraintEnd_toEndOf="@+id/timePicker"
+        app:layout_constraintStart_toStartOf="@+id/timePicker"
+        app:layout_constraintTop_toBottomOf="@+id/timePicker"
         app:layout_constraintVertical_bias="0.0" />
+
+    <TimePicker
+        android:id="@+id/timePicker"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="24dp"
+        android:timePickerMode="spinner"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.496"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/edName"
+        tools:ignore="MissingConstraints" />
+
+    <TextView
+        android:id="@+id/textView2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="24dp"
+        android:text="TextView"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/btnAddSchedule" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>
