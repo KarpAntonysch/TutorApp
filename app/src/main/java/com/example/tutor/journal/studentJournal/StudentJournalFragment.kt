@@ -23,7 +23,7 @@ class StudentJournalFragment : Fragment(), StudentJournalAdapter.Listener {
     lateinit var recyclerView: RecyclerView
     private var adapter = StudentJournalAdapter(this)
     private val studentJournalViewModel: StudentJournalViewModel by viewModels {
-        StudentJournalViewModelFactory((requireActivity().application as StudentApplication).studentRepository)
+        StudentJournalViewModelFactory((requireActivity().application as DBlication).studentRepository)
     }
 
     override fun onCreateView(

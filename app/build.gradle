@@ -23,12 +23,7 @@ android {
         versionCode 1
         versionName "1.0"
 
-        javaCompileOptions {
-            annotationProcessorOptions {
-                // Will export the schema to this directory during the "build" command.
-                arguments = ["room.schemaLocation": "$projectDir/schemas".toString()]
-            }
-        }
+
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }

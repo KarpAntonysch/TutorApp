@@ -12,6 +12,7 @@ class AddStudentToScheduleViewModel(private val repository: ScheduleRepository):
         fun insert(scheduleEntity: ScheduleEntity)=viewModelScope.launch{
             repository.insertSchedule(scheduleEntity)
         }
+
 }
 // эта конструкция необходима для того, что б проинициализировать VM в фрагменте с передачей в
 // конструктор ссылки на репозиторий
