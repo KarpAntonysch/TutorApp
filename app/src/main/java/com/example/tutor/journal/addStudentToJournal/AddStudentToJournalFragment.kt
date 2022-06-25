@@ -8,12 +8,12 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import com.example.tutor.bd.entities.StudentEntity
 import com.example.tutor.databinding.FragmentAddStudentToJournalBinding
-import com.example.tutor.journal.studentJournal.DBlication
+import com.example.tutor.journal.studentJournal.DBapplication
 
 class AddStudentToJournalFragment : Fragment() {
 lateinit var binding: FragmentAddStudentToJournalBinding
     private val studentViewModel: AddStudentToJournalViewModel by viewModels {
-        AddStudentToJournalViewModelFactory((requireActivity().application as DBlication).studentRepository)
+        AddStudentToJournalViewModelFactory((requireActivity().application as DBapplication).studentRepository)
     }
 
     override fun onCreateView(

@@ -1,7 +1,9 @@
 package com.example.tutor.bd.dao
 
+import androidx.lifecycle.LiveData
 import androidx.room.*
 import com.example.tutor.bd.entities.StudentEntity
+import com.example.tutor.bd.entities.studentForSchedule
 import kotlinx.coroutines.flow.Flow
 
 
@@ -15,4 +17,7 @@ interface StudentDAO {
     // добавляю функцию для получения списка всех студентов
     @Query("SELECT * FROM studentTable")
     fun getAllStudents(): Flow<List<StudentEntity>>
+    // функция для получения информация для спинера и второй таблицы БД
+    @Query("SELECT id, firstName,secondName FROM studentTable")
+    fun getInfoForSchedule(): LiveData<MutableList<studentForSchedule>>
 }

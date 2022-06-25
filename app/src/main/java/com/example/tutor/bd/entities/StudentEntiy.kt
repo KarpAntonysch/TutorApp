@@ -21,3 +21,12 @@ data class StudentEntity(
     var id: Int = 0
 
 }
+data class studentForSchedule(
+    @ColumnInfo
+    val id:Int,
+    @ColumnInfo(name = "firstName")
+    val firstName: String,
+    @ColumnInfo(name = "secondName")
+    val secondName: String
+    )
+

@@ -7,7 +7,7 @@ import com.example.tutor.repository.StudentRepository
 
 // Для создания ЕДИНСТВЕННЫХ экземпляров БД и репозитория создаем их как членов Application.
 //После этого они будут просто извлекаться из приложения, когда необходимо
-class DBlication: Application() {
+class DBapplication: Application() {
     val dataBase by lazy { TutorDataBase.getDataBase(this) }
     val studentRepository by lazy { StudentRepository(dataBase.getStudentDAO()) }
     val scheduleRepository by lazy { ScheduleRepository(dataBase.getScheduleDAO()) }

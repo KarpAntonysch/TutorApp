@@ -4,14 +4,16 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.viewModelScope
 import com.example.tutor.bd.entities.ScheduleEntity
-import com.example.tutor.journal.addStudentToJournal.AddStudentToJournalViewModel
 import com.example.tutor.repository.ScheduleRepository
 import kotlinx.coroutines.launch
 
 class AddStudentToScheduleViewModel(private val repository: ScheduleRepository):ViewModel() {
+
         fun insert(scheduleEntity: ScheduleEntity)=viewModelScope.launch{
             repository.insertSchedule(scheduleEntity)
         }
+
+
 
 }
 // эта конструкция необходима для того, что б проинициализировать VM в фрагменте с передачей в
