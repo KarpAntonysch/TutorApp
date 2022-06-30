@@ -19,11 +19,16 @@ android {
     defaultConfig {
         applicationId "com.example.tutor"
         minSdk 21
-        targetSdk 32
+        targetSdk 30
         versionCode 1
         versionName "1.0"
 
-
+        javaCompileOptions {
+            annotationProcessorOptions {
+                // Will export the schema to this directory during the "build" command.
+                arguments = ["room.schemaLocation": "$projectDir/schemas".toString()]
+            }
+        }
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
@@ -45,6 +50,10 @@ android {
         viewBinding true
     }
 
+    // тоже для тестирования миграция, хз на сколько нужно
+    sourceSets {
+        androidTest.assets.srcDirs += files("$projectDir/schemas".toString())
+    }
 }
 
 dependencies {

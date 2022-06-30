@@ -6,7 +6,7 @@ import androidx.room.PrimaryKey
 import java.io.Serializable
 
 
-@Entity(tableName = "scheduleTable")
+@Entity(tableName = "schedeulTable")
 data class ScheduleEntity(
     @ColumnInfo(name ="dateWithTime")
     val dateWithTime:Long,

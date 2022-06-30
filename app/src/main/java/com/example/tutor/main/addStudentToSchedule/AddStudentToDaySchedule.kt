@@ -1,16 +1,13 @@
 package com.example.tutor.main.addStudentToSchedule
 
 import android.annotation.SuppressLint
-import android.icu.text.SimpleDateFormat
-import android.os.Build
+import java.text.SimpleDateFormat
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.AdapterView
 import android.widget.ArrayAdapter
-import android.widget.TimePicker
-import androidx.annotation.RequiresApi
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import com.example.tutor.bd.entities.ScheduleEntity
@@ -19,9 +16,13 @@ import com.example.tutor.databinding.FragmentAddStudentToDayScheduleBinding
 import com.example.tutor.journal.StudentJournalViewModel
 import com.example.tutor.journal.StudentJournalViewModelFactory
 import com.example.tutor.journal.studentJournal.DBapplication
+import java.time.LocalDateTime
+import java.time.format.DateTimeFormatter
 import java.util.*
 import java.util.Calendar.getInstance
 import kotlin.collections.ArrayList
+
+
 
 
 class AddStudentToDaySchedule : Fragment() {
@@ -32,7 +33,7 @@ class AddStudentToDaySchedule : Fragment() {
     private val studentJournalViewModel: StudentJournalViewModel by viewModels {
         StudentJournalViewModelFactory((requireActivity().application as DBapplication).studentRepository)
     }
-    lateinit var  timePicker:TimePicker
+
 
 
 
@@ -45,22 +46,25 @@ class AddStudentToDaySchedule : Fragment() {
     }
 
 
-    @RequiresApi(Build.VERSION_CODES.N)
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        timePicker = binding.timePicker
-        timePicker.setIs24HourView(true)
+        binding.timePicker.setIs24HourView(true)
+
+        val dateForSchedule = getCurrentDate()// Long
+        binding.tvDate.text = dateForSchedule.convertLongToTime("dd.MM.yyyy")
 
         getCurrentTime()
-        getCurrentDate()
+
+
         //спинер
         val spinner = binding.spinnerForSchedule
         var infoList: ArrayList<studentForSchedule>
 
         // получение информации для таблицы schedule(id,firstname,secondname), реализация спинера
         studentJournalViewModel.getInfo().observe(viewLifecycleOwner,{
-        infoList= ArrayList(it)
+            infoList= ArrayList(it)
             // получение отдельных списков имен и фамилий
             val infoName = infoList.map { it.firstName }
             val infoSecondName = infoList.map { it.secondName }
@@ -73,46 +77,57 @@ class AddStudentToDaySchedule : Fragment() {
                 android.R.layout.simple_spinner_dropdown_item,
                 spinnerList)
         })
-            spinner.onItemSelectedListener =
-                object : AdapterView.OnItemSelectedListener {
-                    override fun onItemSelected(
-                        p0: AdapterView<*>?,
-                        p1: View?,
-                        p2: Int,
-                        p3: Long, ) {}
+        spinner.onItemSelectedListener =
+            object : AdapterView.OnItemSelectedListener {
+                override fun onItemSelected(
+                    p0: AdapterView<*>?,
+                    p1: View?,
+                    p2: Int,
+                    p3: Long, ) {}
 
-                    override fun onNothingSelected(p0: AdapterView<*>?) {
-                    }
-
+                override fun onNothingSelected(p0: AdapterView<*>?) {
                 }
-    }
-    //Прием даты с помощью Bundle
-    @RequiresApi(Build.VERSION_CODES.N)
-    fun getCurrentDate() {
-        val currentDate = arguments?.getLong("ArgForDate")
-        fun convertLongToTime(time: Long): String {
-            val date = Date(time)
-            val format = SimpleDateFormat("dd.MM.yyyy ")
-            return format.format(date)
-        }
-        binding.tvDate.text = convertLongToTime(currentDate!!)
+
+            }
     }
 
-    // Выбор времени с использованием TimePicker. Просто пример, нужно перерабатывать
-    @SuppressLint("SetTextI18n", "NewApi")
-    @RequiresApi(Build.VERSION_CODES.M)
-    fun getCurrentTime():Long{
-        var currentDate = arguments?.getLong("ArgForDate")
-        timePicker.setOnTimeChangedListener { _, hour, minute ->
-            // нужно вытащить время в long
-            val cal:Calendar = getInstance()
-            cal.set(Calendar.HOUR_OF_DAY,timePicker.hour)
-            cal.set(Calendar.MINUTE,timePicker.minute)
-            currentDate = cal.timeInMillis
-            binding.textView2.text = currentDate.toString()
-        }
+    //Прием даты с помощью Bundle
+
+    fun getCurrentDate():Long {
+        val currentDate = arguments?.getLong("ArgForDate")
         return currentDate!!
     }
+
+    // Выбор времени с использованием TimePicker.
+    @SuppressLint("SetTextI18n", "NewApi")
+    fun getCurrentTime(){
+
+        var timeFromPicker: Long? = arguments?.getLong("ArgForDate")
+        val cal:Calendar = getInstance()
+       // binding.textView2.text = timeFromPicker?.convertLongToTime("dd.MM.yyyy H:m")
+        // вывод выбранного значения времени
+         binding.timePicker.setOnTimeChangedListener{ _, hour, minute ->
+            cal.set(Calendar.HOUR_OF_DAY,hour)
+            cal.set(Calendar.MINUTE,minute)
+            timeFromPicker = cal.timeInMillis
+            //binding.textView2.text = timeFromPicker?.convertLongToTime("dd.MM.yyyy H:m")
+        }
+        // при нажатии на кнопку собираю значение. Дата из  getCurrentDate(), время из пикера
+        binding.btnAddSchedule.setOnClickListener {
+            val dateForSchedule = getCurrentDate()
+            var jointDate = dateForSchedule.convertLongToTime("dd.MM.yyyy") +
+                    timeFromPicker?.convertLongToTime(" H:m")
+            //Перевожу строки в дату с помощью DateTimeFormatter
+            val formatter = DateTimeFormatter.ofPattern("dd.MM.yyyy H:m")
+            val formatDate = LocalDateTime.parse(jointDate,formatter)
+            // приведение к необходимому виду
+            val newFormatter = DateTimeFormatter.ofPattern("dd.MM.yyyy H:m")
+            val dateOfNewFormat = formatDate.format(newFormatter)
+            binding.textView2.text = dateOfNewFormat.toString()
+        }
+    }
+
+
 
     // добавление объекта расписания в БД (таблица2)
     fun addScheduleToDB(scheduleEntity: ScheduleEntity){
@@ -126,4 +141,11 @@ class AddStudentToDaySchedule : Fragment() {
         val studentId : Int
         return ScheduleEntity(dateWithTime,studentId)
     }*/
+
+    fun Long.convertLongToTime(pattern:String): String{
+        val date = Date(this)
+        val format = SimpleDateFormat(pattern)
+        return format.format(date)
+    }
+
 }

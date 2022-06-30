@@ -2,12 +2,14 @@ package com.example.tutor.journal.studentJournal
 
 import android.content.DialogInterface
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentResultListener
 import androidx.fragment.app.viewModels
+import androidx.lifecycle.MutableLiveData
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.RecyclerView
 import com.example.tutor.R
@@ -42,7 +44,6 @@ class StudentJournalFragment : Fragment(), StudentJournalAdapter.Listener {
         }
         realizationOfRV()
 
-
     }
 
     private fun realizationOfRV() {
@@ -54,20 +55,18 @@ class StudentJournalFragment : Fragment(), StudentJournalAdapter.Listener {
         }
     }
 
-    // функция из интерфеса для открытия диалогового окна
-    override fun openDialogFragment() {
-        showDialogFragment()
-    }
 
-    // функция из интерфейса для подстверждения удаления
+
+    // функция из интерфейса для открытие dialog и подтверждение удаления
     override fun onClickToDeleteStudent(studentEntity: StudentEntity) {
+        showDialogFragment()
         setupDialogFragmentListener(studentEntity)
     }
 
     // Функция вызова диалогового окна из JournalDialogFragment
     fun showDialogFragment() {
         val dialogFragment = JourmalDialogFragment()
-        dialogFragment.show(childFragmentManager, JourmalDialogFragment.TAG)
+        dialogFragment?.show(childFragmentManager, JourmalDialogFragment.TAG)
     }
 
     // Функция инициализации кнопок в диалоговом окне из JournalDialogFragment
