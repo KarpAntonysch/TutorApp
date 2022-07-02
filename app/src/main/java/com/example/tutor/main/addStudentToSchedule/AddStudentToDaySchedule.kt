@@ -1,7 +1,6 @@
 package com.example.tutor.main.addStudentToSchedule
 
 import android.annotation.SuppressLint
-import java.text.SimpleDateFormat
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -12,6 +11,7 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import com.example.tutor.bd.entities.ScheduleEntity
 import com.example.tutor.bd.entities.studentForSchedule
+import com.example.tutor.convertLongToTime
 import com.example.tutor.databinding.FragmentAddStudentToDayScheduleBinding
 import com.example.tutor.journal.StudentJournalViewModel
 import com.example.tutor.journal.StudentJournalViewModelFactory
@@ -21,8 +21,6 @@ import java.time.format.DateTimeFormatter
 import java.util.*
 import java.util.Calendar.getInstance
 import kotlin.collections.ArrayList
-
-
 
 
 class AddStudentToDaySchedule : Fragment() {
@@ -52,7 +50,7 @@ class AddStudentToDaySchedule : Fragment() {
 
         binding.timePicker.setIs24HourView(true)
 
-        val dateForSchedule = getCurrentDate()// Long
+        val dateForSchedule = getCurrentDate()// Long. можно убрать позже в след строку просто кидать метод
         binding.tvDate.text = dateForSchedule.convertLongToTime("dd.MM.yyyy")
 
         getCurrentTime()
@@ -91,8 +89,9 @@ class AddStudentToDaySchedule : Fragment() {
             }
     }
 
-    //Прием даты с помощью Bundle
 
+
+    //Прием даты с помощью Bundle
     fun getCurrentDate():Long {
         val currentDate = arguments?.getLong("ArgForDate")
         return currentDate!!
@@ -141,11 +140,5 @@ class AddStudentToDaySchedule : Fragment() {
         val studentId : Int
         return ScheduleEntity(dateWithTime,studentId)
     }*/
-
-    fun Long.convertLongToTime(pattern:String): String{
-        val date = Date(this)
-        val format = SimpleDateFormat(pattern)
-        return format.format(date)
-    }
 
 }
