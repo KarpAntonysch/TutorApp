@@ -35,33 +35,18 @@ abstract class TutorDataBase : RoomDatabase() {
         }
     }
 }
-// (добавление таблицы scheduleTable)
-val MIGRATION_1_4 = object : Migration(1, 4) {
-    override fun migrate(database: SupportSQLiteDatabase) {
-        database.execSQL("CREATE TABLE scheduleTable" +
-                " (dateWithTime INTEGER NOT NULL," +
-                " studentId INTEGER NOT NULL," +
-                " id INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL)")
-    }
-}
-//(добавление в таблицу scheduleTable столбец для времени)
-val MIGRATION_4_5 = object : Migration(4, 5) {
-    override fun migrate(database: SupportSQLiteDatabase) {
-        database.execSQL("ALTER TABLE scheduleTable ADD COLUMN time INTEGER ")
-    }
-}
-//  Колонка "время" была не нужна. Эта миграция ее удалила.
+
+// здесь были миграции MIGRATION_1_4 (добавление таблицы scheduleTable) и MIGRATION_4_5 (добавление
+// в таблицу scheduleTable столбец для времени). Колонка "время" была не нужна. Эта миграция ее удалила.
 val MIGRATION_5_6 = object : Migration(5, 6) {
     override fun migrate(database: SupportSQLiteDatabase) {
-        // создал новую таблицу под замену. С необходимыми полями
         database.execSQL("CREATE TABLE scheduleTable1 (" +
                 "dateWithTime INTEGER NOT NULL, " +
                 "studentId INTEGER NOT NULL," +
                 " id INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL)")
-        // Удалил старую таблицу, из которой удаляю колонку. В файле с таблицей удаляем колонку т.е
-        // приводим ее к необходимому нам виду
+        // Delete the old table
         database.execSQL("DROP TABLE scheduleTable")
-        // Переименовал новую таблицу старым названием
+        // Rename the new table to the old table's name so that the rest of your code can recognize this table as the former one.
         database.execSQL("ALTER TABLE scheduleTable1 RENAME TO scheduleTable")
     }
 }
