@@ -77,9 +77,7 @@ class AddStudentToDaySchedule : Fragment() {
                         position: Int,
                         p3: Long,
                     ) {
-                        val item = spinner.getItemAtPosition(position)
                         studentID = infoList[position].id
-
                     }
 
                     override fun onNothingSelected(p0: AdapterView<*>?) {
@@ -119,7 +117,7 @@ class AddStudentToDaySchedule : Fragment() {
     @SuppressLint("NewApi")
     fun formattedCurrentDate():Long{
         val jointDate = getCurrentDate().convertLongToTime("dd.MM.yyyy") +
-                timeFromPicker?.convertLongToTime(" HH:mm")
+                timeFromPicker.convertLongToTime(" HH:mm")
         //Перевожу String в LocalDateTime с помощью DateTimeFormatter
         val formatter = DateTimeFormatter.ofPattern("dd.MM.yyyy HH:mm")
         val formatDate = LocalDateTime.parse(jointDate, formatter)
@@ -134,7 +132,7 @@ class AddStudentToDaySchedule : Fragment() {
     private fun getScheduleValues() : ScheduleEntity {
          val dateWithTime: Long = formattedCurrentDate()
          val studentId: Int = studentID
-         return ScheduleEntity(dateWithTime, studentId)
+        return ScheduleEntity(dateWithTime, studentId)
      }
 
     // добавление объекта расписания в БД (schedeulTable)

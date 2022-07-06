@@ -47,4 +47,5 @@ class MainFragment : Fragment() {
             findNavController().navigate(R.id.action_mainFragment_to_addStudentToDaySchedule,bundle)
         }
     }
+
 }
