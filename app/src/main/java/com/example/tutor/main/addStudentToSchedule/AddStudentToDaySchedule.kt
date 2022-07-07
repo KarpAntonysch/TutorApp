@@ -2,6 +2,7 @@ package com.example.tutor.main.addStudentToSchedule
 
 import android.annotation.SuppressLint
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -115,24 +116,24 @@ class AddStudentToDaySchedule : Fragment() {
 
     // сбор общего времени из отдельной даты и отдельного времени. Приведение данных в нужный формат
     @SuppressLint("NewApi")
-    fun formattedCurrentDate():Long{
+    fun formattedCurrentDate():String{
         val jointDate = getCurrentDate().convertLongToTime("dd.MM.yyyy") +
                 timeFromPicker.convertLongToTime(" HH:mm")
         //Перевожу String в LocalDateTime с помощью DateTimeFormatter
-        val formatter = DateTimeFormatter.ofPattern("dd.MM.yyyy HH:mm")
-        val formatDate = LocalDateTime.parse(jointDate, formatter)
+        //val formatter = DateTimeFormatter.ofPattern("dd.MM.yyyy HH:mm")
+        //val formatDate = LocalDateTime.parse(jointDate, formatter)
         // Преобразование LocalDateTime в миллисекнды(Long), исспользуется ZoneID т.к.
         // LocalDateTime изначально не имеет часового пояса
-        val dateForTransmission = formatDate.atZone(ZoneId.of("Europe/Moscow"))
-            .toInstant().toEpochMilli()
-        return dateForTransmission
+        //val dateForTransmission = formatDate.atZone(ZoneId.of("Europe/Moscow"))
+            //.toInstant().toEpochMilli()
+        return jointDate
     }
 
     // Заполнение объекта ScheduleEntity временем и id
     private fun getScheduleValues() : ScheduleEntity {
-         val dateWithTime: Long = formattedCurrentDate()
-         val studentId: Int = studentID
-        return ScheduleEntity(dateWithTime, studentId)
+        val dateWithTime: String = formattedCurrentDate()
+        val studentId: Int = studentID
+       return ScheduleEntity(dateWithTime, studentId)
      }
 
     // добавление объекта расписания в БД (schedeulTable)
