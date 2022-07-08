@@ -2,7 +2,7 @@
   "formatVersion": 1,
   "database": {
     "version": 6,
-    "identityHash": "f1d567a0ae42a0dfeb174148080f9c21",
+    "identityHash": "85a641dca173a310e56ace029fc682cd",
     "entities": [
       {
         "tableName": "studentTable",
@@ -50,12 +50,12 @@
       },
       {
         "tableName": "schedeulTable",
-        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`dateWithTime` TEXT NOT NULL, `studentId` INTEGER NOT NULL, `id` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL)",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`dateWithTime` INTEGER NOT NULL, `studentId` INTEGER NOT NULL, `id` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL)",
         "fields": [
           {
             "fieldPath": "dateWithTime",
             "columnName": "dateWithTime",
-            "affinity": "TEXT",
+            "affinity": "INTEGER",
             "notNull": true
           },
           {
@@ -84,7 +84,7 @@
     "views": [],
     "setupQueries": [
       "CREATE TABLE IF NOT EXISTS room_master_table (id INTEGER PRIMARY KEY,identity_hash TEXT)",
-      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, 'f1d567a0ae42a0dfeb174148080f9c21')"
+      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, '85a641dca173a310e56ace029fc682cd')"
     ]
   }
 }

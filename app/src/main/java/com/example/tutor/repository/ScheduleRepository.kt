@@ -1,8 +1,10 @@
 package com.example.tutor.repository
 
 import androidx.annotation.WorkerThread
+import androidx.lifecycle.LiveData
 import com.example.tutor.bd.dao.ScheduleDAO
 import com.example.tutor.bd.entities.ScheduleEntity
+import com.example.tutor.bd.entities.ScheduleWithStudent
 
 class ScheduleRepository(private val scheduleDAO: ScheduleDAO){
 
@@ -11,5 +13,6 @@ class ScheduleRepository(private val scheduleDAO: ScheduleDAO){
     suspend fun insertSchedule(scheduleEntity: ScheduleEntity) {
         scheduleDAO.insertSchedule(scheduleEntity)
     }
+    fun scheduleOfDay(date:String): List<ScheduleWithStudent> = scheduleDAO.getScheduleForDay(date)
 
 }

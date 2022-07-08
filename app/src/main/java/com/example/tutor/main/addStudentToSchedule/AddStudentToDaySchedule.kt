@@ -116,22 +116,22 @@ class AddStudentToDaySchedule : Fragment() {
 
     // сбор общего времени из отдельной даты и отдельного времени. Приведение данных в нужный формат
     @SuppressLint("NewApi")
-    fun formattedCurrentDate():String{
+    fun formattedCurrentDate():Long{
         val jointDate = getCurrentDate().convertLongToTime("dd.MM.yyyy") +
                 timeFromPicker.convertLongToTime(" HH:mm")
         //Перевожу String в LocalDateTime с помощью DateTimeFormatter
-        //val formatter = DateTimeFormatter.ofPattern("dd.MM.yyyy HH:mm")
-        //val formatDate = LocalDateTime.parse(jointDate, formatter)
+        val formatter = DateTimeFormatter.ofPattern("dd.MM.yyyy HH:mm")
+        val formatDate = LocalDateTime.parse(jointDate, formatter)
         // Преобразование LocalDateTime в миллисекнды(Long), исспользуется ZoneID т.к.
         // LocalDateTime изначально не имеет часового пояса
-        //val dateForTransmission = formatDate.atZone(ZoneId.of("Europe/Moscow"))
-            //.toInstant().toEpochMilli()
-        return jointDate
+        val dateForTransmission = formatDate.atZone(ZoneId.of("Europe/Moscow"))
+            .toInstant().toEpochMilli()
+        return dateForTransmission
     }
 
     // Заполнение объекта ScheduleEntity временем и id
     private fun getScheduleValues() : ScheduleEntity {
-        val dateWithTime: String = formattedCurrentDate()
+        val dateWithTime: Long = formattedCurrentDate()
         val studentId: Int = studentID
        return ScheduleEntity(dateWithTime, studentId)
      }

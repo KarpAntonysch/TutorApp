@@ -8,9 +8,13 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.CalendarView
 import androidx.annotation.RequiresApi
+import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import com.example.tutor.R
+import com.example.tutor.convertLongToTime
 import com.example.tutor.databinding.FragmentMainBinding
+import com.example.tutor.journal.studentJournal.DBapplication
+import com.example.tutor.repository.ScheduleRepository
 import java.text.SimpleDateFormat
 import java.time.LocalDate
 import java.util.*
@@ -18,6 +22,9 @@ import java.util.*
 
 class MainFragment : Fragment() {
     lateinit var binding: FragmentMainBinding
+    private val mainFragmentViewModel:MainFragmentViewModel by viewModels{
+        MainFragmentViewModelFactory((requireActivity().application as DBapplication).scheduleRepository)
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater,

@@ -1,6 +1,5 @@
 package com.example.tutor.main.addStudentToSchedule
 
-import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.viewModelScope
@@ -13,8 +12,6 @@ class AddStudentToScheduleViewModel(private val repository: ScheduleRepository) 
     fun insert(scheduleEntity: ScheduleEntity) = viewModelScope.launch {
         repository.insertSchedule(scheduleEntity)
     }
-
-
 
 }
 // эта конструкция необходима для того, что б проинициализировать VM в фрагменте с передачей в
