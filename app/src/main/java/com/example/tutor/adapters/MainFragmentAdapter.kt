@@ -8,6 +8,7 @@ import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.example.tutor.R
 import com.example.tutor.adapters.MainFragmentAdapter.MainFragmentViewHolder
+import com.example.tutor.bd.entities.ScheduleEntity
 import com.example.tutor.bd.entities.ScheduleWithStudent
 import com.example.tutor.convertLongToTime
 import com.example.tutor.databinding.RecyclerViewSheduleItemBinding
@@ -23,7 +24,7 @@ class MainFragmentAdapter(val listener : Listener):
             tvSNameRV2.text = scheduleWithStudent.ListOfStudentEntity.secondName
             tvTimeRV2.text  = scheduleWithStudent.scheduleEntity.dateWithTime.convertLongToTime("HH:mm")
             btnDeleteRV2.setOnClickListener{
-                listener.onClickToDeleteSchedule()
+                listener.onClickToDeleteSchedule(scheduleWithStudent.scheduleEntity)
             }
         }
     }
@@ -48,6 +49,6 @@ class MainFragmentAdapter(val listener : Listener):
         }
     }
     interface Listener{
-        fun onClickToDeleteSchedule()
+        fun onClickToDeleteSchedule(scheduleEntity: ScheduleEntity)
     }
 }

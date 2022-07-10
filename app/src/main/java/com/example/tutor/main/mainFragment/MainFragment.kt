@@ -14,6 +14,8 @@ import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.RecyclerView
 import com.example.tutor.R
 import com.example.tutor.adapters.MainFragmentAdapter
+import com.example.tutor.bd.entities.ScheduleEntity
+import com.example.tutor.bd.entities.ScheduleWithStudent
 import com.example.tutor.bd.entities.StudentEntity
 import com.example.tutor.convertLongToTime
 import com.example.tutor.databinding.FragmentMainBinding
@@ -72,9 +74,9 @@ class MainFragment : Fragment(), MainFragmentAdapter.Listener {
     }
     // функция для удаления объекта в расписании на день через dialog, переопределенная функция из
     // интерфейса
-    override fun onClickToDeleteSchedule() {
+    override fun onClickToDeleteSchedule(scheduleEntity: ScheduleEntity) {
         showDialogFragment()
-        setupDialogFragmentListener()
+        setupDialogFragmentListener(scheduleEntity)
     }
 
     // Функция вызова диалогового окна из ScheduleDialogFragment
@@ -84,14 +86,16 @@ class MainFragment : Fragment(), MainFragmentAdapter.Listener {
     }
 
     // Функция инициализации кнопок в диалоговом окне из JournalDialogFragment
-    fun setupDialogFragmentListener() {
+    fun setupDialogFragmentListener(scheduleEntity: ScheduleEntity) {
         childFragmentManager.setFragmentResultListener(ScheduleDialogFragment.REQUEST_KEY,
             this,
             FragmentResultListener { _, result ->
                 val that = result.getInt(ScheduleDialogFragment.KEY_RESPONSE)
                 when (that) {
-
+                    DialogInterface.BUTTON_POSITIVE -> mainFragmentViewModel
+                        .deleteSchedule(scheduleEntity)
                 }
             })
     }
+
 }

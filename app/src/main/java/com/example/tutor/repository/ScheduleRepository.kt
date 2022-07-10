@@ -15,4 +15,7 @@ class ScheduleRepository(private val scheduleDAO: ScheduleDAO){
     }
     fun scheduleOfDay(date:String): LiveData<List<ScheduleWithStudent>> = scheduleDAO.getScheduleForDay(date)
 
+    suspend fun deleteSchedule(scheduleEntity: ScheduleEntity){
+        scheduleDAO.deleteSchedulet(scheduleEntity)
+    }
 }
