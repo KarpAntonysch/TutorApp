@@ -1,5 +1,6 @@
 package com.example.tutor.main.mainFragment
 
+import android.content.DialogInterface
 import android.os.Build
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -7,24 +8,27 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.annotation.RequiresApi
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.FragmentResultListener
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.RecyclerView
 import com.example.tutor.R
 import com.example.tutor.adapters.MainFragmentAdapter
+import com.example.tutor.bd.entities.StudentEntity
 import com.example.tutor.convertLongToTime
 import com.example.tutor.databinding.FragmentMainBinding
 import com.example.tutor.journal.studentJournal.DBapplication
+import com.example.tutor.journal.studentJournal.JourmalDialogFragment
 import java.util.*
 
 
-class MainFragment : Fragment() {
+class MainFragment : Fragment(), MainFragmentAdapter.Listener {
     lateinit var binding: FragmentMainBinding
     private val mainFragmentViewModel: MainFragmentViewModel by viewModels {
         MainFragmentViewModelFactory((requireActivity().application as DBapplication).scheduleRepository)
     }
     lateinit var recyclerView: RecyclerView
-    private var adapter = MainFragmentAdapter()
+    private var adapter = MainFragmentAdapter(this)
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -65,5 +69,29 @@ class MainFragment : Fragment() {
            scheduleList ->
             scheduleList.let { adapter.submitList(it) }
         }
+    }
+    // функция для удаления объекта в расписании на день через dialog, переопределенная функция из
+    // интерфейса
+    override fun onClickToDeleteSchedule() {
+        showDialogFragment()
+        setupDialogFragmentListener()
+    }
+
+    // Функция вызова диалогового окна из ScheduleDialogFragment
+    fun showDialogFragment() {
+        val dialogFragment = ScheduleDialogFragment()
+        dialogFragment?.show(childFragmentManager, ScheduleDialogFragment.TAG)
+    }
+
+    // Функция инициализации кнопок в диалоговом окне из JournalDialogFragment
+    fun setupDialogFragmentListener() {
+        childFragmentManager.setFragmentResultListener(ScheduleDialogFragment.REQUEST_KEY,
+            this,
+            FragmentResultListener { _, result ->
+                val that = result.getInt(ScheduleDialogFragment.KEY_RESPONSE)
+                when (that) {
+
+                }
+            })
     }
 }
