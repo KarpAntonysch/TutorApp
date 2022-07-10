@@ -8,7 +8,7 @@ import com.example.tutor.repository.ScheduleRepository
 
 class MainFragmentViewModel(private val repository: ScheduleRepository): ViewModel(){
 
-    fun getScheduleOfDay(date:String) :List<ScheduleWithStudent> = repository.scheduleOfDay(date)
+    fun getScheduleOfDay(date:String) :LiveData<List<ScheduleWithStudent>> = repository.scheduleOfDay(date)
 }
 class MainFragmentViewModelFactory(private val repository: ScheduleRepository) :
     ViewModelProvider.Factory {

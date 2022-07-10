@@ -12,6 +12,6 @@ interface ScheduleDAO {
     suspend fun insertSchedule(scheduleEntity: ScheduleEntity)
     // запрос для получения списка студентов(запрос к двум таблицам. Получения дня, времени, свойств студента) конкретный день
     @Query("select * from schedeulTable where strftime('%d-%m-%Y',dateWithTime/1000.0,'unixepoch') = :date")
-    fun getScheduleForDay(date:String): List<ScheduleWithStudent>
+    fun getScheduleForDay(date:String): LiveData<List<ScheduleWithStudent>>
 }
 

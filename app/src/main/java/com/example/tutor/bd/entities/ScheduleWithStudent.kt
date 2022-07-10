@@ -9,5 +9,5 @@ data class ScheduleWithStudent(
         parentColumn ="studentId",
         entityColumn = "id"
     )
-    val ListOfStudentEntity: List<StudentEntity>
+    val ListOfStudentEntity: StudentEntity
 )

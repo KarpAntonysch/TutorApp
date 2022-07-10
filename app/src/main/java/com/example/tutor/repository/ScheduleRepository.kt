@@ -13,6 +13,6 @@ class ScheduleRepository(private val scheduleDAO: ScheduleDAO){
     suspend fun insertSchedule(scheduleEntity: ScheduleEntity) {
         scheduleDAO.insertSchedule(scheduleEntity)
     }
-    fun scheduleOfDay(date:String): List<ScheduleWithStudent> = scheduleDAO.getScheduleForDay(date)
+    fun scheduleOfDay(date:String): LiveData<List<ScheduleWithStudent>> = scheduleDAO.getScheduleForDay(date)
 
 }
