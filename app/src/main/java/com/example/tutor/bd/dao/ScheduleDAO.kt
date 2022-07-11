@@ -14,6 +14,6 @@ interface ScheduleDAO {
     @Query("select * from schedeulTable where strftime('%d-%m-%Y',dateWithTime/1000.0,'unixepoch') = :date")
     fun getScheduleForDay(date:String): LiveData<List<ScheduleWithStudent>>
     @Delete
-    suspend fun deleteSchedulet(scheduleEntity: ScheduleEntity)
+    suspend fun deleteSchedule(scheduleEntity: ScheduleEntity)
 }
 

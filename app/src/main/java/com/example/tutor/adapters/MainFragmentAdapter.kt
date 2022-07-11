@@ -28,6 +28,7 @@ class MainFragmentAdapter(val listener : Listener):
             }
         }
     }
+
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MainFragmentViewHolder {
         val view = LayoutInflater.from(parent.context)
             .inflate(R.layout.recycler_view_shedule_item, parent, false)

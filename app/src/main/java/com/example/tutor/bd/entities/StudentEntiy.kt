@@ -16,6 +16,8 @@ data class StudentEntity(
     val price: Int,
     @ColumnInfo(name = "schoolClass")
     val schoolClass: Int,
+    @ColumnInfo(name = "activeStatus")
+    val activeStatus:Boolean = true,
 ) : Serializable {
     @PrimaryKey(autoGenerate = true)
     var id: Int = 0
