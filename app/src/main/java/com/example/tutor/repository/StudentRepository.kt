@@ -23,6 +23,7 @@ class StudentRepository(private val studentDAO: StudentDAO) {
     suspend fun deleteStudent(studentEntity: StudentEntity){
         studentDAO.deleteStudent(studentEntity)
     }
+    fun changeStudentActive(studentID:Int) = studentDAO.changeStudentActive(studentID)
 }
 
 

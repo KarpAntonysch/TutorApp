@@ -58,7 +58,7 @@ class StudentJournalFragment : Fragment(), StudentJournalAdapter.Listener {
 
 
     // функция из интерфейса для открытие dialog и подтверждение удаления
-    override fun onClickToDeleteStudent(studentEntity: StudentEntity) {
+    override fun onClickToChangeStudentActive(studentEntity: StudentEntity) {
         showDialogFragment()
         setupDialogFragmentListener(studentEntity)
     }
@@ -76,8 +76,8 @@ class StudentJournalFragment : Fragment(), StudentJournalAdapter.Listener {
             FragmentResultListener { _, result ->
                 val which = result.getInt(JourmalDialogFragment.KEY_RESPONSE)
                 when (which) {
-                    DialogInterface.BUTTON_POSITIVE -> studentJournalViewModel.deleteStudent(
-                        studentEntity)
+                    DialogInterface.BUTTON_POSITIVE -> studentJournalViewModel.changeStudentActive(
+                        studentEntity.id)
                 }
             })
     }

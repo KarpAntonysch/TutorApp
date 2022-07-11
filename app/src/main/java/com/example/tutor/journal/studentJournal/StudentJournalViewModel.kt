@@ -17,6 +17,7 @@ class StudentJournalViewModel(private val repository: StudentRepository) : ViewM
         repository.deleteStudent(studentEntity)
     }
 
+    fun changeStudentActive(studentID:Int) = repository.changeStudentActive(studentID)
 }
 class StudentJournalViewModelFactory(private val repository: StudentRepository) :
     ViewModelProvider.Factory {

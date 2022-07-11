@@ -20,7 +20,10 @@ interface StudentDAO {
     // для получения списка всех неактивных студентов
     @Query("SELECT * FROM studentTable WHERE activeStatus = 0")
     fun getAllInactiveStudents(): Flow<List<StudentEntity>>
-    // функция для получения информация для спинера и второй таблицы БД
-    @Query("SELECT id, firstName,secondName FROM studentTable")
+    // функция для получения информация для спинера из второй таблицы БД (только активные ученики)
+    @Query("SELECT id, firstName,secondName FROM studentTable WHERE activeStatus = 1 ")
     fun getInfoForSchedule(): LiveData<MutableList<studentForSchedule>>
+    // изменнение активности студента на false. Т.е. студент становится неактивным
+    @Query("UPDATE studentTable SET activeStatus = 0 WHERE id = :studentID ")
+    fun changeStudentActive(studentID:Int)
 }
