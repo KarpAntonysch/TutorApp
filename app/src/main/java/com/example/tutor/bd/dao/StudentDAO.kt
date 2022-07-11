@@ -14,9 +14,12 @@ interface StudentDAO {
     suspend fun insertStudent(studentEntity: StudentEntity)
     @Delete
     suspend fun deleteStudent(studentEntity: StudentEntity)
-    // добавляю функцию для получения списка всех студентов
-    @Query("SELECT * FROM studentTable")
-    fun getAllStudents(): Flow<List<StudentEntity>>
+    // добавляю функцию для получения списка всех активных студентов
+    @Query("SELECT * FROM studentTable WHERE activeStatus = 1")
+    fun getAllActiveStudents(): Flow<List<StudentEntity>>
+    // для получения списка всех неактивных студентов
+    @Query("SELECT * FROM studentTable WHERE activeStatus = 0")
+    fun getAllInactiveStudents(): Flow<List<StudentEntity>>
     // функция для получения информация для спинера и второй таблицы БД
     @Query("SELECT id, firstName,secondName FROM studentTable")
     fun getInfoForSchedule(): LiveData<MutableList<studentForSchedule>>
