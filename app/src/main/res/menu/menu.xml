@@ -14,7 +14,7 @@
         />
     <item
         android:title="@string/Journal"
-        android:id="@+id/studentJournalFragment"
+        android:id="@+id/jornalPagerFragment"
         android:icon="@drawable/ic_journal"
         android:orderInCategory="1"
         />

@@ -2,22 +2,23 @@ package com.example.tutor.journal.studentJournal
 
 import android.content.DialogInterface
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentResultListener
 import androidx.fragment.app.viewModels
-import androidx.lifecycle.MutableLiveData
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.RecyclerView
+import androidx.viewpager2.widget.ViewPager2
 import com.example.tutor.R
+import com.example.tutor.adapters.JournalVPAdapter
 import com.example.tutor.adapters.StudentJournalAdapter
 import com.example.tutor.bd.entities.StudentEntity
 import com.example.tutor.databinding.FragmentStudentJournalBinding
 import com.example.tutor.journal.StudentJournalViewModel
 import com.example.tutor.journal.StudentJournalViewModelFactory
+import com.google.android.material.tabs.TabLayoutMediator
 
 
 class StudentJournalFragment : Fragment(), StudentJournalAdapter.Listener {
@@ -27,6 +28,8 @@ class StudentJournalFragment : Fragment(), StudentJournalAdapter.Listener {
     private val studentJournalViewModel: StudentJournalViewModel by viewModels {
         StudentJournalViewModelFactory((requireActivity().application as DBapplication).studentRepository)
     }
+    lateinit var journalVPAdapter : JournalVPAdapter
+    lateinit var viewPager:ViewPager2
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -81,4 +84,5 @@ class StudentJournalFragment : Fragment(), StudentJournalAdapter.Listener {
                 }
             })
     }
+
 }
