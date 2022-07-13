@@ -23,11 +23,7 @@
         android:id="@+id/studentJournalFragment"
         android:name="com.example.tutor.journal.studentJournal.StudentJournalFragment"
         android:label="fragment_student_journal"
-        tools:layout="@layout/fragment_student_journal" >
-        <action
-            android:id="@+id/action_studentJournalFragment_to_addStudentToJournalFragment"
-            app:destination="@id/addStudentToJournalFragment" />
-    </fragment>
+        tools:layout="@layout/fragment_student_journal" />
     <fragment
         android:id="@+id/addStudentToDaySchedule"
         android:name="com.example.tutor.main.addStudentToSchedule.AddStudentToDaySchedule"
@@ -48,5 +44,9 @@
         android:id="@+id/jornalPagerFragment"
         android:name="com.example.tutor.journal.studentJournal.JornalPagerFragment"
         android:label="fragment_jornal_pager"
-        tools:layout="@layout/fragment_jornal_pager" />
+        tools:layout="@layout/fragment_jornal_pager" >
+        <action
+            android:id="@+id/action_jornalPagerFragment_to_addStudentToJournalFragment"
+            app:destination="@id/addStudentToJournalFragment" />
+    </fragment>
 </navigation>

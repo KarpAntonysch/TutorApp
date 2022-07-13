@@ -18,7 +18,6 @@ import com.example.tutor.bd.entities.StudentEntity
 import com.example.tutor.databinding.FragmentStudentJournalBinding
 import com.example.tutor.journal.StudentJournalViewModel
 import com.example.tutor.journal.StudentJournalViewModelFactory
-import com.google.android.material.tabs.TabLayoutMediator
 
 
 class StudentJournalFragment : Fragment(), StudentJournalAdapter.Listener {
@@ -28,8 +27,6 @@ class StudentJournalFragment : Fragment(), StudentJournalAdapter.Listener {
     private val studentJournalViewModel: StudentJournalViewModel by viewModels {
         StudentJournalViewModelFactory((requireActivity().application as DBapplication).studentRepository)
     }
-    lateinit var journalVPAdapter : JournalVPAdapter
-    lateinit var viewPager:ViewPager2
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -43,10 +40,9 @@ class StudentJournalFragment : Fragment(), StudentJournalAdapter.Listener {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         binding.btnAddStudent.setOnClickListener {
-            findNavController().navigate(R.id.action_studentJournalFragment_to_addStudentToJournalFragment)
+            findNavController().navigate(R.id.action_jornalPagerFragment_to_addStudentToJournalFragment)
         }
         realizationOfRV()
-
     }
 
     private fun realizationOfRV() {
