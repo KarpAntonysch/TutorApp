@@ -59,7 +59,7 @@
             android:layout_marginBottom="4dp"
             android:layout_weight="1"
             android:backgroundTint="#D3FFFFFF"
-            app:srcCompat="@drawable/ic_delete"
+            app:srcCompat="@drawable/ic_inactive_return"
             tools:ignore="SpeakableTextPresentCheck,TouchTargetSizeCheck" />
 
     </LinearLayout>

@@ -26,4 +26,5 @@ interface StudentDAO {
     // изменнение активности студента на false. Т.е. студент становится неактивным
     @Query("UPDATE studentTable SET activeStatus = 0 WHERE id = :studentID ")
     fun changeStudentActive(studentID:Int)
+
 }

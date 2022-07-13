@@ -12,6 +12,7 @@ class StudentRepository(private val studentDAO: StudentDAO) {
     // Flow может возвращать несколько объектов по очереди или сразу, suspend же возвращает один
     // объект и завершается
     val allStudents: Flow<List<StudentEntity>> = studentDAO.getAllActiveStudents()
+    val allInactiveStudents: Flow<List<StudentEntity>> = studentDAO.getAllInactiveStudents()
     val infoForSchedule: LiveData<MutableList<studentForSchedule>>
     get()=studentDAO.getInfoForSchedule()
 
