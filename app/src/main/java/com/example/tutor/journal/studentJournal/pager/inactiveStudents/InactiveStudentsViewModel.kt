@@ -10,6 +10,7 @@ import com.example.tutor.repository.StudentRepository
 class InactiveStudentsViewModel(val repository: StudentRepository) : ViewModel() {
     val allInactiveStudents: LiveData<List<StudentEntity>> =
         repository.allInactiveStudents.asLiveData()
+    fun returnStudentToActive(studentID: Int) = repository.changeStudentActiveToTrue(studentID)
 }
 class InactiveStudentsViewModelFactory(private val repository: StudentRepository) :
     ViewModelProvider.Factory {

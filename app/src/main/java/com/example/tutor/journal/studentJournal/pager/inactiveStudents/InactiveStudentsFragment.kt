@@ -45,7 +45,7 @@ class InactiveStudentsFragment : Fragment(), InactiveJournalAdapter.Listener {
     }
 
     override fun returnStudent(studentEntity: StudentEntity) {
-        TODO("Not yet implemented")
+        inactiveViewModel.returnStudentToActive(studentEntity.id)
     }
 
 }

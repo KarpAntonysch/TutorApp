@@ -25,6 +25,7 @@ class StudentRepository(private val studentDAO: StudentDAO) {
         studentDAO.deleteStudent(studentEntity)
     }
     fun changeStudentActive(studentID:Int) = studentDAO.changeStudentActive(studentID)
+    fun changeStudentActiveToTrue(studentID: Int) = studentDAO.changeStudentActiveToTrue(studentID)
 }
 
 
