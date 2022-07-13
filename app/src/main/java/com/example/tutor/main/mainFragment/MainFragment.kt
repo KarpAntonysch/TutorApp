@@ -68,8 +68,8 @@ class MainFragment : Fragment(), MainFragmentAdapter.Listener {
         recyclerView = binding.recyclerviewSchedule
         recyclerView.adapter = adapter
         mainFragmentViewModel.getScheduleOfDay(currentDate).observe(viewLifecycleOwner){
-           scheduleList ->
-            scheduleList.let { adapter.submitList(it) }
+           scheduleList ->// добавлена сортировка по времени
+            scheduleList.let { adapter.submitList(it.sortedBy { it.scheduleEntity.dateWithTime }) }
         }
     }
     // функция для удаления объекта в расписании на день через dialog, переопределенная функция из
