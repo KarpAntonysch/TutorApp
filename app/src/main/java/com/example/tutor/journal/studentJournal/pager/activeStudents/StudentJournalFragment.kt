@@ -1,4 +1,4 @@
-package com.example.tutor.journal.studentJournal
+package com.example.tutor.journal.studentJournal.pager.activeStudents
 
 import android.content.DialogInterface
 import android.os.Bundle
@@ -10,14 +10,14 @@ import androidx.fragment.app.FragmentResultListener
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.RecyclerView
-import androidx.viewpager2.widget.ViewPager2
 import com.example.tutor.R
-import com.example.tutor.adapters.JournalVPAdapter
 import com.example.tutor.adapters.StudentJournalAdapter
 import com.example.tutor.bd.entities.StudentEntity
 import com.example.tutor.databinding.FragmentStudentJournalBinding
 import com.example.tutor.journal.StudentJournalViewModel
 import com.example.tutor.journal.StudentJournalViewModelFactory
+import com.example.tutor.journal.studentJournal.DBapplication
+import com.example.tutor.journal.studentJournal.JourmalDialogFragment
 
 
 class StudentJournalFragment : Fragment(), StudentJournalAdapter.Listener {

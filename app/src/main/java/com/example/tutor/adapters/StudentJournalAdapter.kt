@@ -17,7 +17,7 @@ class StudentJournalAdapter(val listener: Listener) :
         val binding = StudentJournalItemBinding.bind(view)
         //Добавляем параметр position, для реализиции номерации
         fun bind(studentEntity: StudentEntity, position: Int, listener: Listener) = with(binding) {
-            tvID.text = (position + 1).toString()
+            tvNumber.text = (position + 1).toString()
             tvName.text = studentEntity.firstName
             tvSecondName.text = studentEntity.secondName
             tvSchoolClass.text = studentEntity.schoolClass.toString()

@@ -1,4 +1,4 @@
-package com.example.tutor.journal.studentJournal
+package com.example.tutor.journal.studentJournal.pager
 
 import android.os.Bundle
 import android.view.LayoutInflater

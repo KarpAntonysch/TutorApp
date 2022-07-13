@@ -1,11 +1,9 @@
 package com.example.tutor.adapters
 
 import androidx.fragment.app.Fragment
-import androidx.fragment.app.FragmentManager
 import androidx.viewpager2.adapter.FragmentStateAdapter
-import com.example.tutor.journal.studentJournal.InactiveStudentsFragment
-import com.example.tutor.journal.studentJournal.JornalPagerFragment
-import com.example.tutor.journal.studentJournal.StudentJournalFragment
+import com.example.tutor.journal.studentJournal.pager.inactiveStudents.InactiveStudentsFragment
+import com.example.tutor.journal.studentJournal.pager.activeStudents.StudentJournalFragment
 
 class JournalVPAdapter(fragment: Fragment) : FragmentStateAdapter(fragment){
     // устанавливаю количество табов

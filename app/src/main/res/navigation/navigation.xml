@@ -21,7 +21,7 @@
         tools:layout="@layout/fragment_statistic" />
     <fragment
         android:id="@+id/studentJournalFragment"
-        android:name="com.example.tutor.journal.studentJournal.StudentJournalFragment"
+        android:name="com.example.tutor.journal.studentJournal.pager.activeStudents.StudentJournalFragment"
         android:label="fragment_student_journal"
         tools:layout="@layout/fragment_student_journal" />
     <fragment
@@ -42,7 +42,7 @@
         tools:layout="@layout/fragment_add_student_to_journal" />
     <fragment
         android:id="@+id/jornalPagerFragment"
-        android:name="com.example.tutor.journal.studentJournal.JornalPagerFragment"
+        android:name="com.example.tutor.journal.studentJournal.pager.JornalPagerFragment"
         android:label="fragment_jornal_pager"
         tools:layout="@layout/fragment_jornal_pager" >
         <action
