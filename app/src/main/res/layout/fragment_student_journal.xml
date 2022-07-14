@@ -22,7 +22,8 @@
         app:maxImageSize="35dp"
         app:rippleColor="@color/teal_700"
         app:tint="#FFFFFF"
-        tools:ignore="SpeakableTextPresentCheck,ImageContrastCheck" />
+        tools:ignore="SpeakableTextPresentCheck,ImageContrastCheck"
+        app:layout_behavior="com.google.android.material.behavior.HideBottomViewOnScrollBehavior"/>
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/allStudentsRV"

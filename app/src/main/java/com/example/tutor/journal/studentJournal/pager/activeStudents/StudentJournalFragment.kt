@@ -43,6 +43,7 @@ class StudentJournalFragment : Fragment(), StudentJournalAdapter.Listener {
             findNavController().navigate(R.id.action_jornalPagerFragment_to_addStudentToJournalFragment)
         }
         realizationOfRV()
+        hideFAB()
     }
 
     private fun realizationOfRV() {
@@ -53,8 +54,6 @@ class StudentJournalFragment : Fragment(), StudentJournalAdapter.Listener {
             studentList.let { adapter.submitList(it) }
         }
     }
-
-
 
     // функция из интерфейса для открытие dialog и подтверждение удаления
     override fun onClickToChangeStudentActive(studentEntity: StudentEntity) {
@@ -79,6 +78,21 @@ class StudentJournalFragment : Fragment(), StudentJournalAdapter.Listener {
                         studentEntity.id)
                 }
             })
+    }
+
+    // функция для динамического исчезания FAB при прокрутке списка
+
+    fun hideFAB() {
+        recyclerView.addOnScrollListener(object : RecyclerView.OnScrollListener() {
+            override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
+                super.onScrolled(recyclerView, dx, dy)
+                if (dy > 0 && binding.btnAddStudent.visibility === View.VISIBLE) {
+                    binding.btnAddStudent.hide()
+                } else if (dy <= 0 && binding.btnAddStudent.visibility !== View.VISIBLE) {
+                    binding.btnAddStudent.show()
+                }
+            }
+        })
     }
 
 }
