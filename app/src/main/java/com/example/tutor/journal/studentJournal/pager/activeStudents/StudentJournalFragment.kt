@@ -81,13 +81,14 @@ class StudentJournalFragment : Fragment(), StudentJournalAdapter.Listener {
     }
 
     // функция для динамического исчезания FAB при прокрутке списка
-
     fun hideFAB() {
         recyclerView.addOnScrollListener(object : RecyclerView.OnScrollListener() {
             override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
                 super.onScrolled(recyclerView, dx, dy)
+                // вниз
                 if (dy > 0 && binding.btnAddStudent.visibility === View.VISIBLE) {
                     binding.btnAddStudent.hide()
+                    // вверх и статика
                 } else if (dy <= 0 && binding.btnAddStudent.visibility !== View.VISIBLE) {
                     binding.btnAddStudent.show()
                 }

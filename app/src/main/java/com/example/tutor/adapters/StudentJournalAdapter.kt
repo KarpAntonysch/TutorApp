@@ -21,13 +21,11 @@ class StudentJournalAdapter(val listener: Listener) :
             tvName.text = studentEntity.firstName
             tvSecondName.text = studentEntity.secondName
             tvSchoolClass.text = studentEntity.schoolClass.toString()
-            // Реализация кнопки удаления объекта из РВ с использованием интерфейса для обращения к
+            // Реализация долгого нажатия на объект для удаления его из РВ с использованием интерфейса для обращения к
             //StudentJournalFragment  и DialogFragment
-            btnDelete.setOnClickListener {
+            itemView.setOnLongClickListener{
                 listener.onClickToChangeStudentActive(studentEntity)
-                // метод из интерфейса, включающий в себя открытие диалогового окна и в то же
-                // время слушатели кнопок диалогового окна
-
+                return@setOnLongClickListener true
             }
         }
     }
@@ -59,4 +57,5 @@ class StudentJournalAdapter(val listener: Listener) :
         //функция для открытия диалогового окна при удалении и для удаления ученика из БД в диалоговом окне
         fun onClickToChangeStudentActive(studentEntity: StudentEntity)
     }
+
 }
