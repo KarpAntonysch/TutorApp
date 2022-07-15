@@ -2,9 +2,8 @@ package com.example.tutor.journal.studentJournal.pager.activeStudents
 
 import android.content.DialogInterface
 import android.os.Bundle
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
+import android.view.*
+import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentResultListener
 import androidx.fragment.app.viewModels
@@ -26,6 +25,13 @@ class StudentJournalFragment : Fragment(), StudentJournalAdapter.Listener {
     private var adapter = StudentJournalAdapter(this)
     private val studentJournalViewModel: StudentJournalViewModel by viewModels {
         StudentJournalViewModelFactory((requireActivity().application as DBapplication).studentRepository)
+    }
+    var visibilityEdit = true
+    var visibilityDelete = true
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        setHasOptionsMenu(true)//сообщает системе, что фрагемент хочет получать обратные вызовы, связанные с меню
     }
 
     override fun onCreateView(
@@ -54,7 +60,38 @@ class StudentJournalFragment : Fragment(), StudentJournalAdapter.Listener {
             studentList.let { adapter.submitList(it) }
         }
     }
+    // создание appbar
+    override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
+       inflater.inflate(R.menu.journal_app_menu,menu)
 
+    }
+    // этот метод вызывается перед каждым отображением меню.
+    // Здесь прописывается логика скрытия и отобпражения элементов
+    override fun onPrepareOptionsMenu(menu: Menu) {
+        super.onPrepareOptionsMenu(menu)
+       val updateMenuDelete = menu.findItem(R.id.menuDelete)
+       val updateMenuEdit = menu.findItem(R.id.menuEdit)
+        updateMenuEdit.isVisible = visibilityDelete
+        updateMenuDelete.isVisible = visibilityEdit
+    }
+    // обработка кнопок меню appbar
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        when(item.itemId){
+        R.id.menuDelete ->{
+            Toast.makeText(requireContext(),"удалено",Toast.LENGTH_SHORT).show()
+        }
+            R.id.menuEdit ->{
+                Toast.makeText(requireContext(), "изменено", Toast.LENGTH_SHORT).show()
+            }
+        }
+        return true
+    }
+    // функция для обновдения appbar при нажатии на пользователя
+    override fun updateOptionMenu(studentEntity: StudentEntity) {
+        visibilityEdit = !visibilityEdit
+        visibilityDelete = !visibilityDelete
+        requireActivity().invalidateOptionsMenu()
+    }
     // функция из интерфейса для открытие dialog и подтверждение удаления
     override fun onClickToChangeStudentActive(studentEntity: StudentEntity) {
         showDialogFragment()
