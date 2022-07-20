@@ -24,7 +24,6 @@ class StudentJournalAdapter(val listener: Listener) :
             // Реализация долгого нажатия на объект для удаления его из РВ с использованием интерфейса для обращения к
             //StudentJournalFragment  и DialogFragment
             itemView.setOnLongClickListener{
-                listener.updateOptionMenu(studentEntity)
                 listener.onClickToChangeStudentActive(studentEntity)
                 return@setOnLongClickListener true
             }
@@ -57,7 +56,7 @@ class StudentJournalAdapter(val listener: Listener) :
     interface Listener {
         //функция для открытия диалогового окна при удалении и для удаления ученика из БД в диалоговом окне
         fun onClickToChangeStudentActive(studentEntity: StudentEntity)
-        fun updateOptionMenu(studentEntity: StudentEntity)
+       // fun updateOptionMenu(studentEntity: StudentEntity)
     }
 
 }

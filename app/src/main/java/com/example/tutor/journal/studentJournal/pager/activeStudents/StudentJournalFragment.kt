@@ -19,15 +19,14 @@ import com.example.tutor.journal.studentJournal.DBapplication
 import com.example.tutor.journal.studentJournal.JourmalDialogFragment
 
 
-class StudentJournalFragment : Fragment(), StudentJournalAdapter.Listener {
+class StudentJournalFragment : Fragment(), StudentJournalAdapter.Listener{
     lateinit var binding: FragmentStudentJournalBinding
     lateinit var recyclerView: RecyclerView
     private var adapter = StudentJournalAdapter(this)
     private val studentJournalViewModel: StudentJournalViewModel by viewModels {
         StudentJournalViewModelFactory((requireActivity().application as DBapplication).studentRepository)
     }
-    var visibilityEdit = true
-    var visibilityDelete = true
+    lateinit var actionMode: JournalActionModeCallback
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -60,48 +59,19 @@ class StudentJournalFragment : Fragment(), StudentJournalAdapter.Listener {
             studentList.let { adapter.submitList(it) }
         }
     }
-    // создание appbar
-    override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
-       inflater.inflate(R.menu.journal_app_menu,menu)
 
-    }
-    // этот метод вызывается перед каждым отображением меню.
-    // Здесь прописывается логика скрытия и отобпражения элементов
-    override fun onPrepareOptionsMenu(menu: Menu) {
-        super.onPrepareOptionsMenu(menu)
-       val updateMenuDelete = menu.findItem(R.id.menuDelete)
-       val updateMenuEdit = menu.findItem(R.id.menuEdit)
-        updateMenuEdit.isVisible = visibilityDelete
-        updateMenuDelete.isVisible = visibilityEdit
-    }
-    // обработка кнопок меню appbar
-    override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        when(item.itemId){
-        R.id.menuDelete ->{
-            Toast.makeText(requireContext(),"удалено",Toast.LENGTH_SHORT).show()
-        }
-            R.id.menuEdit ->{
-                Toast.makeText(requireContext(), "изменено", Toast.LENGTH_SHORT).show()
-            }
-        }
-        return true
-    }
-    // функция для обновдения appbar при нажатии на пользователя
-    override fun updateOptionMenu(studentEntity: StudentEntity) {
-        visibilityEdit = !visibilityEdit
-        visibilityDelete = !visibilityDelete
-        requireActivity().invalidateOptionsMenu()
-    }
     // функция из интерфейса для открытие dialog и подтверждение удаления
     override fun onClickToChangeStudentActive(studentEntity: StudentEntity) {
-        showDialogFragment()
-        setupDialogFragmentListener(studentEntity)
+        actionMode = JournalActionModeCallback(studentJournalViewModel,studentEntity)
+        actionMode.startActionMode(view!!,R.menu.journal_app_menu)
+        //showDialogFragment()
+        //setupDialogFragmentListener(studentEntity)
     }
 
     // Функция вызова диалогового окна из JournalDialogFragment
     fun showDialogFragment() {
         val dialogFragment = JourmalDialogFragment()
-        dialogFragment?.show(childFragmentManager, JourmalDialogFragment.TAG)
+        dialogFragment.show(childFragmentManager, JourmalDialogFragment.TAG)
     }
 
     // Функция инициализации кнопок в диалоговом окне из JournalDialogFragment
@@ -111,8 +81,9 @@ class StudentJournalFragment : Fragment(), StudentJournalAdapter.Listener {
             FragmentResultListener { _, result ->
                 val which = result.getInt(JourmalDialogFragment.KEY_RESPONSE)
                 when (which) {
-                    DialogInterface.BUTTON_POSITIVE -> studentJournalViewModel.changeStudentActive(
+                    DialogInterface.BUTTON_POSITIVE -> {studentJournalViewModel.changeStudentActive(
                         studentEntity.id)
+                    Toast.makeText(requireContext(),"удалено",Toast.LENGTH_SHORT).show()}
                 }
             })
     }
