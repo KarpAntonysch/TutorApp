@@ -9,14 +9,15 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.tutor.R
 import com.example.tutor.bd.entities.StudentEntity
 import com.example.tutor.databinding.StudentJournalItemBinding
+import com.example.tutor.journal.studentJournal.pager.activeStudents.JournalActionModeCallback
 
-class StudentJournalAdapter(val listener: Listener) :
+class StudentJournalAdapter(val listener: Listener,val am: JournalActionModeCallback.AM) :
     ListAdapter<StudentEntity, StudentJournalAdapter.StudentViewHolder>(StudentComparator()) {
 
     class StudentViewHolder(view: View) : RecyclerView.ViewHolder(view) {
         val binding = StudentJournalItemBinding.bind(view)
         //Добавляем параметр position, для реализиции номерации
-        fun bind(studentEntity: StudentEntity, position: Int, listener: Listener) = with(binding) {
+        fun bind(studentEntity: StudentEntity, position: Int, listener: Listener,am: JournalActionModeCallback.AM) = with(binding) {
             tvNumber.text = (position + 1).toString()
             tvName.text = studentEntity.firstName
             tvSecondName.text = studentEntity.secondName
@@ -24,7 +25,7 @@ class StudentJournalAdapter(val listener: Listener) :
             // Реализация долгого нажатия на объект для удаления его из РВ с использованием интерфейса для обращения к
             //StudentJournalFragment  и DialogFragment
             itemView.setOnLongClickListener{
-                listener.onClickToChangeStudentActive(studentEntity)
+                listener.onClickToChangeStudentActive(studentEntity,am)
                 return@setOnLongClickListener true
             }
         }
@@ -38,7 +39,7 @@ class StudentJournalAdapter(val listener: Listener) :
 
     override fun onBindViewHolder(holder: StudentViewHolder, position: Int) {
         val currentStudent = getItem(position)
-        holder.bind(currentStudent, position, listener)
+        holder.bind(currentStudent, position, listener,am)
     }
 
     class StudentComparator : DiffUtil.ItemCallback<StudentEntity>() {
@@ -53,9 +54,9 @@ class StudentJournalAdapter(val listener: Listener) :
 
 
     // интерфейс для обработки нажатий в RV
-    interface Listener {
+    interface Listener : JournalActionModeCallback.AM {
         //функция для открытия диалогового окна при удалении и для удаления ученика из БД в диалоговом окне
-        fun onClickToChangeStudentActive(studentEntity: StudentEntity)
+        fun onClickToChangeStudentActive(studentEntity: StudentEntity,am:JournalActionModeCallback.AM)
        // fun updateOptionMenu(studentEntity: StudentEntity)
     }
 
