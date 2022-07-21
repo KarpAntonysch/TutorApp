@@ -8,15 +8,14 @@ import androidx.annotation.MenuRes
 import com.example.tutor.R
 import com.example.tutor.bd.entities.StudentEntity
 import com.example.tutor.journal.StudentJournalViewModel
-import com.example.tutor.journal.studentJournal.JourmalDialogFragment
 
 
 class JournalActionModeCallback(
-    private val journalViewModel: StudentJournalViewModel,
     private val studentEntity: StudentEntity,
-    val am:AM
+    val actionModeListener: ActionModeListener,
 ) : ActionMode.Callback {
     private var mode: ActionMode? = null
+
     @MenuRes
     private var menuResId: Int = 0 //т.к. это многоразовый класс, то меню привязывается в фрагменте
 
@@ -34,8 +33,7 @@ class JournalActionModeCallback(
     override fun onActionItemClicked(mode: ActionMode, item: MenuItem): Boolean {
         return when (item.itemId) {
             R.id.menuDelete -> {
-                am.amfun(studentEntity)
-                //journalViewModel.changeStudentActive(studentEntity.id)
+                actionModeListener.clickToMenuDelete(studentEntity)
                 mode.finish()
                 true
             }
@@ -55,7 +53,9 @@ class JournalActionModeCallback(
         view.startActionMode(this)
     }
 
-    interface AM{
-        fun amfun(studentEntity: StudentEntity)
+    // интерфейс с методом для иницилизации нажатия на кнопку меню delete : вызов  функций DialogFragment из
+    //StudentJournalFragment. Callback2
+    interface ActionModeListener {
+        fun clickToMenuDelete(studentEntity: StudentEntity)
     }
 }

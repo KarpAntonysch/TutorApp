@@ -2,10 +2,11 @@ package com.example.tutor.journal.studentJournal.pager.activeStudents
 
 import android.content.DialogInterface
 import android.os.Bundle
-import android.view.*
+import android.view.LayoutInflater
+import android.view.View
+import android.view.ViewGroup
 import android.widget.Toast
 import androidx.fragment.app.Fragment
-import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.FragmentResultListener
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
@@ -20,10 +21,11 @@ import com.example.tutor.journal.studentJournal.DBapplication
 import com.example.tutor.journal.studentJournal.JourmalDialogFragment
 
 
-class StudentJournalFragment : Fragment(), StudentJournalAdapter.Listener,JournalActionModeCallback.AM{
+class StudentJournalFragment : Fragment(), StudentJournalAdapter.Listener,
+    JournalActionModeCallback.ActionModeListener {
     lateinit var binding: FragmentStudentJournalBinding
     lateinit var recyclerView: RecyclerView
-    private var adapter = StudentJournalAdapter(this,this)
+    private var adapter = StudentJournalAdapter(this, this)
     private val studentJournalViewModel: StudentJournalViewModel by viewModels {
         StudentJournalViewModelFactory((requireActivity().application as DBapplication).studentRepository)
     }
@@ -38,7 +40,7 @@ class StudentJournalFragment : Fragment(), StudentJournalAdapter.Listener,Journa
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?,
-    ): View? {
+    ): View {
         binding = FragmentStudentJournalBinding.inflate(inflater, container, false)
         return binding.root
     }
@@ -61,36 +63,43 @@ class StudentJournalFragment : Fragment(), StudentJournalAdapter.Listener,Journa
         }
     }
 
-    // функция из интерфейса для открытие dialog и подтверждение удаления
-    override fun onClickToChangeStudentActive(studentEntity: StudentEntity,am: JournalActionModeCallback.AM) {
-        actionMode = JournalActionModeCallback(studentJournalViewModel,studentEntity, am)
-        actionMode.startActionMode(view!!,R.menu.journal_app_menu)
-        //showDialogFragment()
-        //setupDialogFragmentListener(studentEntity)
+    // переопределенная функция из интерфейса Listener для открытия actionMode.Callback1
+    override fun onClickToChangeStudentActive(
+        studentEntity: StudentEntity,
+        actionModeListener: JournalActionModeCallback.ActionModeListener,
+    ) {
+        actionMode =
+            JournalActionModeCallback( studentEntity, actionModeListener)
+        actionMode.startActionMode(view!!, R.menu.journal_app_menu)
+    }
+
+    // Переопределенная функция из ActionModeListener для открытия диалогового окна.CallBack2
+    override fun clickToMenuDelete(studentEntity: StudentEntity) {
+        showDialogFragment()
+        setupDialogFragmentListener(studentEntity)
     }
 
     // Функция вызова диалогового окна из JournalDialogFragment
+    fun showDialogFragment() {
+        val dialogFragment = JourmalDialogFragment()
+        dialogFragment.show(childFragmentManager, JourmalDialogFragment.TAG)
+    }
 
-
-
-        fun showDialogFragment() {
-            val dialogFragment = JourmalDialogFragment()
-            dialogFragment.show(childFragmentManager, JourmalDialogFragment.TAG)
-        }
-        // Функция инициализации кнопок в диалоговом окне из JournalDialogFragment
-        fun setupDialogFragmentListener(studentEntity: StudentEntity) {
-            childFragmentManager.setFragmentResultListener(JourmalDialogFragment.REQUEST_KEY,
-                this,
-                FragmentResultListener { _, result ->
-                    val which = result.getInt(JourmalDialogFragment.KEY_RESPONSE)
-                    when (which) {
-                        DialogInterface.BUTTON_POSITIVE -> {studentJournalViewModel.changeStudentActive(
+    // Функция инициализации кнопок в диалоговом окне из JournalDialogFragment
+    fun setupDialogFragmentListener(studentEntity: StudentEntity) {
+        childFragmentManager.setFragmentResultListener(JourmalDialogFragment.REQUEST_KEY,
+            this,
+            FragmentResultListener { _, result ->
+                val which = result.getInt(JourmalDialogFragment.KEY_RESPONSE)
+                when (which) {
+                    DialogInterface.BUTTON_POSITIVE -> {
+                        studentJournalViewModel.changeStudentActive(
                             studentEntity.id)
-                            Toast.makeText(requireContext(),"удалено",Toast.LENGTH_SHORT).show()}
+                        Toast.makeText(requireContext(), "удалено", Toast.LENGTH_SHORT).show()
                     }
-                })
-        }
-
+                }
+            })
+    }
 
 
     // функция для динамического исчезания FAB при прокрутке списка
@@ -109,8 +118,4 @@ class StudentJournalFragment : Fragment(), StudentJournalAdapter.Listener,Journa
         })
     }
 
-    override fun amfun(studentEntity: StudentEntity) {
-        showDialogFragment()
-        setupDialogFragmentListener(studentEntity)
-    }
 }
