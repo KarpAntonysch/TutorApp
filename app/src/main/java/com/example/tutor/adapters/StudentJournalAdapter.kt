@@ -11,13 +11,13 @@ import com.example.tutor.bd.entities.StudentEntity
 import com.example.tutor.databinding.StudentJournalItemBinding
 import com.example.tutor.journal.studentJournal.pager.activeStudents.JournalActionModeCallback
 
-class StudentJournalAdapter(val listener: Listener,val actionModeListener: JournalActionModeCallback.ActionModeListener) :
+class StudentJournalAdapter(val listener: Listener) :
     ListAdapter<StudentEntity, StudentJournalAdapter.StudentViewHolder>(StudentComparator()) {
 
     class StudentViewHolder(view: View) : RecyclerView.ViewHolder(view) {
         val binding = StudentJournalItemBinding.bind(view)
         //Добавляем параметр position, для реализиции номерации
-        fun bind(studentEntity: StudentEntity, position: Int, listener: Listener, actionModeListener: JournalActionModeCallback.ActionModeListener) = with(binding) {
+        fun bind(studentEntity: StudentEntity, position: Int, listener: Listener) = with(binding) {
             tvNumber.text = (position + 1).toString()
             tvName.text = studentEntity.firstName
             tvSecondName.text = studentEntity.secondName
@@ -25,7 +25,7 @@ class StudentJournalAdapter(val listener: Listener,val actionModeListener: Journ
             // Реализация долгого нажатия на объект для удаления его из РВ с использованием интерфейса для обращения к
             //StudentJournalFragment  и DialogFragment
             itemView.setOnLongClickListener{
-                listener.onClickToChangeStudentActive(studentEntity,actionModeListener)
+                listener.onClickToChangeStudentActive(studentEntity)
                 return@setOnLongClickListener true
             }
         }
@@ -39,7 +39,7 @@ class StudentJournalAdapter(val listener: Listener,val actionModeListener: Journ
 
     override fun onBindViewHolder(holder: StudentViewHolder, position: Int) {
         val currentStudent = getItem(position)
-        holder.bind(currentStudent, position, listener,actionModeListener)
+        holder.bind(currentStudent, position, listener)
     }
 
     class StudentComparator : DiffUtil.ItemCallback<StudentEntity>() {
@@ -54,9 +54,9 @@ class StudentJournalAdapter(val listener: Listener,val actionModeListener: Journ
 
 
     // интерфейс с методом для инициализации лонгклика по объекту RV. Callback1
-    interface Listener : JournalActionModeCallback.ActionModeListener {// раширен интрефейсом
+    interface Listener  {// раширен интрефейсом
         //метод переопределяется в StudentJournalFragment для открытия actionMode
-        fun onClickToChangeStudentActive(studentEntity: StudentEntity, actionModeListener:JournalActionModeCallback.ActionModeListener)
+        fun onClickToChangeStudentActive(studentEntity: StudentEntity)
        // fun updateOptionMenu(studentEntity: StudentEntity)
     }
 

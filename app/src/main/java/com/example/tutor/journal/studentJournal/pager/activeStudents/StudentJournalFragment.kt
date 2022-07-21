@@ -25,7 +25,7 @@ class StudentJournalFragment : Fragment(), StudentJournalAdapter.Listener,
     JournalActionModeCallback.ActionModeListener {
     lateinit var binding: FragmentStudentJournalBinding
     lateinit var recyclerView: RecyclerView
-    private var adapter = StudentJournalAdapter(this, this)
+    private var adapter = StudentJournalAdapter(this)
     private val studentJournalViewModel: StudentJournalViewModel by viewModels {
         StudentJournalViewModelFactory((requireActivity().application as DBapplication).studentRepository)
     }
@@ -66,14 +66,15 @@ class StudentJournalFragment : Fragment(), StudentJournalAdapter.Listener,
     // переопределенная функция из интерфейса Listener для открытия actionMode.Callback1
     override fun onClickToChangeStudentActive(
         studentEntity: StudentEntity,
-        actionModeListener: JournalActionModeCallback.ActionModeListener,
     ) {
         actionMode =
-            JournalActionModeCallback( studentEntity, actionModeListener)
-        actionMode.startActionMode(view!!, R.menu.journal_app_menu)
+            JournalActionModeCallback(studentEntity)
+        actionMode.startActionMode(view!!, R.menu.journal_app_menu, this)// для "запуска" actionMode
+        // передаем в параметры функции вью, меню(наполняем бар) и реализацию интерфейса.
+        // Которая реализвована как раз в фрагменте(ниже)
     }
 
-    // Переопределенная функция из ActionModeListener для открытия диалогового окна.CallBack2
+    // Реализация метода интерфейса ActionModeListener
     override fun clickToMenuDelete(studentEntity: StudentEntity) {
         showDialogFragment()
         setupDialogFragmentListener(studentEntity)
