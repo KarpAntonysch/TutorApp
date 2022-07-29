@@ -4,14 +4,15 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.asLiveData
-import com.example.tutor.bd.entities.Amount
-import com.example.tutor.bd.entities.ScheduleWithStudent
-import com.example.tutor.main.mainFragment.MainFragmentViewModel
+import com.example.tutor.bd.entities.AmountByDays
+import com.example.tutor.bd.entities.LessonsByDays
 import com.example.tutor.repository.ScheduleRepository
 
 class StatisticFragmentViewModel(private val repository: ScheduleRepository) : ViewModel() {
     var totalWeekAmount : LiveData<Int> = repository.getTotalWeekAmount().asLiveData()
     var totalLessons : LiveData<Int> = repository.getTotalWeekLessons().asLiveData()
+    var lessonsByDaysOfWeek:LiveData<MutableList<LessonsByDays>> = repository.getLessonsByDaysOfWeek().asLiveData()
+    var amountByDaysOfWeek:LiveData<List<AmountByDays>> =repository.getAmountByDaysOfWeek().asLiveData()
 }
 class StatisticFragmentViewModelFactory(private val repository: ScheduleRepository) :
     ViewModelProvider.Factory {

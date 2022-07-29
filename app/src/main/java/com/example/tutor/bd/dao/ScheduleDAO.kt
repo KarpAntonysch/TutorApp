@@ -2,7 +2,8 @@ package com.example.tutor.bd.dao
 
 import androidx.lifecycle.LiveData
 import androidx.room.*
-import com.example.tutor.bd.entities.Amount
+import com.example.tutor.bd.entities.AmountByDays
+import com.example.tutor.bd.entities.LessonsByDays
 import com.example.tutor.bd.entities.ScheduleEntity
 import com.example.tutor.bd.entities.ScheduleWithStudent
 import kotlinx.coroutines.flow.Flow
@@ -21,6 +22,12 @@ interface ScheduleDAO {
     // запрос для получения количества занятий с понедельника по текущий день
     @Query("SELECT count(*) FROM schedeulTable b WHERE CAST(b.dateWithTime/1000 AS integer) BETWEEN strftime('%s',date('now','weekday 1','-7 days')) AND strftime('%s','now')")
     fun getTotalWeekLessons(): Flow<Int>
+    // запрос для получения количества уроков на каждый день недели начиная с пн по текущий день
+    @Query("SELECT count(*) as lessons,strftime('%d-%m-%Y',b.dateWithTime/1000,'unixepoch') AS date FROM schedeulTable b WHERE CAST(b.dateWithTime/1000 as integer) BETWEEN strftime('%s',date('now','weekday 1','-7 days')) AND strftime('%s','now')GROUP BY strftime('%d-%m-%Y',b.dateWithTime/1000,'unixepoch')")
+    fun getLessonsByDaysOfWeek(): Flow<MutableList<LessonsByDays>>
+    // запрос на получение заработанной суммы в каждый день недели с пн по текущий день
+    @Query("SELECT sum(a.price) AS price ,strftime('%d-%m-%Y',b.dateWithTime/1000,'unixepoch') AS date FROM schedeulTable b LEFT JOIN studentTable a ON a.id=b.studentId WHERE CAST(b.dateWithTime/1000 as integer) BETWEEN strftime('%s',date('now','weekday 1','-7 days')) AND strftime('%s','now')GROUP BY strftime('%d-%m-%Y',b.dateWithTime/1000,'unixepoch');")
+    fun getAmountByDaysOfWeek(): Flow<List<AmountByDays>>
     @Query("SELECT * from schedeulTable WHERE date('now','weekday 1','-7 days')")
     fun getStud():LiveData<List<ScheduleWithStudent>>
     @Delete
