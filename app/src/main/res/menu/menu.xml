@@ -8,7 +8,7 @@
         />
     <item
         android:title="@string/Statistic"
-        android:id="@+id/statisticFragment"
+        android:id="@+id/statisticPagerFragment"
         android:icon="@drawable/ic_statistic"
         android:orderInCategory="3"
         />

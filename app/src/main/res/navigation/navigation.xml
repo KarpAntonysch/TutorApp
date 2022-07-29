@@ -49,4 +49,9 @@
             android:id="@+id/action_jornalPagerFragment_to_addStudentToJournalFragment"
             app:destination="@id/addStudentToJournalFragment" />
     </fragment>
+    <fragment
+        android:id="@+id/statisticPagerFragment"
+        android:name="com.example.tutor.statistic.StatisticPagerFragment"
+        android:label="fragment_statistic_pager"
+        tools:layout="@layout/fragment_statistic_pager" />
 </navigation>

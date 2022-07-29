@@ -27,7 +27,7 @@ lateinit var binding: ActivityMainBinding
         val appBarConfiguration= AppBarConfiguration(setOf(
             //R.id.studentJournalFragment,
             R.id.mainFragment,
-            R.id.statisticFragment,
+            R.id.statisticPagerFragment,
             R.id.jornalPagerFragment
         ))
         // связываем конфигурацию меню   с navController
