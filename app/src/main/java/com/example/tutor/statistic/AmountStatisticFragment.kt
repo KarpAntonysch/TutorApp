@@ -6,15 +6,14 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
-import com.example.tutor.bd.entities.LessonsByDays
-import com.example.tutor.databinding.FragmentStatisticBinding
+import com.example.tutor.databinding.FragmentAmountStatisticBinding
 import com.example.tutor.journal.studentJournal.DBapplication
 import com.github.aachartmodel.aainfographics.aachartcreator.AAChartModel
 import com.github.aachartmodel.aainfographics.aachartcreator.AAChartType
 import com.github.aachartmodel.aainfographics.aachartcreator.AASeriesElement
 
-class StatisticFragment : Fragment() {
-    lateinit var binding: FragmentStatisticBinding
+class AmountStatisticFragment : Fragment() {
+    lateinit var binding: FragmentAmountStatisticBinding
     private val statisticFragmentViewModel: StatisticFragmentViewModel by viewModels {
         StatisticFragmentViewModelFactory((requireActivity().application as DBapplication).scheduleRepository)
     }
@@ -24,7 +23,7 @@ class StatisticFragment : Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?,
     ): View? {
-        binding = FragmentStatisticBinding.inflate(inflater, container, false)
+        binding = FragmentAmountStatisticBinding.inflate(inflater, container, false)
         return binding.root
     }
 
@@ -55,16 +54,13 @@ class StatisticFragment : Fragment() {
             //.title("Деньги")
             //.subtitle("неделя")
             .backgroundColor("#FFFFFFFF")
-            .yAxisTitle("Занятия/Рубль")
+            .yAxisTitle("Рубль")
             .dataLabelsEnabled(true)
             .categories(dates)
             .series(arrayOf(
                 AASeriesElement()
                     .name("Количесвто занятий")
                     .data(lessons as Array<Any>)
-                , AASeriesElement()
-                    .name("Заработано")
-                    .data(arrayOf(220, 282, 201, 234, 290, 430, 410))
             )
             )
         return aaChartModel
