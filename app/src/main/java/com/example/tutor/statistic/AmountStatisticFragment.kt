@@ -48,20 +48,19 @@ class AmountStatisticFragment : Fragment() {
             getAmountByDaysOfWeek()
         }
         binding.btnMonth.setOnClickListener {
-            getPeriodWeekAmount("month")
+            getPeriodWeekAmount("-1 month")
         }
         binding.btn6Month.setOnClickListener {
-            getPeriodWeekAmount("6month")
+            getPeriodWeekAmount("-6 month")
         }
         binding.btnYear.setOnClickListener {
-            getPeriodWeekAmount("year")
+            getPeriodWeekAmount("-1 year")
         }
     }
     // MAIN!
 
     // функция для отображения недельного графика из библиотеки AAChartModel
     fun weekChart(dates:Array<String>,prices:Array<Int>):AAChartModel{
-
         val aaChartModel : AAChartModel = AAChartModel()
             .chartType(AAChartType.Column)
             //.title("Доход за неделю")
@@ -79,25 +78,25 @@ class AmountStatisticFragment : Fragment() {
         return aaChartModel
     }
 
-    // получение суммы за неделю
+    // получение итоговой суммы по периодам
     fun  getPeriodWeekAmount(  period: String){
         if (period == "week"){
-            statisticFragmentViewModel.totalWeekAmount.observe(viewLifecycleOwner){
+            statisticFragmentViewModel.totalWeekAmount .observe(viewLifecycleOwner){
                 binding.tvAmount.text = "Доход за неделю : ${it}₽"
         }
         }
-        if (period == "month"){
-            statisticFragmentViewModel.totalMonthAmount.observe(viewLifecycleOwner){
-                binding.tvAmount.text = "Доход за месяц : ${it}₽"
+        if (period == "-1 month"){
+            statisticFragmentViewModel.totalPeriodAmount(period) .observe(viewLifecycleOwner){
+               binding.tvAmount.text = "Доход за месяц : ${it}₽"
             }
         }
-        if(period == "6month"){
-            statisticFragmentViewModel.total6MonthAmount.observe(viewLifecycleOwner){
+        if(period == "-6 month"){
+            statisticFragmentViewModel.totalPeriodAmount(period) .observe(viewLifecycleOwner){
                 binding.tvAmount.text = "Доход за 6 месяцев : ${it}₽"
             }
         }
-        if(period == "year"){
-            statisticFragmentViewModel.totalYearAmount.observe(viewLifecycleOwner){
+        if(period == "-1 year"){
+            statisticFragmentViewModel.totalPeriodAmount(period) .observe(viewLifecycleOwner){
                 binding.tvAmount.text = "Доход за год : ${it}₽"
             }
         }
