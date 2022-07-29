@@ -11,6 +11,7 @@ import com.example.tutor.journal.studentJournal.DBapplication
 import com.github.aachartmodel.aainfographics.aachartcreator.AAChartModel
 import com.github.aachartmodel.aainfographics.aachartcreator.AAChartType
 import com.github.aachartmodel.aainfographics.aachartcreator.AASeriesElement
+import java.time.chrono.ChronoPeriod
 
 class AmountStatisticFragment : Fragment() {
     lateinit var binding: FragmentAmountStatisticBinding
@@ -39,14 +40,22 @@ class AmountStatisticFragment : Fragment() {
                 aaChartView.aa_drawChartWithChartModel(weekChart(d,p))
             }
         }
-        getTotalWeekAmount()
+      getPeriodWeekAmount("week")
         getAmountByDaysOfWeek()
 
         binding.btnWeek.setOnClickListener {
-            getTotalWeekAmount()
+            getPeriodWeekAmount("week")
             getAmountByDaysOfWeek()
         }
-
+        binding.btnMonth.setOnClickListener {
+            getPeriodWeekAmount("month")
+        }
+        binding.btn6Month.setOnClickListener {
+            getPeriodWeekAmount("6month")
+        }
+        binding.btnYear.setOnClickListener {
+            getPeriodWeekAmount("year")
+        }
     }
     // MAIN!
 
@@ -59,7 +68,7 @@ class AmountStatisticFragment : Fragment() {
             //.subtitle("неделя")
             .backgroundColor("#FFFFFFFF")
             .yAxisTitle("Рубль")
-            .dataLabelsEnabled(false)
+            .dataLabelsEnabled(true)
             .categories(dates)
             .series(arrayOf(
                 AASeriesElement()
@@ -71,9 +80,26 @@ class AmountStatisticFragment : Fragment() {
     }
 
     // получение суммы за неделю
-    fun  getTotalWeekAmount(){
-        statisticFragmentViewModel.totalWeekAmount.observe(viewLifecycleOwner){
-            binding.tvAmount.text = "Доход за неделю : ${it}₽"
+    fun  getPeriodWeekAmount(  period: String){
+        if (period == "week"){
+            statisticFragmentViewModel.totalWeekAmount.observe(viewLifecycleOwner){
+                binding.tvAmount.text = "Доход за неделю : ${it}₽"
+        }
+        }
+        if (period == "month"){
+            statisticFragmentViewModel.totalMonthAmount.observe(viewLifecycleOwner){
+                binding.tvAmount.text = "Доход за месяц : ${it}₽"
+            }
+        }
+        if(period == "6month"){
+            statisticFragmentViewModel.total6MonthAmount.observe(viewLifecycleOwner){
+                binding.tvAmount.text = "Доход за 6 месяцев : ${it}₽"
+            }
+        }
+        if(period == "year"){
+            statisticFragmentViewModel.totalYearAmount.observe(viewLifecycleOwner){
+                binding.tvAmount.text = "Доход за год : ${it}₽"
+            }
         }
     }
 

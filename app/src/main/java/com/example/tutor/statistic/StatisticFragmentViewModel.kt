@@ -10,6 +10,9 @@ import com.example.tutor.repository.ScheduleRepository
 
 class StatisticFragmentViewModel(private val repository: ScheduleRepository) : ViewModel() {
     var totalWeekAmount : LiveData<Int> = repository.getTotalWeekAmount().asLiveData()
+    var totalMonthAmount : LiveData<Int> = repository.getTotalMonthAmount().asLiveData()
+    var total6MonthAmount : LiveData<Int> = repository.getTotal6MonthAmount().asLiveData()
+    var totalYearAmount : LiveData<Int> = repository.getTotalYearAmount().asLiveData()
     var totalLessons : LiveData<Int> = repository.getTotalWeekLessons().asLiveData()
     var lessonsByDaysOfWeek:LiveData<MutableList<LessonsByDays>> = repository.getLessonsByDaysOfWeek().asLiveData()
     var amountByDaysOfWeek:LiveData<List<AmountByDays>> =repository.getAmountByDaysOfWeek().asLiveData()

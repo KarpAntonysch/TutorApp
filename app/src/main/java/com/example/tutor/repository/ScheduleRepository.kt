@@ -18,6 +18,9 @@ class ScheduleRepository(private val scheduleDAO: ScheduleDAO){
     }
     fun scheduleOfDay(date:String): LiveData<List<ScheduleWithStudent>> = scheduleDAO.getScheduleForDay(date)
     fun getTotalWeekAmount():Flow<Int> = scheduleDAO.getTotalWeekAmount()
+    fun getTotalMonthAmount():Flow<Int> = scheduleDAO.getTotalMonthAmount()
+    fun getTotal6MonthAmount():Flow<Int> = scheduleDAO.getTotal6MonthAmount()
+    fun getTotalYearAmount():Flow<Int> = scheduleDAO.getTotalYearAmount()
     fun getTotalWeekLessons():Flow<Int> = scheduleDAO.getTotalWeekLessons()
     fun getLessonsByDaysOfWeek():Flow<MutableList<LessonsByDays>> = scheduleDAO.getLessonsByDaysOfWeek()
     fun getAmountByDaysOfWeek():Flow<List<AmountByDays>> = scheduleDAO.getAmountByDaysOfWeek()
