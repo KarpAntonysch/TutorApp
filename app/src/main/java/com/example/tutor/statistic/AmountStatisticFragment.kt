@@ -31,36 +31,40 @@ class AmountStatisticFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         val aaChartView = binding.aaChartView
-
-        getTotalWeekAmount()
-        getTotalWeekLessons()
-
-        fun getLessonsByDaysOfWeek(){
-            statisticFragmentViewModel.lessonsByDaysOfWeek.observe(viewLifecycleOwner){
+               // получение суммы по дням
+        fun getAmountByDaysOfWeek(){
+            statisticFragmentViewModel.amountByDaysOfWeek.observe(viewLifecycleOwner){
                 val d = it!!.map { it.date!! }.toTypedArray()
-                val l =  it!!.map { it.lessons!!}.toTypedArray()
-                aaChartView.aa_drawChartWithChartModel(weekChart(d,l))
+                val p = it!!.map { it.price!!}.toTypedArray()
+                aaChartView.aa_drawChartWithChartModel(weekChart(d,p))
             }
         }
-        getLessonsByDaysOfWeek()
+        getTotalWeekAmount()
+        getAmountByDaysOfWeek()
+
+        binding.btnWeek.setOnClickListener {
+            getTotalWeekAmount()
+            getAmountByDaysOfWeek()
+        }
+
     }
     // MAIN!
 
     // функция для отображения недельного графика из библиотеки AAChartModel
-    fun weekChart(dates:Array<String>,lessons:Array<Int>):AAChartModel{
+    fun weekChart(dates:Array<String>,prices:Array<Int>):AAChartModel{
 
         val aaChartModel : AAChartModel = AAChartModel()
             .chartType(AAChartType.Column)
-            //.title("Деньги")
+            //.title("Доход за неделю")
             //.subtitle("неделя")
             .backgroundColor("#FFFFFFFF")
             .yAxisTitle("Рубль")
-            .dataLabelsEnabled(true)
+            .dataLabelsEnabled(false)
             .categories(dates)
             .series(arrayOf(
                 AASeriesElement()
-                    .name("Количесвто занятий")
-                    .data(lessons as Array<Any>)
+                    .name("Доход")
+                    .data(prices as Array<Any>)
             )
             )
         return aaChartModel
@@ -69,20 +73,8 @@ class AmountStatisticFragment : Fragment() {
     // получение суммы за неделю
     fun  getTotalWeekAmount(){
         statisticFragmentViewModel.totalWeekAmount.observe(viewLifecycleOwner){
-            binding.tvAmount.text = "Заработано: ${it}₽"
-        }
-    }
-    // получение колличества занятий за неделю
-    fun getTotalWeekLessons(){
-        statisticFragmentViewModel.totalLessons.observe(viewLifecycleOwner){
-
-            binding.tvLessons.text = "Проведено занятий: ${it}"
+            binding.tvAmount.text = "Доход за неделю : ${it}₽"
         }
     }
 
-    fun getAmountByDaysOfWeek(){
-        statisticFragmentViewModel.amountByDaysOfWeek.observe(viewLifecycleOwner){
-            binding.textView2.text=it.toString()
-        }
-    }
 }

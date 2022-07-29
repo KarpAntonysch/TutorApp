@@ -31,7 +31,7 @@ class StatisticPagerFragment : Fragment() {
         TabLayoutMediator(binding.statisticTabLayout, binding.statisticViewPager) { tab, position ->
             when (position) {
                 0 -> {
-                    tab.setText("Прибыль")
+                    tab.setText("Доход")
                 }
                 else -> tab.setText("Занятия")
             }
