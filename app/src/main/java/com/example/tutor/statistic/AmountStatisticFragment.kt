@@ -1,9 +1,11 @@
 package com.example.tutor.statistic
 
+import android.os.Build
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.annotation.RequiresApi
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import com.example.tutor.convertLongToTime
@@ -19,6 +21,21 @@ class AmountStatisticFragment : Fragment() {
     private val statisticFragmentViewModel: StatisticFragmentViewModel by viewModels {
         StatisticFragmentViewModelFactory((requireActivity().application as DBapplication).scheduleRepository)
     }
+    //Map из enam класса, где константы класса - ключи. значения - нули, для перезаписи их значениями сумм из БД
+    val months = mutableMapOf(
+        Months.JANUARY to 0,
+        Months.FEBRUARY to 0,
+        Months.MARCH to 0,
+        Months.APRIL to 0,
+        Months.MAY to 0,
+        Months.JUNE to 0,
+        Months.JULY to 0,
+        Months.AUGUST to 0,
+        Months.SEPTEMBER to 0,
+        Months.OCTOBER to 0,
+        Months.NOVEMBER to 0,
+        Months.DECEMBER to 0,
+    )
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -29,10 +46,9 @@ class AmountStatisticFragment : Fragment() {
         return binding.root
     }
 
-    //MAIN
+    @RequiresApi(Build.VERSION_CODES.O)
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
         // получение суммы по дням
         fun getAmountByDaysOfWeek() {
             statisticFragmentViewModel.amountByDaysOfWeek.observe(viewLifecycleOwner) {
@@ -57,19 +73,17 @@ class AmountStatisticFragment : Fragment() {
         binding.btn6Month.setOnClickListener {
             statisticFragmentViewModel.totalPeriodAmount("-5 months").observe(viewLifecycleOwner) {
                 binding.tvAmount.text = "Доход за 6 месяцев : ${it}₽"
-                sixMomthChart()
             }
+            sixMomthChart()
         }
         binding.btnYear.setOnClickListener {
             statisticFragmentViewModel.totalPeriodAmount("-11 months").observe(viewLifecycleOwner) {
                 binding.tvAmount.text = "Доход за год : ${it}₽"
-                yearChart()
             }
-
-
+            yearChart()
         }
     }
-    // MAIN!
+
 
     // функция для отображения  графика из библиотеки AAChartModel
     fun chart(dates: Array<String>, prices: Array<Int>): AAChartModel {
@@ -98,55 +112,38 @@ class AmountStatisticFragment : Fragment() {
     }
 
     fun sixMomthChart() {
-        // Map для месяцов графика с ключами-месяцами и пустыми значениями-доходами
-        val twelveMonthsForSix = mutableMapOf(
-            1L to 0,
-            2L to 0,
-            3L to 0,
-            4L to 0,
-            5L to 0,
-            6L to 0,
-            7L to 0,
-            8L to 0,
-            9L to 0,
-            10L to 0,
-            11L to 0,
-            12L to 0
-        )
-        val mapOfPrice = statisticFragmentViewModel.getMapOfPrice("-5 month")
+
+        val mapOfPrice = statisticFragmentViewModel.getMapOfPrice("-5 months")
+        // создаем календарь,для определения текущего месяца и последующей фильтрации 6 месяцев от текущего
         val calendar: Calendar = Calendar.getInstance()
-        val cal = calendar.timeInMillis.convertLongToTime("MM").toLong()
-        val sixMonthFilter: MutableMap<Long, Int> =
-            twelveMonthsForSix.filterKeys { (cal - 5L) <= it && it <= cal } as MutableMap<Long, Int>
-        sixMonthFilter.putAll(mapOfPrice)
-        val d = sixMonthFilter.keys.toMutableList().map { it.toString() }.toTypedArray()
-        val p = sixMonthFilter.values.toTypedArray()
+        val cal = calendar.timeInMillis.convertLongToTime("MM").toInt()
+        // фильтрация map`а по ключам до полугода
+        var filterMonths = months.filterKeys { (cal - 5L) <= it.number && it.number <=cal }.toMutableMap()
+        // перезапись значений для одинаковых ключей
+        mapOfPrice.keys.forEach{ key ->
+            filterMonths.put(filterMonths.keys.find { it.number == key}!!,mapOfPrice[key]!!)
+        }
+        val d = filterMonths.keys.toMutableList().map { it.rusName }.toTypedArray()
+        val p = filterMonths.values.toTypedArray()
+        binding.aaChartView.aa_drawChartWithChartModel(chart(d, p))
+
+    }
+
+    @RequiresApi(Build.VERSION_CODES.O)
+    fun yearChart() {
+
+        // получили MAP с ключами-месяцами и значениями-доходами из БД
+        val mapOfPrice = statisticFragmentViewModel.getMapOfPrice("-11 months")
+        //  для каждого ключа в mapOfPrice: к map month добавляем значение по ключу mapOfMonth !=0 ( mapOfPrice[key]!!)
+        // при условии, что номер ключа month(т.е. номер месяца  enam класса) совпадает с ключом mapOfPrice. При добавлении
+        // значения обновляются автоматически для равных ключей. если ключи не равны, то значение остается 0
+        mapOfPrice.keys.forEach { key ->
+            months.put(months.keys.find { it.number == key }!!, mapOfPrice[key]!!)
+        }
+        val d = months.keys.toMutableList().map { it.rusName }.toTypedArray()
+        val p = months.values.toTypedArray()
         binding.aaChartView.aa_drawChartWithChartModel(chart(d, p))
     }
 
-    fun yearChart() {
-        // Map для месяцов графика с ключами-месяцами и пустыми значениями-доходами
-        val twelveMonthsForSix = mutableMapOf(
-            1L to 0,
-            2L to 0,
-            3L to 0,
-            4L to 0,
-            5L to 0,
-            6L to 0,
-            7L to 0,
-            8L to 0,
-            9L to 0,
-            10L to 0,
-            11L to 0,
-            12L to 0
-        )
-        // получили MAP с ключами-месяцами и значениями-доходами из БД
-        val mapOfPrice = statisticFragmentViewModel.getMapOfPrice("-11 month")
-        // обновили twelveMonths Map - значениями mapOfPrice
-        twelveMonthsForSix.putAll(mapOfPrice)
-        val d = twelveMonthsForSix.keys.toMutableList().map { it.toString() }.toTypedArray()
-        val p = twelveMonthsForSix.values.toTypedArray()
-        binding.aaChartView.aa_drawChartWithChartModel(chart(d, p))
-    }
 }
 

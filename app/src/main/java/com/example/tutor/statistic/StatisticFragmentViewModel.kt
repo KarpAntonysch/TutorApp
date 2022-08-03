@@ -6,9 +6,7 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.asLiveData
 import com.example.tutor.bd.entities.AmountByDays
 import com.example.tutor.bd.entities.LessonsByDays
-import com.example.tutor.bd.entities.ScheduleWithStudent
 import com.example.tutor.repository.ScheduleRepository
-import kotlinx.coroutines.flow.Flow
 
 class StatisticFragmentViewModel(private val repository: ScheduleRepository) : ViewModel() {
     var totalWeekAmount : LiveData<Int> = repository.getTotalWeekAmount().asLiveData()
