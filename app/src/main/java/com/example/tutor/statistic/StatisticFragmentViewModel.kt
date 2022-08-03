@@ -6,6 +6,7 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.asLiveData
 import com.example.tutor.bd.entities.AmountByDays
 import com.example.tutor.bd.entities.LessonsByDays
+import com.example.tutor.bd.entities.ScheduleWithStudent
 import com.example.tutor.repository.ScheduleRepository
 import kotlinx.coroutines.flow.Flow
 
@@ -13,7 +14,7 @@ class StatisticFragmentViewModel(private val repository: ScheduleRepository) : V
     var totalWeekAmount : LiveData<Int> = repository.getTotalWeekAmount().asLiveData()
     var totalMonthAmount : LiveData<Int> = repository.getTotalMonthAmount().asLiveData()
     fun totalPeriodAmount (period: String) : LiveData<Int> = repository.getTotalPeriodAmount(period).asLiveData()
-    fun getMapOfPrice(month:String) : Map<Long,Int> = repository.getMapOfPrice(month)
+    fun getMapOfPrice(month:String) : Map<Int,Int> = repository.getMapOfPrice(month)
 
     var totalLessons : LiveData<Int> = repository.getTotalWeekLessons().asLiveData()
     var lessonsByDaysOfWeek:LiveData<MutableList<LessonsByDays>> = repository.getLessonsByDaysOfWeek().asLiveData()

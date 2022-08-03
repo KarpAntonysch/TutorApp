@@ -30,10 +30,9 @@ interface ScheduleDAO {
     fun getTotalPeriodAmount(period:String): Flow<Int>
     // Запрос с анотацией для получения MAP. Получет сумму за каждый месяц в определенный временной интервал для полугода ="-5 month", для года = "-11month"
     @MapInfo(keyColumn = "dateWithTime", valueColumn = "price")
-    @Query("SELECT  sum(a.price) AS price ,strftime('%m',b.dateWithTime/1000,'unixepoch') AS dateWithTime FROM schedeulTable b LEFT JOIN studentTable a ON a.id=b.studentId WHERE CAST(b.dateWithTime/1000 as integer) BETWEEN strftime('%s',date('now','start of month', :month)) AND strftime('%s','now') GROUP BY strftime('%m',b.dateWithTime/1000,'unixepoch')")
-    fun getMapOfPrice(month:String): Map<Long,Int>
-
-
+    @Query("SELECT  sum(a.price) AS price ,CAST(strftime('%m',b.dateWithTime/1000,'unixepoch')as integer) AS dateWithTime FROM schedeulTable b LEFT JOIN studentTable a ON a.id=b.studentId WHERE CAST(b.dateWithTime/1000 as integer) BETWEEN strftime('%s',date('now','start of month', :month)) AND strftime('%s','now') GROUP BY strftime('%m',b.dateWithTime/1000,'unixepoch')")
+     fun getMapOfPrice(month:String): Map<Int,Int>
+   
     // запрос на получение заработанной суммы в каждый день недели с пн по текущий день
     @Query("SELECT sum(a.price) AS price ,strftime('%d-%m-%Y',b.dateWithTime/1000,'unixepoch') AS date FROM schedeulTable b LEFT JOIN studentTable a ON a.id=b.studentId WHERE CAST(b.dateWithTime/1000 as integer) BETWEEN strftime('%s',date('now','weekday 1','-7 days')) AND strftime('%s','now') GROUP BY strftime('%d-%m-%Y',b.dateWithTime/1000,'unixepoch');")
     fun getAmountByDaysOfWeek(): Flow<List<AmountByDays>>
