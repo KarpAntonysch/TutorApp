@@ -1,11 +1,10 @@
 package com.example.tutor.statistic
 
-import android.os.Build
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.annotation.RequiresApi
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import com.example.tutor.convertLongToTime
@@ -14,6 +13,8 @@ import com.example.tutor.journal.studentJournal.DBapplication
 import com.github.aachartmodel.aainfographics.aachartcreator.AAChartModel
 import com.github.aachartmodel.aainfographics.aachartcreator.AAChartType
 import com.github.aachartmodel.aainfographics.aachartcreator.AASeriesElement
+import kotlinx.coroutines.flow.forEach
+import kotlinx.coroutines.flow.map
 import java.util.*
 
 class AmountStatisticFragment : Fragment() {
@@ -62,6 +63,7 @@ class AmountStatisticFragment : Fragment() {
             statisticFragmentViewModel.totalMonthAmount.observe(viewLifecycleOwner) {
                 binding.tvAmount.text = "Доход за месяц : ${it}₽"
             }
+            monthChart()
         }
         binding.btn6Month.setOnClickListener {
             statisticFragmentViewModel.totalPeriodAmount("-5 months").observe(viewLifecycleOwner) {
@@ -85,7 +87,7 @@ class AmountStatisticFragment : Fragment() {
             //.title("Доход за неделю")
             //.subtitle("неделя")
             .backgroundColor("#FFFFFFFF")
-            .yAxisTitle("Рубль")
+            .yAxisTitle("Доход, ₽")
             .dataLabelsEnabled(true)
             .categories(dates)
             .series(arrayOf(
@@ -104,7 +106,7 @@ class AmountStatisticFragment : Fragment() {
         }
     }
     fun weekChart(){
-        val mapOfweek = statisticFragmentViewModel.getMapOfWeek()
+        val mapOfWeek = statisticFragmentViewModel.getMapOfWeek()
         var daysOfWeek = mutableMapOf(
             DaysOfWeek.MONDAY to 0,
             DaysOfWeek.TUESDAY to 0,
@@ -114,11 +116,19 @@ class AmountStatisticFragment : Fragment() {
             DaysOfWeek.SATURDAY to 0,
             DaysOfWeek.SUNDAY to 0,
         )
-        mapOfweek.keys.forEach{ key ->
-        daysOfWeek.put(daysOfWeek.keys.find { it.number == key }!!, mapOfweek[key]!!)
+        mapOfWeek.keys.forEach{ key ->
+        daysOfWeek.put(daysOfWeek.keys.find { it.number == key }!!, mapOfWeek[key]!!)
         }
         val d = daysOfWeek.keys.toMutableList().map {it.rusName }.toTypedArray()
         val p = daysOfWeek.values.toTypedArray()
+        binding.aaChartView.aa_drawChartWithChartModel(chart(d,p))
+    }
+
+    fun monthChart(){
+        val mapOfMonth = statisticFragmentViewModel.getMapOfMonth()
+        Log.v("e","${mapOfMonth.keys}")
+        val d = mapOfMonth.keys.toTypedArray()
+        val p = mapOfMonth.values.toTypedArray()
         binding.aaChartView.aa_drawChartWithChartModel(chart(d,p))
     }
 
