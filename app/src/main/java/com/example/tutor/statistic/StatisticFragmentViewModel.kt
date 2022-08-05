@@ -12,7 +12,8 @@ class StatisticFragmentViewModel(private val repository: ScheduleRepository) : V
     var totalWeekAmount : LiveData<Int> = repository.getTotalWeekAmount().asLiveData()
     var totalMonthAmount : LiveData<Int> = repository.getTotalMonthAmount().asLiveData()
     fun totalPeriodAmount (period: String) : LiveData<Int> = repository.getTotalPeriodAmount(period).asLiveData()
-    fun getMapOfPrice(month:String) : Map<Int,Int> = repository.getMapOfPrice(month)
+    fun getMapOfYear(month:String) : Map<Int,Int> = repository.getMapOfYear(month)
+    fun getMapOfWeek(): Map<Int,Int> = repository.getMapOfWeek()
 
     var totalLessons : LiveData<Int> = repository.getTotalWeekLessons().asLiveData()
     var lessonsByDaysOfWeek:LiveData<MutableList<LessonsByDays>> = repository.getLessonsByDaysOfWeek().asLiveData()

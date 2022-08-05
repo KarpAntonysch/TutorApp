@@ -28,10 +28,15 @@ interface ScheduleDAO {
     // запрос на получение заработанной суммы за период ( 6мес., год) от текущего дня. т.е. с текущей даты до начала месяца (как бы текущий месяц) - 5 мес для полугода или -11 мес для года
     @Query("SELECT sum(a.price)FROM schedeulTable b LEFT JOIN studentTable a ON a.id=b.studentId WHERE CAST(b.dateWithTime/1000 AS integer) BETWEEN strftime('%s',date('now','start of month', :period)) AND strftime('%s','now')")
     fun getTotalPeriodAmount(period:String): Flow<Int>
+
+    // Запрос с анотацией для получения MAP. Сумма за день от текущего дня до начала недели
+    @MapInfo(keyColumn = "dateWithTime", valueColumn = "price")
+    @Query("SELECT sum(a.price) AS price ,CAST(strftime('%w',b.dateWithTime/1000,'unixepoch') as integer) AS dateWithTime FROM schedeulTable b LEFT JOIN studentTable a ON a.id=b.studentId WHERE CAST(b.dateWithTime/1000 as integer) BETWEEN strftime('%s',date('now','weekday 1','-7 days')) AND strftime('%s','now') GROUP BY strftime('%w',b.dateWithTime/1000,'unixepoch') ")
+    fun getMapOfWeek(): Map<Int,Int>
     // Запрос с анотацией для получения MAP. Получет сумму за каждый месяц в определенный временной интервал для полугода ="-5 month", для года = "-11month"
     @MapInfo(keyColumn = "dateWithTime", valueColumn = "price")
     @Query("SELECT  sum(a.price) AS price ,CAST(strftime('%m',b.dateWithTime/1000,'unixepoch')as integer) AS dateWithTime FROM schedeulTable b LEFT JOIN studentTable a ON a.id=b.studentId WHERE CAST(b.dateWithTime/1000 as integer) BETWEEN strftime('%s',date('now','start of month', :month)) AND strftime('%s','now') GROUP BY strftime('%m',b.dateWithTime/1000,'unixepoch')")
-     fun getMapOfPrice(month:String): Map<Int,Int>
+     fun getMapOfYear(month:String): Map<Int,Int>
    
     // запрос на получение заработанной суммы в каждый день недели с пн по текущий день
     @Query("SELECT sum(a.price) AS price ,strftime('%d-%m-%Y',b.dateWithTime/1000,'unixepoch') AS date FROM schedeulTable b LEFT JOIN studentTable a ON a.id=b.studentId WHERE CAST(b.dateWithTime/1000 as integer) BETWEEN strftime('%s',date('now','weekday 1','-7 days')) AND strftime('%s','now') GROUP BY strftime('%d-%m-%Y',b.dateWithTime/1000,'unixepoch');")

@@ -1,6 +1,5 @@
 package com.example.tutor.repository
 
-import android.util.Log
 import androidx.annotation.WorkerThread
 import androidx.lifecycle.LiveData
 import com.example.tutor.bd.dao.ScheduleDAO
@@ -22,7 +21,8 @@ class ScheduleRepository(private val scheduleDAO: ScheduleDAO){
     fun getTotalWeekAmount():Flow<Int> = scheduleDAO.getTotalWeekAmount()
     fun getTotalMonthAmount():Flow<Int> = scheduleDAO.getTotalMonthAmount()
     fun getTotalPeriodAmount(period:String):Flow<Int> = scheduleDAO.getTotalPeriodAmount(period)
-    fun getMapOfPrice(month:String):Map<Int,Int> = scheduleDAO.getMapOfPrice(month)
+    fun getMapOfYear(month:String):Map<Int,Int> = scheduleDAO.getMapOfYear(month)
+    fun getMapOfWeek():Map<Int,Int> = scheduleDAO.getMapOfWeek()
 
 
 

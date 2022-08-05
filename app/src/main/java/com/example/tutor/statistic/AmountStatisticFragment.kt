@@ -46,24 +46,17 @@ class AmountStatisticFragment : Fragment() {
         return binding.root
     }
 
-    @RequiresApi(Build.VERSION_CODES.O)
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        // получение суммы по дням
-        fun getAmountByDaysOfWeek() {
-            statisticFragmentViewModel.amountByDaysOfWeek.observe(viewLifecycleOwner) {
-                val d = it!!.map { it.date!! }.toTypedArray()
-                val p = it!!.map { it.price!! }.toTypedArray()
-                binding.aaChartView.aa_drawChartWithChartModel(chart(d, p))
-            }
-        }
+
         // недельный график при переходе на фрагмент
         getWeekAmount()
-        getAmountByDaysOfWeek()
+        weekChart()
 
         binding.btnWeek.setOnClickListener {
             getWeekAmount()
-            getAmountByDaysOfWeek()
+            weekChart()
         }
         binding.btnMonth.setOnClickListener {
             statisticFragmentViewModel.totalMonthAmount.observe(viewLifecycleOwner) {
@@ -110,15 +103,33 @@ class AmountStatisticFragment : Fragment() {
             binding.tvAmount.text = "Доход за неделю : ${it}₽"
         }
     }
+    fun weekChart(){
+        val mapOfweek = statisticFragmentViewModel.getMapOfWeek()
+        var daysOfWeek = mutableMapOf(
+            DaysOfWeek.MONDAY to 0,
+            DaysOfWeek.TUESDAY to 0,
+            DaysOfWeek.WEDNESDAY to 0,
+            DaysOfWeek.THURSDAY to 0,
+            DaysOfWeek.FRIDAY to 0,
+            DaysOfWeek.SATURDAY to 0,
+            DaysOfWeek.SUNDAY to 0,
+        )
+        mapOfweek.keys.forEach{ key ->
+        daysOfWeek.put(daysOfWeek.keys.find { it.number == key }!!, mapOfweek[key]!!)
+        }
+        val d = daysOfWeek.keys.toMutableList().map {it.rusName }.toTypedArray()
+        val p = daysOfWeek.values.toTypedArray()
+        binding.aaChartView.aa_drawChartWithChartModel(chart(d,p))
+    }
 
     fun sixMomthChart() {
 
-        val mapOfPrice = statisticFragmentViewModel.getMapOfPrice("-5 months")
+        val mapOfPrice = statisticFragmentViewModel.getMapOfYear("-5 months")
         // создаем календарь,для определения текущего месяца и последующей фильтрации 6 месяцев от текущего
         val calendar: Calendar = Calendar.getInstance()
         val cal = calendar.timeInMillis.convertLongToTime("MM").toInt()
         // фильтрация map`а по ключам до полугода
-        var filterMonths = months.filterKeys { (cal - 5L) <= it.number && it.number <=cal }.toMutableMap()
+        val filterMonths = months.filterKeys { (cal - 5L) <= it.number && it.number <=cal }.toMutableMap()
         // перезапись значений для одинаковых ключей
         mapOfPrice.keys.forEach{ key ->
             filterMonths.put(filterMonths.keys.find { it.number == key}!!,mapOfPrice[key]!!)
@@ -129,11 +140,11 @@ class AmountStatisticFragment : Fragment() {
 
     }
 
-    @RequiresApi(Build.VERSION_CODES.O)
+
     fun yearChart() {
 
         // получили MAP с ключами-месяцами и значениями-доходами из БД
-        val mapOfPrice = statisticFragmentViewModel.getMapOfPrice("-11 months")
+        val mapOfPrice = statisticFragmentViewModel.getMapOfYear("-11 months")
         //  для каждого ключа в mapOfPrice: к map month добавляем значение по ключу mapOfMonth !=0 ( mapOfPrice[key]!!)
         // при условии, что номер ключа month(т.е. номер месяца  enam класса) совпадает с ключом mapOfPrice. При добавлении
         // значения обновляются автоматически для равных ключей. если ключи не равны, то значение остается 0
