@@ -13,6 +13,10 @@ class LessonsStatisticFragmentViewModel(private val repository: ScheduleReposito
     fun totalPeriodLessons(period:String): LiveData<Int> =
         repository.getTotalPeriodLessons(period).asLiveData()
 
+    fun getMapOfWeekLessons() : Map<Int,Int> = repository.getMapOfWeekLessons()
+    fun getMapOfMonthLessons() : Map<String,Int> = repository.getMapOfMonthLessons()
+    fun getMapOfPeriodLessons(month: String) : Map<Int,Int> = repository.getMapOfPeriodLessons(month)
+
 }
 
 class LessonsStatisticFragmentViewModelFactory(private val repository: ScheduleRepository) :

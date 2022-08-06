@@ -147,7 +147,6 @@ class AmountStatisticFragment : Fragment() {
 
     fun monthChart() {
         val mapOfMonth = amountStatisticFragmentViewModel.getMapOfMonth()
-        Log.v("e", "${mapOfMonth.keys}")
         val d = mapOfMonth.keys.toTypedArray()
         val p = mapOfMonth.values.toTypedArray()
         binding.amountChart.aa_drawChartWithChartModel(chart(d, p))

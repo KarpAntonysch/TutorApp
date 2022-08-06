@@ -18,6 +18,7 @@ interface ScheduleDAO {
     @Query("SELECT * FROM schedeulTable WHERE strftime('%d-%m-%Y',dateWithTime/1000.0,'unixepoch') = :date")
     fun getScheduleForDay(date: String): LiveData<List<ScheduleWithStudent>>
 
+
     //запрос для получения заработанной суммы с понедельника по текущий день
     @Query("SELECT sum(a.price)FROM schedeulTable b LEFT JOIN studentTable a ON a.id=b.studentId WHERE CAST(b.dateWithTime/1000 AS integer) BETWEEN strftime('%s',date('now','weekday 1','-7 days')) AND strftime('%s','now')")
     fun getTotalWeekAmount(): Flow<Int>
@@ -30,6 +31,7 @@ interface ScheduleDAO {
     @Query("SELECT sum(a.price)FROM schedeulTable b LEFT JOIN studentTable a ON a.id=b.studentId WHERE CAST(b.dateWithTime/1000 AS integer) BETWEEN strftime('%s',date('now','start of month', :period)) AND strftime('%s','now')")
     fun getTotalPeriodAmount(period: String): Flow<Int>
 
+
     // запрос для получения количества занятий с понедельника по текущий день
     @Query("SELECT count(*) FROM schedeulTable b WHERE CAST(b.dateWithTime/1000 AS integer) BETWEEN strftime('%s',date('now','weekday 1','-7 days')) AND strftime('%s','now')")
     fun getTotalWeekLessons(): Flow<Int>
@@ -40,6 +42,7 @@ interface ScheduleDAO {
 
     @Query("SELECT count(*)FROM schedeulTable b WHERE CAST(b.dateWithTime/1000 AS integer) BETWEEN strftime('%s',date('now','start of month', :period)) AND strftime('%s','now')")
     fun getTotalPeriodLessons(period: String): Flow<Int>
+
 
     // Запрос с анотацией для получения MAP. Сумма за день от текущего дня до начала недели
     @MapInfo(keyColumn = "dateWithTime", valueColumn = "price")
@@ -58,8 +61,20 @@ interface ScheduleDAO {
 
 
 
+    // Количкство занятий с начала недели до текущего дня
+    @MapInfo(keyColumn = "dateWithTime", valueColumn = "lessons")
+    @Query("SELECT count(*)AS lessons ,CAST(strftime('%w',b.dateWithTime/1000,'unixepoch') as integer) AS dateWithTime FROM schedeulTable b LEFT JOIN studentTable a ON a.id=b.studentId WHERE CAST(b.dateWithTime/1000 as integer) BETWEEN strftime('%s',date('now','weekday 1','-7 days')) AND strftime('%s','now') GROUP BY strftime('%w',b.dateWithTime/1000,'unixepoch')")
+    fun getMapOfWeekLessons(): Map<Int,Int>
 
+    // аналогично getMapOfYear, только для количества занятий
+    @MapInfo(keyColumn = "dateWithTime", valueColumn = "lessons")
+    @Query("SELECT  count(*) AS lessons ,CAST(strftime('%m',b.dateWithTime/1000,'unixepoch')as integer) AS dateWithTime FROM schedeulTable b LEFT JOIN studentTable a ON a.id=b.studentId WHERE CAST(b.dateWithTime/1000 as integer) BETWEEN strftime('%s',date('now','start of month', :month)) AND strftime('%s','now') GROUP BY strftime('%m',b.dateWithTime/1000,'unixepoch')")
+    fun getMapOfPeriodLessons(month: String): Map<Int, Int>
 
+    // количество занятий за каждый день месяца, когда проводились занятия
+    @MapInfo(keyColumn = "dateWithTime", valueColumn = "lessons")
+    @Query("SELECT  count(*) AS lessons ,strftime('%d.%m',b.dateWithTime/1000,'unixepoch') AS dateWithTime FROM schedeulTable b LEFT JOIN studentTable a ON a.id=b.studentId WHERE CAST(b.dateWithTime/1000 as integer) BETWEEN strftime('%s',date('now','start of month')) AND strftime('%s','now') GROUP BY strftime('%d.%m',b.dateWithTime/1000,'unixepoch')")
+    fun getMapOfMonthLessons():Map<String,Int>
 
 
 
