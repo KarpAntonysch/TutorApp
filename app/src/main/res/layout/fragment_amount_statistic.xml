@@ -4,10 +4,10 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".statistic.AmountStatisticFragment">
+    tools:context=".statistic.amount.AmountStatisticFragment">
 
     <com.github.aachartmodel.aainfographics.aachartcreator.AAChartView
-        android:id="@+id/aa_chart_view"
+        android:id="@+id/amountChart"
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:layout_marginTop="100dp"
@@ -29,13 +29,13 @@
         android:text="TextView"
         android:textSize="24sp"
         android:textStyle="bold"
-        app:layout_constraintBottom_toTopOf="@+id/aa_chart_view"
+        app:layout_constraintBottom_toTopOf="@+id/amountChart"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
     <com.google.android.material.tabs.TabLayout
-        android:id="@+id/tab"
+        android:id="@+id/amountTab"
         style="@style/RoundedTabLayoutStyle"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
@@ -46,7 +46,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/aa_chart_view"
+        app:layout_constraintTop_toBottomOf="@+id/amountChart"
         app:layout_constraintVertical_bias="0.0">
 
         <com.google.android.material.tabs.TabItem

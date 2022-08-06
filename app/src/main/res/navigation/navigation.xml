@@ -16,7 +16,7 @@
     </fragment>
     <fragment
         android:id="@+id/statisticFragment"
-        android:name="com.example.tutor.statistic.AmountStatisticFragment"
+        android:name="com.example.tutor.statistic.amount.AmountStatisticFragment"
         android:label="fragment_statistic"
         tools:layout="@layout/fragment_amount_statistic" />
     <fragment

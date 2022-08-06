@@ -2,8 +2,8 @@ package com.example.tutor.adapters
 
 import androidx.fragment.app.Fragment
 import androidx.viewpager2.adapter.FragmentStateAdapter
-import com.example.tutor.statistic.LessonsStatisticFragment
-import com.example.tutor.statistic.AmountStatisticFragment
+import com.example.tutor.statistic.lessons.LessonsStatisticFragment
+import com.example.tutor.statistic.amount.AmountStatisticFragment
 
 class StatisticVPAdapter(fragment : Fragment) : FragmentStateAdapter(fragment) {
     override fun getItemCount(): Int=2
