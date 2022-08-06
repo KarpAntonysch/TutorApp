@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <style name="RoundedTabLayoutStyle" parent="Widget.Design.TabLayout">
+    <item name="tabBackground">@drawable/tabs_selector</item>
+    <item name="tabIndicator">@null</item>
+    <item name="tabSelectedTextColor">@color/white</item>
+    <item name="tabTextColor">@color/selectedColor</item>
+    <item name="tabRippleColor">@null</item>
+    </style >
+</resources>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

@@ -13,6 +13,7 @@ import com.example.tutor.journal.studentJournal.DBapplication
 import com.github.aachartmodel.aainfographics.aachartcreator.AAChartModel
 import com.github.aachartmodel.aainfographics.aachartcreator.AAChartType
 import com.github.aachartmodel.aainfographics.aachartcreator.AASeriesElement
+import com.google.android.material.tabs.TabLayout
 import kotlinx.coroutines.flow.forEach
 import kotlinx.coroutines.flow.map
 import java.util.*
@@ -54,29 +55,43 @@ class AmountStatisticFragment : Fragment() {
         // недельный график при переходе на фрагмент
         getWeekAmount()
         weekChart()
+        val tabLayout = binding.tab
 
-        binding.btnWeek.setOnClickListener {
-            getWeekAmount()
-            weekChart()
-        }
-        binding.btnMonth.setOnClickListener {
-            statisticFragmentViewModel.totalMonthAmount.observe(viewLifecycleOwner) {
-                binding.tvAmount.text = "Доход за месяц : ${it}₽"
+        tabLayout.addOnTabSelectedListener(object : TabLayout.OnTabSelectedListener{
+
+            override fun onTabSelected(tab: TabLayout.Tab) {
+
+                if (tab.position == 0){
+                    getWeekAmount()
+                    weekChart()
+                }else if(tab.position == 1){
+                    statisticFragmentViewModel.totalMonthAmount.observe(viewLifecycleOwner) {
+                        binding.tvAmount.text = "Доход за месяц : ${it}₽"
+                    }
+                    monthChart()
+                }else if(tab.position == 2){
+                    statisticFragmentViewModel.totalPeriodAmount("-5 months").observe(viewLifecycleOwner) {
+                        binding.tvAmount.text = "Доход за 6 месяцев : ${it}₽"
+                    }
+                    sixMomthChart()
+                }else if(tab.position == 3){
+                    statisticFragmentViewModel.totalPeriodAmount("-11 months").observe(viewLifecycleOwner) {
+                        binding.tvAmount.text = "Доход за год : ${it}₽"
+                    }
+                    yearChart()
+                }
             }
-            monthChart()
-        }
-        binding.btn6Month.setOnClickListener {
-            statisticFragmentViewModel.totalPeriodAmount("-5 months").observe(viewLifecycleOwner) {
-                binding.tvAmount.text = "Доход за 6 месяцев : ${it}₽"
+
+            override fun onTabUnselected(tab: TabLayout.Tab) {
+
             }
-            sixMomthChart()
-        }
-        binding.btnYear.setOnClickListener {
-            statisticFragmentViewModel.totalPeriodAmount("-11 months").observe(viewLifecycleOwner) {
-                binding.tvAmount.text = "Доход за год : ${it}₽"
+
+            override fun onTabReselected(tab: TabLayout.Tab) {
+
             }
-            yearChart()
-        }
+
+        })
+
     }
 
 

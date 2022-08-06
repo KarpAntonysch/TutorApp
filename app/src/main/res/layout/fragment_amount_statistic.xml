@@ -34,67 +34,41 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
-    <Button
-        android:id="@+id/btnWeek"
-        android:layout_width="wrap_content"
+    <com.google.android.material.tabs.TabLayout
+        android:id="@+id/tab"
+        style="@style/RoundedTabLayoutStyle"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginTop="-15dp"
-        android:text="нед."
-        app:circularflow_defaultRadius="20dp"
-        app:circularflow_radiusInDP="20dp"
-        app:cornerRadius="20dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="-14dp"
+        android:layout_marginEnd="8dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintEnd_toStartOf="@+id/btnMonth"
-        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/aa_chart_view"
-        app:layout_constraintVertical_bias="0.0" />
+        app:layout_constraintVertical_bias="0.0">
 
-    <Button
-        android:id="@+id/btnYear"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="год"
-        app:circularflow_defaultRadius="20dp"
-        app:circularflow_radiusInDP="20dp"
-        app:cornerRadius="20dp"
-        app:layout_constraintBottom_toBottomOf="@+id/btn6Month"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintStart_toEndOf="@+id/btn6Month"
-        app:layout_constraintTop_toTopOf="@+id/btn6Month"
-        app:layout_constraintVertical_bias="0.0" />
+        <com.google.android.material.tabs.TabItem
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Нед." />
 
-    <Button
-        android:id="@+id/btnMonth"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="мес."
-        app:circularflow_defaultRadius="20dp"
-        app:circularflow_radiusInDP="20dp"
-        app:cornerRadius="20dp"
-        app:layout_constraintBottom_toBottomOf="@+id/btnWeek"
-        app:layout_constraintEnd_toStartOf="@+id/btn6Month"
-        app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintStart_toEndOf="@+id/btnWeek"
-        app:layout_constraintTop_toTopOf="@+id/btnWeek"
-        app:layout_constraintVertical_bias="0.0" />
+        <com.google.android.material.tabs.TabItem
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Мес." />
 
-    <Button
-        android:id="@+id/btn6Month"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="6 мес."
-        app:circularflow_defaultRadius="20dp"
-        app:circularflow_radiusInDP="20dp"
-        app:cornerRadius="20dp"
-        app:layout_constraintBottom_toBottomOf="@+id/btnMonth"
-        app:layout_constraintEnd_toStartOf="@+id/btnYear"
-        app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintStart_toEndOf="@+id/btnMonth"
-        app:layout_constraintTop_toTopOf="@+id/btnMonth"
-        app:layout_constraintVertical_bias="0.0" />
+        <com.google.android.material.tabs.TabItem
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="6 Мес." />
+
+        <com.google.android.material.tabs.TabItem
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Год" />
+    </com.google.android.material.tabs.TabLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
 
