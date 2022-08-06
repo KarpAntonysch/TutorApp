@@ -22,17 +22,16 @@ class ScheduleRepository(private val scheduleDAO: ScheduleDAO){
     fun getTotalWeekAmount():Flow<Int> = scheduleDAO.getTotalWeekAmount()
     fun getTotalMonthAmount():Flow<Int> = scheduleDAO.getTotalMonthAmount()
     fun getTotalPeriodAmount(period:String):Flow<Int> = scheduleDAO.getTotalPeriodAmount(period)
+
     fun getMapOfWeek():Map<Int,Int> = scheduleDAO.getMapOfWeek()
     fun getMapOfMonth(): Map<String,Int> = scheduleDAO.getMapOfMonth()
-
     fun getMapOfYear(month:String):Map<Int,Int> = scheduleDAO.getMapOfYear(month)
 
 
-
-
     fun getTotalWeekLessons():Flow<Int> = scheduleDAO.getTotalWeekLessons()
-    fun getLessonsByDaysOfWeek():Flow<MutableList<LessonsByDays>> = scheduleDAO.getLessonsByDaysOfWeek()
-    fun getAmountByDaysOfWeek():Flow<List<AmountByDays>> = scheduleDAO.getAmountByDaysOfWeek()
+    fun getTotalMonthLessons():Flow<Int> = scheduleDAO.getTotalMonthLessons()
+    fun getTotalPeriodLessons(period: String):Flow<Int> = scheduleDAO.getTotalPeriodLessons(period)
+
 
 
     suspend fun deleteSchedule(scheduleEntity: ScheduleEntity){

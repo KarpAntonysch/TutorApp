@@ -30,6 +30,17 @@ interface ScheduleDAO {
     @Query("SELECT sum(a.price)FROM schedeulTable b LEFT JOIN studentTable a ON a.id=b.studentId WHERE CAST(b.dateWithTime/1000 AS integer) BETWEEN strftime('%s',date('now','start of month', :period)) AND strftime('%s','now')")
     fun getTotalPeriodAmount(period: String): Flow<Int>
 
+    // запрос для получения количества занятий с понедельника по текущий день
+    @Query("SELECT count(*) FROM schedeulTable b WHERE CAST(b.dateWithTime/1000 AS integer) BETWEEN strftime('%s',date('now','weekday 1','-7 days')) AND strftime('%s','now')")
+    fun getTotalWeekLessons(): Flow<Int>
+
+    // запрос для получения количества занятий за текущий месяц ( с сегодняшнего дня по начало месяца)
+    @Query("SELECT count(*) FROM schedeulTable b WHERE CAST(b.dateWithTime/1000 AS integer) BETWEEN strftime('%s',date('now','start of month')) AND strftime('%s','now')")
+    fun getTotalMonthLessons(): Flow<Int>
+
+    @Query("SELECT count(*)FROM schedeulTable b WHERE CAST(b.dateWithTime/1000 AS integer) BETWEEN strftime('%s',date('now','start of month', :period)) AND strftime('%s','now')")
+    fun getTotalPeriodLessons(period: String): Flow<Int>
+
     // Запрос с анотацией для получения MAP. Сумма за день от текущего дня до начала недели
     @MapInfo(keyColumn = "dateWithTime", valueColumn = "price")
     @Query("SELECT sum(a.price) AS price ,CAST(strftime('%w',b.dateWithTime/1000,'unixepoch') as integer) AS dateWithTime FROM schedeulTable b LEFT JOIN studentTable a ON a.id=b.studentId WHERE CAST(b.dateWithTime/1000 as integer) BETWEEN strftime('%s',date('now','weekday 1','-7 days')) AND strftime('%s','now') GROUP BY strftime('%w',b.dateWithTime/1000,'unixepoch') ")
@@ -45,17 +56,11 @@ interface ScheduleDAO {
     @Query("SELECT  sum(a.price) AS price ,strftime('%d.%m',b.dateWithTime/1000,'unixepoch') AS dateWithTime FROM schedeulTable b LEFT JOIN studentTable a ON a.id=b.studentId WHERE CAST(b.dateWithTime/1000 as integer) BETWEEN strftime('%s',date('now','start of month')) AND strftime('%s','now') GROUP BY strftime('%d.%m',b.dateWithTime/1000,'unixepoch')")
     fun getMapOfMonth():Map<String,Int>
 
-    // запрос на получение заработанной суммы в каждый день недели с пн по текущий день
-    @Query("SELECT sum(a.price) AS price ,CAST(strftime('%d-%m-%Y',b.dateWithTime/1000,'unixepoch')as integer) AS date FROM schedeulTable b LEFT JOIN studentTable a ON a.id=b.studentId WHERE CAST(b.dateWithTime/1000 as integer) BETWEEN strftime('%s',date('now','weekday 1','-7 days')) AND strftime('%s','now') GROUP BY strftime('%d-%m-%Y',b.dateWithTime/1000,'unixepoch');")
-    fun getAmountByDaysOfWeek(): Flow<List<AmountByDays>>
 
-    // запрос для получения количества занятий с понедельника по текущий день
-    @Query("SELECT count(*) FROM schedeulTable b WHERE CAST(b.dateWithTime/1000 AS integer) BETWEEN strftime('%s',date('now','weekday 1','-7 days')) AND strftime('%s','now')")
-    fun getTotalWeekLessons(): Flow<Int>
 
-    // запрос для получения количества уроков на каждый день недели начиная с пн по текущий день
-    @Query("SELECT count(*) as lessons,strftime('%d-%m-%Y',b.dateWithTime/1000,'unixepoch') AS date FROM schedeulTable b WHERE CAST(b.dateWithTime/1000 as integer) BETWEEN strftime('%s',date('now','weekday 1','-7 days')) AND strftime('%s','now')GROUP BY strftime('%d-%m-%Y',b.dateWithTime/1000,'unixepoch')")
-    fun getLessonsByDaysOfWeek(): Flow<MutableList<LessonsByDays>>
+
+
+
 
 
     @Query("SELECT * from schedeulTable WHERE date('now','weekday 1','-7 days')")
@@ -64,10 +69,4 @@ interface ScheduleDAO {
     @Delete
     suspend fun deleteSchedule(scheduleEntity: ScheduleEntity)
 }
-
-// для полного месяца, а не с начала месяца до текущего дня
-// SELECT count(*) as lessons,strftime('%d-%m-%Y',b.dateWithTime/1000,'unixepoch') AS date FROM schedeulTable b WHERE CAST(b.dateWithTime/1000 as integer) BETWEEN strftime('%s',date('now','start of month')) AND strftime(date('now','start of month','+1 month','-1 day'))GROUP BY strftime('%d-%m-%Y',b.dateWithTime/1000,'unixepoch')
-
-// количество занятий за месяц (дата - месяц)
-//SELECT count(*) as lessons,strftime('%d-%m-%Y',b.dateWithTime/1000,'unixepoch') AS date FROM schedeulTable b WHERE CAST(b.dateWithTime/1000 as integer) BETWEEN strftime('%s',date('now','-1 months')) AND strftime(date('now'))GROUP BY strftime('%d-%m-%Y',b.dateWithTime/1000,'unixepoch')
 

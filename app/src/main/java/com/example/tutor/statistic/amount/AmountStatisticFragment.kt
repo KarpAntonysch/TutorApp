@@ -59,6 +59,7 @@ class AmountStatisticFragment : Fragment() {
         getWeekAmount()
         weekChart()
 
+        // tabLayout в качестве кнопок для смены графиков
         tabLayout.addOnTabSelectedListener(object : TabLayout.OnTabSelectedListener {
 
             override fun onTabSelected(tab: TabLayout.Tab) {
