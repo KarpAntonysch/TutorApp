@@ -1,13 +1,14 @@
 package com.example.tutor
 
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.util.Log
 import android.view.Menu
-import android.widget.Toolbar
+import android.view.MenuItem
+import android.widget.Toast
+import androidx.appcompat.app.AppCompatActivity
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.NavigationUI.setupWithNavController
-import androidx.navigation.ui.setupActionBarWithNavController
 import androidx.navigation.ui.setupWithNavController
 import com.example.tutor.databinding.ActivityMainBinding
 
@@ -20,7 +21,7 @@ lateinit var binding: ActivityMainBinding
         binding= ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
         val toolbar = binding.toolbar
-        supportActionBar?.setDisplayHomeAsUpEnabled(false)
+        setSupportActionBar(toolbar)
 
 
             // использую NavigationUI with Bottom navigation
