@@ -7,5 +7,5 @@ enum class DaysOfWeek(val rusName:String,val number:Int) {
     THURSDAY("ЧЕТВЕРГ",4),
     FRIDAY("ПЯТНИЦА",5),
     SATURDAY("СУББОТА",6),
-    SUNDAY("ВОСКРЕСЕНЬЕ",7),
+    SUNDAY("ВОСКРЕСЕНЬЕ",0),
 }

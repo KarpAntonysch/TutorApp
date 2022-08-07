@@ -2,8 +2,11 @@ package com.example.tutor
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.view.Menu
+import android.widget.Toolbar
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.AppBarConfiguration
+import androidx.navigation.ui.NavigationUI.setupWithNavController
 import androidx.navigation.ui.setupActionBarWithNavController
 import androidx.navigation.ui.setupWithNavController
 import com.example.tutor.databinding.ActivityMainBinding
@@ -16,6 +19,10 @@ lateinit var binding: ActivityMainBinding
         super.onCreate(savedInstanceState)
         binding= ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
+        val toolbar = binding.toolbar
+        supportActionBar?.setDisplayHomeAsUpEnabled(false)
+
+
             // использую NavigationUI with Bottom navigation
         val btmNavigationView=binding.bottomMenu
             //инициализация хоста, позволяющая искать нужный нам фрагмент
@@ -31,9 +38,12 @@ lateinit var binding: ActivityMainBinding
             R.id.jornalPagerFragment
         ))
         // связываем конфигурацию меню   с navController
-        setupActionBarWithNavController(navController,appBarConfiguration)
+        setupWithNavController(toolbar,navController,appBarConfiguration)
         // связываем bottom navigation view  с navController
         btmNavigationView.setupWithNavController(navController)
     }
-
+    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
+        menuInflater.inflate(R.menu.pages_tool_bar, menu)
+        return true
+    }
 }
