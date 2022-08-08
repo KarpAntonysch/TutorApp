@@ -4,7 +4,6 @@ import android.content.DialogInterface
 import android.os.Build
 import android.os.Bundle
 import android.view.*
-import android.widget.Toast
 import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
@@ -12,6 +11,7 @@ import androidx.fragment.app.FragmentResultListener
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.RecyclerView
+import com.example.tutor.InfoDialogFragment
 import com.example.tutor.R
 import com.example.tutor.adapters.MainFragmentAdapter
 import com.example.tutor.bd.entities.ScheduleEntity
@@ -33,7 +33,7 @@ class MainFragment : Fragment(), MainFragmentAdapter.Listener {
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?,
-    ): View? {
+    ): View {
         binding = FragmentMainBinding.inflate(inflater, container, false)
         setHasOptionsMenu(true)
         return binding.root
@@ -79,7 +79,7 @@ class MainFragment : Fragment(), MainFragmentAdapter.Listener {
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         when (item.itemId) {
             R.id.info -> {
-                var toast = Toast.makeText(requireContext(), "9999", Toast.LENGTH_SHORT).show()
+                showInfoDialogFragment()
             }
         }
         return true
@@ -104,7 +104,7 @@ class MainFragment : Fragment(), MainFragmentAdapter.Listener {
     // Функция вызова диалогового окна из ScheduleDialogFragment
     fun showDialogFragment() {
         val dialogFragment = ScheduleDialogFragment()
-        dialogFragment?.show(childFragmentManager, ScheduleDialogFragment.TAG)
+        dialogFragment.show(childFragmentManager, ScheduleDialogFragment.TAG)
     }
 
     // Функция инициализации кнопок в диалоговом окне из JournalDialogFragment
@@ -133,5 +133,11 @@ class MainFragment : Fragment(), MainFragmentAdapter.Listener {
                 }
             }
         })
+    }
+
+    // Функция вызова диалогового окна из InfoDialogFragment
+    fun showInfoDialogFragment() {
+        val dialogFragment = InfoDialogFragment("Подсказка",R.string.mainFragmentDialog)
+        dialogFragment.show(childFragmentManager, InfoDialogFragment.TAG)
     }
 }

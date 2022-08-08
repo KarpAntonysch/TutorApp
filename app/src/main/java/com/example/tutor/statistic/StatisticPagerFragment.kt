@@ -16,7 +16,7 @@ class StatisticPagerFragment : Fragment() {
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?,
-    ): View? {
+    ): View {
         binding = FragmentStatisticPagerBinding.inflate(inflater,container,false)
         setHasOptionsMenu(true)
         return binding.root
@@ -30,7 +30,7 @@ class StatisticPagerFragment : Fragment() {
         setPagerAndTab()
     }
 
-    fun setPagerAndTab() {
+    private fun setPagerAndTab() {
         binding.statisticViewPager.adapter = StatisticVPAdapter(this)// подключл адаптер пейджера
         // подключил TabLayout
         TabLayoutMediator(binding.statisticTabLayout, binding.statisticViewPager) { tab, position ->
@@ -52,7 +52,7 @@ class StatisticPagerFragment : Fragment() {
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         when (item.itemId) {
             R.id.info -> {
-                var toast = Toast.makeText(requireContext(), "статиска" , Toast.LENGTH_SHORT).show()
+               Toast.makeText(requireContext(), "статиска" , Toast.LENGTH_SHORT).show()
             }
         }
         return true
