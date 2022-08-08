@@ -46,7 +46,7 @@ class MainFragment : Fragment(), MainFragmentAdapter.Listener {
         (activity as AppCompatActivity).supportActionBar?.hide()
         val toolbar = binding.fragmentToolbar
         (activity as AppCompatActivity).setSupportActionBar(toolbar)
-        (activity as AppCompatActivity).supportActionBar?.title = "Календарь занятий"
+        (activity as AppCompatActivity).supportActionBar?.title = "Расписание"
 
         // передадим дату (Long) через  Bundle
         val bundle = Bundle()

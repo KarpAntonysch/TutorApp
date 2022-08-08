@@ -1,11 +1,12 @@
 package com.example.tutor.journal.addStudentToJournal
 
 import android.os.Bundle
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
+import android.view.*
+import android.widget.Toast
+import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
+import com.example.tutor.R
 import com.example.tutor.bd.entities.StudentEntity
 import com.example.tutor.databinding.FragmentAddStudentToJournalBinding
 import com.example.tutor.journal.studentJournal.DBapplication
@@ -22,10 +23,16 @@ lateinit var binding: FragmentAddStudentToJournalBinding
         savedInstanceState: Bundle?
     ): View? {
         binding= FragmentAddStudentToJournalBinding.inflate(inflater,container,false)
+        setHasOptionsMenu(true)
         return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        val toolbar = binding.addStudentToolbar
+        (activity as AppCompatActivity).setSupportActionBar(toolbar)
+        (activity as AppCompatActivity).supportActionBar?.setDisplayHomeAsUpEnabled(true)//стреклка назад
+        (activity as AppCompatActivity).supportActionBar?.title = "Добавление ученика"
+
         binding.btnAddToDB.setOnClickListener{
             if (!empty()){
                 val studentEntity = getStudentValues()
@@ -56,5 +63,21 @@ lateinit var binding: FragmentAddStudentToJournalBinding
             return edFirstName.text.isNullOrEmpty() || edSecondName.text.isNullOrEmpty() ||
                     edClass.text.isNullOrEmpty() || edPrice.text.isNullOrEmpty()
         }
+    }
+    // меню ToolBar
+    override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
+        menu.clear()
+        inflater.inflate(R.menu.pages_tool_bar, menu)
+    }
+
+    // слушатель айтемов меню ToolBar
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        when (item.itemId) {
+            android.R.id.home -> activity?.onBackPressed()
+            R.id.info -> {
+                var toast = Toast.makeText(requireContext(), "add", Toast.LENGTH_SHORT).show()
+            }
+        }
+        return true
     }
 }

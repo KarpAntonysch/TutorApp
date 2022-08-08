@@ -15,6 +15,7 @@
         android:clickable="true"
         android:focusable="true"
         android:src="@drawable/ic_add_student_to_journal"
+        app:layout_behavior="com.google.android.material.behavior.HideBottomViewOnScrollBehavior"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.954"
@@ -22,8 +23,7 @@
         app:maxImageSize="35dp"
         app:rippleColor="@color/teal_700"
         app:tint="#FFFFFF"
-        tools:ignore="SpeakableTextPresentCheck,ImageContrastCheck"
-        app:layout_behavior="com.google.android.material.behavior.HideBottomViewOnScrollBehavior"/>
+        tools:ignore="SpeakableTextPresentCheck,ImageContrastCheck" />
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/allStudentsRV"

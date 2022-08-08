@@ -3,13 +3,14 @@ package com.example.tutor.main.addStudentToSchedule
 import android.annotation.SuppressLint
 import android.os.Bundle
 import android.util.Log
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
+import android.view.*
 import android.widget.AdapterView
 import android.widget.ArrayAdapter
+import android.widget.Toast
+import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
+import com.example.tutor.R
 import com.example.tutor.bd.entities.ScheduleEntity
 import com.example.tutor.bd.entities.studentForSchedule
 import com.example.tutor.convertLongToTime
@@ -41,6 +42,7 @@ class AddStudentToDaySchedule : Fragment() {
         savedInstanceState: Bundle?,
     ): View {
         binding = FragmentAddStudentToDayScheduleBinding.inflate(inflater, container, false)
+        setHasOptionsMenu(true)
         return binding.root
     }
 
@@ -48,6 +50,11 @@ class AddStudentToDaySchedule : Fragment() {
     @SuppressLint("NewApi")
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
+        val toolbar = binding.addScheduleToolbar
+        (activity as AppCompatActivity).setSupportActionBar(toolbar)
+        (activity as AppCompatActivity).supportActionBar?.setDisplayHomeAsUpEnabled(true)
+        (activity as AppCompatActivity).supportActionBar?.title = "Добавление занятия"
 
         binding.timePicker.setIs24HourView(true)
 
@@ -94,7 +101,22 @@ class AddStudentToDaySchedule : Fragment() {
         }
     }
 
+    // меню ToolBar
+    override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
+        menu.clear()
+        inflater.inflate(R.menu.pages_tool_bar, menu)
+    }
 
+    // слушатель айтемов меню ToolBar
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        when (item.itemId) {
+            android.R.id.home -> activity?.onBackPressed()
+            R.id.info -> {
+                var toast = Toast.makeText(requireContext(), "schedule", Toast.LENGTH_SHORT).show()
+            }
+        }
+        return true
+    }
     //Прием даты с помощью Bundle
     private fun getCurrentDate(): Long {
         val currentDate = arguments?.getLong("ArgForDate")
