@@ -2,9 +2,9 @@ package com.example.tutor.journal.studentJournal.pager
 
 import android.os.Bundle
 import android.view.*
-import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
+import com.example.tutor.InfoDialogFragment
 import com.example.tutor.R
 import com.example.tutor.adapters.JournalVPAdapter
 import com.example.tutor.databinding.FragmentJornalPagerBinding
@@ -52,9 +52,14 @@ class JornalPagerFragment : Fragment() {
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         when (item.itemId) {
             R.id.info -> {
-                var toast = Toast.makeText(requireContext(), "журнал", Toast.LENGTH_SHORT).show()
+                showInfoDialogFragment()
             }
         }
         return true
+    }
+    // Функция вызова диалогового окна из InfoDialogFragment
+    fun showInfoDialogFragment() {
+        val dialogFragment = InfoDialogFragment("Подсказка",R.string.journalFragmentDialog)
+        dialogFragment.show(childFragmentManager, InfoDialogFragment.TAG)
     }
 }

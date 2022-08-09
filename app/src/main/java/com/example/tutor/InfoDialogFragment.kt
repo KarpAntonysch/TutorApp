@@ -17,7 +17,6 @@ class InfoDialogFragment(val title: String, private val description: Int) : Dial
             .setCancelable(false)
             .setTitle(title)
             .setMessage(description)
-            //.setView(R.layout.qqqq)
             .setPositiveButton("хорошо", listener)
             .create()
     }
