@@ -21,7 +21,7 @@ import com.example.tutor.journal.studentJournal.DBapplication
 import com.example.tutor.journal.studentJournal.JourmalDialogFragment
 
 
-class StudentJournalFragment : Fragment(), StudentJournalAdapter.Listener,
+class StudentJournalFragment() : Fragment(), StudentJournalAdapter.Listener,
     JournalActionModeCallback.ActionModeListener {
     lateinit var binding: FragmentStudentJournalBinding
     lateinit var recyclerView: RecyclerView
@@ -96,6 +96,7 @@ class StudentJournalFragment : Fragment(), StudentJournalAdapter.Listener,
                     DialogInterface.BUTTON_POSITIVE -> {
                         studentJournalViewModel.changeStudentActive(
                             studentEntity.id)
+                        actionMode.hideActionMode()
                         Toast.makeText(requireContext(), "удалено", Toast.LENGTH_SHORT).show()
                     }
                 }
@@ -118,5 +119,4 @@ class StudentJournalFragment : Fragment(), StudentJournalAdapter.Listener,
             }
         })
     }
-
 }

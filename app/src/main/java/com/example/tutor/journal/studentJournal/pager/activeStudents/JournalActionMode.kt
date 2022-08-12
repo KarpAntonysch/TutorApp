@@ -7,6 +7,7 @@ import android.view.View
 import androidx.annotation.MenuRes
 import com.example.tutor.R
 import com.example.tutor.bd.entities.StudentEntity
+import com.example.tutor.journal.studentJournal.pager.activeStudents.StudentJournalFragment.*
 
 
 class JournalActionModeCallback(
@@ -17,14 +18,12 @@ class JournalActionModeCallback(
     var actionModeListener: ActionModeListener? = null // определяем переменную с типом
     // ActionModeListener как поле класса благодаря этому получаю доступ к функциям интерфейса.
     // Но интерфейс это абстракция, а нам нужна его конкретная реализация, котрая задается в функции startActionMode
-
     @MenuRes
     private var menuResId: Int = 0 //т.к. это многоразовый класс, то меню привязывается в фрагменте
 
     override fun onCreateActionMode(mode: ActionMode, menu: Menu): Boolean {
         this.mode = mode
         mode.menuInflater?.inflate(menuResId, menu)
-
         return true
     }
 
@@ -36,7 +35,7 @@ class JournalActionModeCallback(
         return when (item.itemId) {
             R.id.menuDelete -> {
                 actionModeListener?.clickToMenuDelete(studentEntity)
-                mode.finish()
+                //mode.finish() - обеспечивает закрытие AM сразу после нажатия айтема меню
                 true
             }
             else -> false
@@ -45,6 +44,7 @@ class JournalActionModeCallback(
 
     override fun onDestroyActionMode(mode: ActionMode) {
         this.mode = null
+
     }
 
     fun startActionMode(// функция, которая запускает actionMode. Т.е. именно она позволяет
@@ -64,5 +64,9 @@ class JournalActionModeCallback(
     //StudentJournalFragment.
     interface ActionModeListener {
         fun clickToMenuDelete(studentEntity: StudentEntity)
+    }
+
+    fun hideActionMode(){
+        mode?.finish()
     }
 }
