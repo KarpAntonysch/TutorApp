@@ -2,7 +2,6 @@ package com.example.tutor.main.addStudentToSchedule
 
 import android.annotation.SuppressLint
 import android.os.Bundle
-import android.util.Log
 import android.view.*
 import android.widget.AdapterView
 import android.widget.ArrayAdapter
@@ -10,6 +9,7 @@ import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
+import com.example.tutor.InfoDialogFragment
 import com.example.tutor.R
 import com.example.tutor.bd.entities.ScheduleEntity
 import com.example.tutor.bd.entities.studentForSchedule
@@ -34,7 +34,7 @@ class AddStudentToDaySchedule : Fragment() {
     private val studentJournalViewModel: StudentJournalViewModel by viewModels {
         StudentJournalViewModelFactory((requireActivity().application as DBapplication).studentRepository)
     }
-    var studentID: Int = 0 // начальная инициализация. задаю как 0 т.к. мой id !=0
+    var studentID: Int = 0 // начальная инициализация. задаю как 0 т.к.  id студента !=0
     var timeFromPicker: Long = 0
 
     override fun onCreateView(
@@ -64,7 +64,7 @@ class AddStudentToDaySchedule : Fragment() {
         val spinner = binding.spinnerForSchedule
         var infoList: ArrayList<studentForSchedule>
 
-        // получение информации для таблицы schedule(id,firstname,secondname), реализация спинера
+        // получение информации для таблицы schedule(id,firstname,secondName), реализация спинера
         studentJournalViewModel.getInfo().observe(viewLifecycleOwner, {
             infoList = ArrayList(it)
             // получение отдельных списков имен и фамилий
@@ -74,9 +74,11 @@ class AddStudentToDaySchedule : Fragment() {
             val spinnerList =
                 infoName.zip(infoSecondName) { name1st, name2nd -> "$name1st $name2nd" }
             //spinner.setSelection(0) для установки значения по умолчанию
-            spinner.adapter = ArrayAdapter(requireContext(),
+            spinner.adapter = ArrayAdapter(
+                requireContext(),
                 android.R.layout.simple_spinner_dropdown_item,
-                spinnerList)
+                spinnerList
+            )
             spinner.onItemSelectedListener =
                 object : AdapterView.OnItemSelectedListener {
                     override fun onItemSelected(
@@ -96,8 +98,14 @@ class AddStudentToDaySchedule : Fragment() {
         getCurrentTime()
         binding.btnAddSchedule.setOnClickListener {
             formattedCurrentDate()
-            addScheduleToDB(getScheduleValues())
-            activity?.onBackPressed()
+                // Проверка на наличие студентов в спинере
+            if (getScheduleValues().studentId == 0){
+                showInfoDialogFragment("add")
+            }
+            else{
+                addScheduleToDB(getScheduleValues())
+                activity?.onBackPressed()
+            }
         }
     }
 
@@ -112,11 +120,12 @@ class AddStudentToDaySchedule : Fragment() {
         when (item.itemId) {
             android.R.id.home -> activity?.onBackPressed()
             R.id.info -> {
-                var toast = Toast.makeText(requireContext(), "schedule", Toast.LENGTH_SHORT).show()
+            showInfoDialogFragment("schedule")
             }
         }
         return true
     }
+
     //Прием даты с помощью Bundle
     private fun getCurrentDate(): Long {
         val currentDate = arguments?.getLong("ArgForDate")
@@ -127,7 +136,7 @@ class AddStudentToDaySchedule : Fragment() {
     @SuppressLint("SetTextI18n", "NewApi")
     fun getCurrentTime() {
         val cal: Calendar = getInstance()
-        timeFromPicker=getCurrentDate() // текущее время без использования спинера
+        timeFromPicker = getCurrentDate() // текущее время без использования спинера
         // вывод выбранного значения времени
         binding.timePicker.setOnTimeChangedListener { _, hour, minute ->
             cal.set(Calendar.HOUR_OF_DAY, hour)
@@ -138,7 +147,7 @@ class AddStudentToDaySchedule : Fragment() {
 
     // сбор общего времени из отдельной даты и отдельного времени. Приведение данных в нужный формат
     @SuppressLint("NewApi")
-    fun formattedCurrentDate():Long{
+    fun formattedCurrentDate(): Long {
         val jointDate = getCurrentDate().convertLongToTime("dd.MM.yyyy") +
                 timeFromPicker.convertLongToTime(" HH:mm")
         //Перевожу String в LocalDateTime с помощью DateTimeFormatter
@@ -152,14 +161,27 @@ class AddStudentToDaySchedule : Fragment() {
     }
 
     // Заполнение объекта ScheduleEntity временем и id
-    private fun getScheduleValues() : ScheduleEntity {
+    private fun getScheduleValues(): ScheduleEntity {
         val dateWithTime: Long = formattedCurrentDate()
         val studentId: Int = studentID
-       return ScheduleEntity(dateWithTime, studentId)
-     }
+        return ScheduleEntity(dateWithTime, studentId)
+    }
 
-    // добавление объекта расписания в БД (schedeulTable)
+    // добавление объекта расписания в БД (scheduleTable)
     private fun addScheduleToDB(scheduleEntity: ScheduleEntity) {
         scheduleViewModel.insert(scheduleEntity)
+    }
+    // Функция вызова диалогового окна из InfoDialogFragment. Для подсказки в toolBar и ошибки пустого спинера
+    fun showInfoDialogFragment(target: String) {
+        var dialogFragment : InfoDialogFragment
+        if (target=="schedule"){
+             dialogFragment =  InfoDialogFragment("Подсказка",R.string.addStudentToSchedule)
+            dialogFragment.show(childFragmentManager, InfoDialogFragment.TAG)
+        }
+        if(target=="add") {
+            dialogFragment = InfoDialogFragment("Ошибка",R.string.emptyStudent)
+            dialogFragment.show(childFragmentManager, InfoDialogFragment.TAG)
+        }
+
     }
 }
