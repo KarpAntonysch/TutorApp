@@ -69,19 +69,19 @@ class AmountStatisticFragment : Fragment() {
                     weekChart()
                 } else if (tab.position == 1) {
                     amountStatisticFragmentViewModel.totalMonthAmount.observe(viewLifecycleOwner) {
-                        binding.tvAmount.text = "Доход за месяц : ${it}₽"
+                        binding.tvAmount.text = if (it == null)"Доход за месяц : 0₽" else "Доход за месяц : ${it}₽"
                     }
                     monthChart()
                 } else if (tab.position == 2) {
                     amountStatisticFragmentViewModel.totalPeriodAmount("-5 months")
                         .observe(viewLifecycleOwner) {
-                            binding.tvAmount.text = "Доход за 6 месяцев : ${it}₽"
+                            binding.tvAmount.text = if (it == null)"Доход за 6 месяцев : 0₽" else "Доход за 6 месяцев : ${it}₽"
                         }
                     sixMomthChart()
                 } else if (tab.position == 3) {
                     amountStatisticFragmentViewModel.totalPeriodAmount("-11 months")
                         .observe(viewLifecycleOwner) {
-                            binding.tvAmount.text = "Доход за год : ${it}₽"
+                            binding.tvAmount.text =if (it == null)"Доход за год : 0₽" else "Доход за год : ${it}₽"
                         }
                     yearChart()
                 }
@@ -122,7 +122,7 @@ class AmountStatisticFragment : Fragment() {
     // сумма за неделю
     fun getWeekAmount() {
         amountStatisticFragmentViewModel.totalWeekAmount.observe(viewLifecycleOwner) {
-            binding.tvAmount.text = "Доход за неделю : ${it}₽"
+            binding.tvAmount.text = if (it == null)"Доход за месяц : 0₽" else "Доход за неделю : ${it}₽"
         }
     }
 
