@@ -3,6 +3,7 @@ package com.example.tutor.journal.addStudentToJournal
 import android.os.Bundle
 import android.view.*
 import android.widget.Toast
+import android.widget.Toolbar
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
@@ -28,11 +29,7 @@ lateinit var binding: FragmentAddStudentToJournalBinding
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        val toolbar = binding.addStudentToolbar
-        (activity as AppCompatActivity).setSupportActionBar(toolbar)
-        (activity as AppCompatActivity).supportActionBar?.setDisplayHomeAsUpEnabled(true)//стреклка назад
-        (activity as AppCompatActivity).supportActionBar?.title = "Добавление ученика"
-
+        toolbarSetting()
         binding.btnAddToDB.setOnClickListener{
             if (!empty()){
                 val studentEntity = getStudentValues()
@@ -40,6 +37,12 @@ lateinit var binding: FragmentAddStudentToJournalBinding
                 activity?.onBackPressed()
             }
         }
+    }
+    private fun toolbarSetting(){
+        val toolbar = binding.addStudentToolbar
+        (activity as AppCompatActivity).setSupportActionBar(toolbar)
+        (activity as AppCompatActivity).supportActionBar?.setDisplayHomeAsUpEnabled(true)//стреклка назад
+        (activity as AppCompatActivity).supportActionBar?.title = "Добавление ученика"
     }
 
     fun addStudentEntityToDB(studentEntity: StudentEntity){

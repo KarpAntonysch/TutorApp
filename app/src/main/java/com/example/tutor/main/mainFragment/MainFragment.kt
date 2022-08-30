@@ -42,12 +42,7 @@ class MainFragment : Fragment(), MainFragmentAdapter.Listener {
     @RequiresApi(Build.VERSION_CODES.O)
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        // Скрытие toolbara activity и создание своего
-        (activity as AppCompatActivity).supportActionBar?.hide()
-        val toolbar = binding.fragmentToolbar
-        (activity as AppCompatActivity).setSupportActionBar(toolbar)
-        (activity as AppCompatActivity).supportActionBar?.title = "Расписание"
-
+        toolBarSetting()
         // передадим дату (Long) через  Bundle
         val bundle = Bundle()
         var currentDate = binding.calendarView.date
@@ -69,6 +64,13 @@ class MainFragment : Fragment(), MainFragmentAdapter.Listener {
         hideFAB()
     }
 
+    fun  toolBarSetting(){
+        // Скрытие toolbara activity и создание своего
+        (activity as AppCompatActivity).supportActionBar?.hide()
+        val toolbar = binding.fragmentToolbar
+        (activity as AppCompatActivity).setSupportActionBar(toolbar)
+        (activity as AppCompatActivity).supportActionBar?.title = "Расписание"
+    }
     // меню ToolBar
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
         menu.clear()

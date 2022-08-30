@@ -50,12 +50,7 @@ class AddStudentToDaySchedule : Fragment() {
     @SuppressLint("NewApi")
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
-        val toolbar = binding.addScheduleToolbar
-        (activity as AppCompatActivity).setSupportActionBar(toolbar)
-        (activity as AppCompatActivity).supportActionBar?.setDisplayHomeAsUpEnabled(true)
-        (activity as AppCompatActivity).supportActionBar?.title = "Добавление занятия"
-
+        toolBarSetting()
         binding.timePicker.setIs24HourView(true)
 
         binding.tvDate.text = getCurrentDate().convertLongToTime("dd.MM.yyyy")
@@ -107,6 +102,12 @@ class AddStudentToDaySchedule : Fragment() {
                 activity?.onBackPressed()
             }
         }
+    }
+    private fun toolBarSetting(){
+        val toolbar = binding.addScheduleToolbar
+        (activity as AppCompatActivity).setSupportActionBar(toolbar)
+        (activity as AppCompatActivity).supportActionBar?.setDisplayHomeAsUpEnabled(true)
+        (activity as AppCompatActivity).supportActionBar?.title = "Добавление занятия"
     }
 
     // меню ToolBar
