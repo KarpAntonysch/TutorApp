@@ -48,10 +48,22 @@
         <action
             android:id="@+id/action_jornalPagerFragment_to_addStudentToJournalFragment"
             app:destination="@id/addStudentToJournalFragment" />
+        <action
+            android:id="@+id/action_jornalPagerFragment_to_editStudentFragment"
+            app:destination="@id/editStudentFragment" />
     </fragment>
     <fragment
         android:id="@+id/statisticPagerFragment"
         android:name="com.example.tutor.statistic.StatisticPagerFragment"
         android:label="fragment_statistic_pager"
         tools:layout="@layout/fragment_statistic_pager" />
+    <fragment
+        android:id="@+id/editStudentFragment"
+        android:name="com.example.tutor.journal.studentJournal.pager.activeStudents.UpdatingTheStudent.EditStudentFragment"
+        android:label="fragment_edit_student"
+        tools:layout="@layout/fragment_edit_student" >
+        <argument
+            android:name="ArgForStudentEditing"
+            app:argType="com.example.tutor.bd.entities.StudentEntity" />
+    </fragment>
 </navigation>

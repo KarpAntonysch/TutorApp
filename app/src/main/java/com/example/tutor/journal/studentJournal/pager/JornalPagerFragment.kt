@@ -24,12 +24,14 @@ class JornalPagerFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        toolBarSetting()
+        setPagerAndTab()
+    }
+    fun toolBarSetting(){
         val toolbar = binding.journalToolbar
         (activity as AppCompatActivity).setSupportActionBar(toolbar)
         (activity as AppCompatActivity).supportActionBar?.title = "Журнал"
-        setPagerAndTab()
     }
-
     fun setPagerAndTab() {
         binding.journalViewPager.adapter = JournalVPAdapter(this)// подключл адаптер пейджера
         // подключил TabLayout

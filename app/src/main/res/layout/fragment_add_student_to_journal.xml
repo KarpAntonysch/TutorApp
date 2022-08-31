@@ -23,16 +23,17 @@
         android:id="@+id/edFirstName"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginTop="70dp"
         android:ems="10"
-        android:hint="First Name"
+        android:hint="Имя"
         android:inputType="textPersonName|textCapWords"
         android:minHeight="48dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.497"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.156" />
+        app:layout_constraintTop_toBottomOf="@+id/addStudentToolbar"
+        app:layout_constraintVertical_bias="0.0" />
 
     <EditText
         android:id="@+id/edSecondName"
@@ -40,7 +41,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="24dp"
         android:ems="10"
-        android:hint="Second Name"
+        android:hint="Фамилия"
         android:inputType="textPersonName|textCapWords"
         android:minHeight="48dp"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -56,7 +57,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="24dp"
         android:ems="10"
-        android:hint="School Class"
+        android:hint="Класс"
         android:inputType="number"
         android:minHeight="48dp"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -71,8 +72,8 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="24dp"
         android:ems="10"
-        android:hint="Price"
-        android:inputType="time"
+        android:hint="Стоимость занятия"
+        android:inputType="number"
         android:minHeight="48dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="@+id/edClass"
@@ -86,11 +87,8 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="24dp"
-        android:layout_marginBottom="288dp"
         android:text="Добавить "
-        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/edPrice"
-        app:layout_constraintVertical_bias="0.0" />
+        app:layout_constraintTop_toBottomOf="@+id/edPrice" />
 </androidx.constraintlayout.widget.ConstraintLayout>

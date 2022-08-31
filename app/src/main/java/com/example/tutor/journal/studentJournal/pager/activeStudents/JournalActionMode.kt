@@ -34,7 +34,11 @@ class JournalActionModeCallback(
         return when (item.itemId) {
             R.id.menuDelete -> {
                 actionModeListener?.clickToMenuDelete(studentEntity)
-                //mode.finish() - обеспечивает закрытие AM сразу после нажатия айтема меню
+                true
+            }
+            R.id.menuEdit -> {
+                actionModeListener?.clickToMenuEdit(studentEntity)
+                mode.finish() //обеспечивает закрытие AM сразу после нажатия айтема меню
                 true
             }
             else -> false
@@ -63,6 +67,7 @@ class JournalActionModeCallback(
     //StudentJournalFragment.
     interface ActionModeListener {
         fun clickToMenuDelete(studentEntity: StudentEntity)
+        fun clickToMenuEdit(studentEntity: StudentEntity)
     }
 
     fun hideActionMode(){

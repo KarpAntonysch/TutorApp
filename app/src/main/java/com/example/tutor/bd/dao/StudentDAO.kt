@@ -28,5 +28,8 @@ interface StudentDAO {
     fun changeStudentActive(studentID:Int)
     @Query("UPDATE studentTable SET activeStatus = 1 WHERE id =:studentID")
     fun changeStudentActiveToTrue(studentID: Int)
+    // изменение параметров студента
+    @Query("UPDATE studentTable SET firstName = :firstName, secondName = :secondName, schoolClass = :schoolClass, price = :price WHERE id = :studentID")
+    fun updateStudent(studentID:Int,firstName:String,secondName:String,schoolClass:Int,price:Int)
 
 }

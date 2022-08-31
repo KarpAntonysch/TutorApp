@@ -74,10 +74,16 @@ class StudentJournalFragment() : Fragment(), StudentJournalAdapter.Listener,
         // Которая реализвована как раз в фрагменте(ниже)
     }
 
-    // Реализация метода интерфейса ActionModeListener
+    // Реализация метода интерфейса ActionModeListener для удаления ученика
     override fun clickToMenuDelete(studentEntity: StudentEntity) {
         showDialogFragment()
         setupDialogFragmentListener(studentEntity)
+    }
+    // Реализация метода интерфейса ActionModeListener для редактирования ученика
+    override fun clickToMenuEdit(studentEntity: StudentEntity) {
+        val bundle =Bundle()
+        bundle.putParcelable("ArgForStudentEditing: com.example.tutor.bd.entities.StudentEntity",studentEntity)
+        findNavController().navigate(R.id.action_jornalPagerFragment_to_editStudentFragment,bundle)
     }
 
     // Функция вызова диалогового окна из JournalDialogFragment

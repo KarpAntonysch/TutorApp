@@ -8,6 +8,7 @@
         <entry key="..\:/Users/ANTON/AndroidStudioProjects/Tutor/app/src/main/res/drawable/ic_calendar.xml" value="0.2703125" />
         <entry key="..\:/Users/ANTON/AndroidStudioProjects/Tutor/app/src/main/res/drawable/ic_delete.xml" value="0.2703125" />
         <entry key="..\:/Users/ANTON/AndroidStudioProjects/Tutor/app/src/main/res/drawable/ic_editing.xml" value="0.2703125" />
+        <entry key="..\:/Users/ANTON/AndroidStudioProjects/Tutor/app/src/main/res/drawable/ic_eye.xml" value="0.2703125" />
         <entry key="..\:/Users/ANTON/AndroidStudioProjects/Tutor/app/src/main/res/drawable/ic_inactive_return.xml" value="0.2703125" />
         <entry key="..\:/Users/ANTON/AndroidStudioProjects/Tutor/app/src/main/res/drawable/ic_info.xml" value="0.2703125" />
         <entry key="..\:/Users/ANTON/AndroidStudioProjects/Tutor/app/src/main/res/drawable/ic_journal.xml" value="0.14635416666666667" />
@@ -24,6 +25,7 @@
         <entry key="..\:/Users/ANTON/AndroidStudioProjects/Tutor/app/src/main/res/layout/fragment_add_student_to_day_schedule.xml" value="0.25416666666666665" />
         <entry key="..\:/Users/ANTON/AndroidStudioProjects/Tutor/app/src/main/res/layout/fragment_add_student_to_journal.xml" value="0.25416666666666665" />
         <entry key="..\:/Users/ANTON/AndroidStudioProjects/Tutor/app/src/main/res/layout/fragment_amount_statistic.xml" value="0.264" />
+        <entry key="..\:/Users/ANTON/AndroidStudioProjects/Tutor/app/src/main/res/layout/fragment_edit_student.xml" value="0.25416666666666665" />
         <entry key="..\:/Users/ANTON/AndroidStudioProjects/Tutor/app/src/main/res/layout/fragment_inactive_students.xml" value="0.25416666666666665" />
         <entry key="..\:/Users/ANTON/AndroidStudioProjects/Tutor/app/src/main/res/layout/fragment_jornal_pager.xml" value="0.25416666666666665" />
         <entry key="..\:/Users/ANTON/AndroidStudioProjects/Tutor/app/src/main/res/layout/fragment_lessons_statistic.xml" value="0.25416666666666665" />
