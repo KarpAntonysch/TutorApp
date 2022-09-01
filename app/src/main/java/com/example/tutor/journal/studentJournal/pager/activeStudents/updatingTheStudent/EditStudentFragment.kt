@@ -1,4 +1,4 @@
-package com.example.tutor.journal.studentJournal.pager.activeStudents.UpdatingTheStudent
+package com.example.tutor.journal.studentJournal.pager.activeStudents.updatingTheStudent
 
 import android.os.Bundle
 import android.util.Log
@@ -80,7 +80,7 @@ class EditStudentFragment : Fragment() {
         val price = binding.editPrice.text.toString().toInt()
         editStudentViewModel.updateStudent(studentID!!,firstName,secondName,schoolClass,price)
     }
-    fun showDialogFragment(){
+    private fun showDialogFragment(){
         val dialogFragment = InfoDialogFragment("Подсказка",R.string.editStudentDialog)
         dialogFragment.show(childFragmentManager,InfoDialogFragment.TAG)
     }

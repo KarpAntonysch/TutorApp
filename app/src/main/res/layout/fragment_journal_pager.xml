@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:backgroundTint="#CEF3A4"
-    tools:context=".journal.studentJournal.pager.JornalPagerFragment">
+    tools:context=".journal.studentJournal.pager.JournalPagerFragment">
 
     <androidx.viewpager2.widget.ViewPager2
         android:id="@+id/journalViewPager"

@@ -7,17 +7,17 @@ import androidx.fragment.app.Fragment
 import com.example.tutor.InfoDialogFragment
 import com.example.tutor.R
 import com.example.tutor.adapters.JournalVPAdapter
-import com.example.tutor.databinding.FragmentJornalPagerBinding
+import com.example.tutor.databinding.FragmentJournalPagerBinding
 import com.google.android.material.tabs.TabLayoutMediator
 
-class JornalPagerFragment : Fragment() {
-    lateinit var binding: FragmentJornalPagerBinding
+class JournalPagerFragment : Fragment() {
+    lateinit var binding: FragmentJournalPagerBinding
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?,
-    ): View? {
-        binding = FragmentJornalPagerBinding.inflate(inflater, container, false)
+    ): View {
+        binding = FragmentJournalPagerBinding.inflate(inflater, container, false)
         setHasOptionsMenu(true)
         return binding.root
     }
@@ -27,20 +27,20 @@ class JornalPagerFragment : Fragment() {
         toolBarSetting()
         setPagerAndTab()
     }
-    fun toolBarSetting(){
+    private fun toolBarSetting(){
         val toolbar = binding.journalToolbar
         (activity as AppCompatActivity).setSupportActionBar(toolbar)
         (activity as AppCompatActivity).supportActionBar?.title = "Журнал"
     }
-    fun setPagerAndTab() {
+    private fun setPagerAndTab() {
         binding.journalViewPager.adapter = JournalVPAdapter(this)// подключл адаптер пейджера
         // подключил TabLayout
         TabLayoutMediator(binding.journalTabLayout, binding.journalViewPager) { tab, position ->
             when (position) {
                 0 -> {
-                    tab.setText("Журнал")
+                    tab.text = "Журнал"
                 }
-                else -> tab.setText("Выпускники")
+                else -> tab.text = "Выпускники"
             }
         }.attach()
     }
@@ -60,7 +60,7 @@ class JornalPagerFragment : Fragment() {
         return true
     }
     // Функция вызова диалогового окна из InfoDialogFragment
-    fun showInfoDialogFragment() {
+    private fun showInfoDialogFragment() {
         val dialogFragment = InfoDialogFragment("Подсказка",R.string.journalFragmentDialog)
         dialogFragment.show(childFragmentManager, InfoDialogFragment.TAG)
     }

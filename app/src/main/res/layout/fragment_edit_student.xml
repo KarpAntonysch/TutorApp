@@ -5,7 +5,7 @@
     android:layout_height="match_parent"
     android:gravity="center_horizontal|top"
     android:orientation="vertical"
-    tools:context=".journal.studentJournal.pager.activeStudents.UpdatingTheStudent.EditStudentFragment">
+    tools:context=".journal.studentJournal.pager.activeStudents.updatingTheStudent.EditStudentFragment">
 
     <androidx.appcompat.widget.Toolbar
         android:id="@+id/editToolBar"
