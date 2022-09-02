@@ -1,18 +1,19 @@
 package com.example.tutor.main.addStudentToSchedule
 
 import android.annotation.SuppressLint
+import android.content.Context
 import android.os.Bundle
+import android.util.Log
 import android.view.*
 import android.widget.AdapterView
 import android.widget.ArrayAdapter
-import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
+import androidx.navigation.fragment.findNavController
 import com.example.tutor.InfoDialogFragment
 import com.example.tutor.R
 import com.example.tutor.bd.entities.ScheduleEntity
-import com.example.tutor.bd.entities.studentForSchedule
 import com.example.tutor.convertLongToTime
 import com.example.tutor.databinding.FragmentAddStudentToDayScheduleBinding
 import com.example.tutor.journal.StudentJournalViewModel
@@ -37,6 +38,7 @@ class AddStudentToDaySchedule : Fragment() {
     var studentID: Int = 0 // начальная инициализация. задаю как 0 т.к.  id студента !=0
     var timeFromPicker: Long = 0
 
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?,
@@ -52,16 +54,37 @@ class AddStudentToDaySchedule : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         toolBarSetting()
         binding.timePicker.setIs24HourView(true)
-
         binding.tvDate.text = getCurrentDate().convertLongToTime("dd.MM.yyyy")
+        spinnerRealization()
+        getCurrentTime()
+        addingSchedule()
+    }
 
-        //спинер
-        val spinner = binding.spinnerForSchedule
-        var infoList: ArrayList<studentForSchedule>
 
+
+    private fun addingSchedule(){
+        binding.btnAddSchedule.setOnClickListener {
+            formattedCurrentDate()
+            // Проверка на наличие студентов в спинере
+            if (getScheduleValues().studentId == 0){
+                showInfoDialogFragment("add")
+            }
+            else{
+                addScheduleToDB(getScheduleValues())
+                activity?.onBackPressed()/*"мягкое" закрытие фрагмента. Т.е. фрагмент просыпается,
+             а не уничтожается из стека или не создается новый экземпляр этого фрагмента в стеке,
+                в отличие от findNavController().navigate(R.id.action_addStudentToDaySchedule_to_mainFragment)
+                здесь в стек добавляется новый экземпляр фрагмента, без уничтожения старого*/
+            }
+        }
+    }
+
+    private fun spinnerRealization(){
         // получение информации для таблицы schedule(id,firstname,secondName), реализация спинера
         studentJournalViewModel.getInfo().observe(viewLifecycleOwner, {
-            infoList = ArrayList(it)
+            //спинер
+            val spinner = binding.spinnerForSchedule
+            val infoList = ArrayList(it)
             // получение отдельных списков имен и фамилий
             val infoName = infoList.map { it.firstName }
             val infoSecondName = infoList.map { it.secondName }
@@ -89,19 +112,6 @@ class AddStudentToDaySchedule : Fragment() {
                     }
                 }
         })
-
-        getCurrentTime()
-        binding.btnAddSchedule.setOnClickListener {
-            formattedCurrentDate()
-                // Проверка на наличие студентов в спинере
-            if (getScheduleValues().studentId == 0){
-                showInfoDialogFragment("add")
-            }
-            else{
-                addScheduleToDB(getScheduleValues())
-                activity?.onBackPressed()
-            }
-        }
     }
     private fun toolBarSetting(){
         val toolbar = binding.addScheduleToolbar

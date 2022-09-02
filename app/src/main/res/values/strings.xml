@@ -39,5 +39,6 @@
     <string name="editStudentDialog">
       При редактировании параметров ученика, параметры записей занятий в \"Расписании"\ и \"Статистике\" изменятся автоматически. \n\n
     </string>
+    <string name="textview">TextView</string>
 
 </resources>

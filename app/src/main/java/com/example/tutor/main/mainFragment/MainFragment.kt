@@ -3,6 +3,7 @@ package com.example.tutor.main.mainFragment
 import android.content.DialogInterface
 import android.os.Build
 import android.os.Bundle
+import android.util.Log
 import android.view.*
 import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
@@ -28,6 +29,7 @@ class MainFragment : Fragment(), MainFragmentAdapter.Listener {
     }
     lateinit var recyclerView: RecyclerView
     private var adapter = MainFragmentAdapter(this)
+    private var selectedDate:Long? = null
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -36,16 +38,23 @@ class MainFragment : Fragment(), MainFragmentAdapter.Listener {
     ): View {
         binding = FragmentMainBinding.inflate(inflater, container, false)
         setHasOptionsMenu(true)
+        if (selectedDate !== null){
+            binding.calendarView.date = selectedDate!!
+            realizationOfRV2(selectedDate!!.convertLongToTime("dd-MM-yyyy"))
+        }
         return binding.root
+
     }
 
     @RequiresApi(Build.VERSION_CODES.O)
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        Log.v("tess","onViewCreated")
         super.onViewCreated(view, savedInstanceState)
         toolBarSetting()
         // передадим дату (Long) через  Bundle
         val bundle = Bundle()
         var currentDate = binding.calendarView.date
+        dateDisplaying(currentDate)
         realizationOfRV2(currentDate.convertLongToTime("dd-MM-yyyy"))
         binding.calendarView.setOnDateChangeListener { _, year, moth, dayOfMoth ->
             // возвращает календарь с установленными по умолчанию часовым поясом и языком
@@ -54,7 +63,9 @@ class MainFragment : Fragment(), MainFragmentAdapter.Listener {
             currentCalendar.set(year, moth, dayOfMoth)
             // возвращает дату и время в Long
             currentDate = currentCalendar.timeInMillis
+            selectedDate= currentDate
             realizationOfRV2(currentDate.convertLongToTime("dd-MM-yyyy"))
+            dateDisplaying(currentDate)
         }
         binding.btnAddToCalendar.setOnClickListener {
             bundle.putLong("ArgForDate", currentDate)
@@ -64,8 +75,11 @@ class MainFragment : Fragment(), MainFragmentAdapter.Listener {
         hideFAB()
     }
 
-    fun  toolBarSetting(){
-        // Скрытие toolbara activity и создание своего
+    private fun dateDisplaying(currentDate : Long){
+        binding.tvSelectedDate.text = currentDate.convertLongToTime("dd MMMM yyyy")
+    }
+    private fun  toolBarSetting(){
+        // Скрытие toolbar activity и создание своего
         (activity as AppCompatActivity).supportActionBar?.hide()
         val toolbar = binding.fragmentToolbar
         (activity as AppCompatActivity).setSupportActionBar(toolbar)
@@ -104,13 +118,13 @@ class MainFragment : Fragment(), MainFragmentAdapter.Listener {
     }
 
     // Функция вызова диалогового окна из ScheduleDialogFragment
-    fun showDialogFragment() {
+    private fun showDialogFragment() {
         val dialogFragment = ScheduleDialogFragment()
         dialogFragment.show(childFragmentManager, ScheduleDialogFragment.TAG)
     }
 
     // Функция инициализации кнопок в диалоговом окне из JournalDialogFragment
-    fun setupDialogFragmentListener(scheduleEntity: ScheduleEntity) {
+    private fun setupDialogFragmentListener(scheduleEntity: ScheduleEntity) {
         childFragmentManager.setFragmentResultListener(ScheduleDialogFragment.REQUEST_KEY,
             this,
             FragmentResultListener { _, result ->
@@ -122,7 +136,7 @@ class MainFragment : Fragment(), MainFragmentAdapter.Listener {
             })
     }
 
-    fun hideFAB() {
+    private fun hideFAB() {
         recyclerView.addOnScrollListener(object : RecyclerView.OnScrollListener() {
             override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
                 super.onScrolled(recyclerView, dx, dy)
@@ -138,7 +152,7 @@ class MainFragment : Fragment(), MainFragmentAdapter.Listener {
     }
 
     // Функция вызова диалогового окна из InfoDialogFragment
-    fun showInfoDialogFragment() {
+    private fun showInfoDialogFragment() {
         val dialogFragment = InfoDialogFragment("Подсказка",R.string.mainFragmentDialog)
         dialogFragment.show(childFragmentManager, InfoDialogFragment.TAG)
     }
