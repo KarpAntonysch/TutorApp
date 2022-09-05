@@ -31,4 +31,32 @@ ___
 
 :black_square_button: Возможность отправки электронных писем с домашним заданием
 
-![Alt-текст](https:C:\Users\ANTON\Desktop\юзерс\Программирование\scr1)
+___
+## Скриншоты
+
+*Главный экран*
+
+![scr4](https://user-images.githubusercontent.com/104256103/188414129-36e9c92f-f015-4780-ba8b-4c23bb1bd06d.jpg)
+
+
+
+*"Журнал"*
+
+![scr3](https://user-images.githubusercontent.com/104256103/188414231-13b52b19-1df2-4f34-b8f0-f053f947b0ac.jpg)
+
+
+
+*Статистика доходов за неделю*
+
+![scr2](https://user-images.githubusercontent.com/104256103/188414363-da762659-8ff6-4132-ba39-7eeb42be09ed.jpg)
+
+
+
+*Статистика занятий за год*
+
+![scr11](https://user-images.githubusercontent.com/104256103/188414676-3662bcc9-17f7-4a3e-9b8a-875194cfc022.jpg)
+
+___
+## Пример работы приложения
+
+![projectGif (2)](https://user-images.githubusercontent.com/104256103/188419188-31f25da6-a7b6-42d2-8599-63b8961e23e4.gif)
