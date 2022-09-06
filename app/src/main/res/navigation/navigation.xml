@@ -51,6 +51,9 @@
         <action
             android:id="@+id/action_jornalPagerFragment_to_editStudentFragment"
             app:destination="@id/editStudentFragment" />
+        <action
+            android:id="@+id/action_jornalPagerFragment_to_watchingStudentFragment"
+            app:destination="@id/watchingStudentFragment" />
     </fragment>
     <fragment
         android:id="@+id/statisticPagerFragment"
@@ -64,6 +67,15 @@
         tools:layout="@layout/fragment_edit_student" >
         <argument
             android:name="ArgForStudentEditing"
+            app:argType="com.example.tutor.bd.entities.StudentEntity" />
+    </fragment>
+    <fragment
+        android:id="@+id/watchingStudentFragment"
+        android:name="com.example.tutor.journal.studentJournal.pager.activeStudents.watchingTheStudent.WatchingStudentFragment"
+        android:label="fragment_watching_student"
+        tools:layout="@layout/fragment_watching_student" >
+        <argument
+            android:name="ArgForWatching"
             app:argType="com.example.tutor.bd.entities.StudentEntity" />
     </fragment>
 </navigation>

@@ -77,9 +77,11 @@ interface ScheduleDAO {
     fun getMapOfMonthLessons():Map<String,Int>
 
 
-
     @Query("SELECT * from schedeulTable WHERE date('now','weekday 1','-7 days')")
     fun getStud(): LiveData<List<ScheduleWithStudent>>
+
+    @Query("SELECT dateWithTime FROM schedeulTable where studentId = :id ")
+    fun getStudentLessons(id:Int): Flow<List<Long>>
 
     @Delete
     suspend fun deleteSchedule(scheduleEntity: ScheduleEntity)

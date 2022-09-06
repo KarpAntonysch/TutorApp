@@ -86,6 +86,12 @@ class StudentJournalFragment() : Fragment(), StudentJournalAdapter.Listener,
         findNavController().navigate(R.id.action_jornalPagerFragment_to_editStudentFragment,bundle)
     }
 
+    override fun clickToMenuWatch(studentEntity: StudentEntity) {
+        val bundle = Bundle()
+        bundle.putParcelable("ArgForWatching: com.example.tutor.bd.entities.StudentEntity",studentEntity)
+        findNavController().navigate(R.id.action_jornalPagerFragment_to_watchingStudentFragment,bundle)
+    }
+
     // Функция вызова диалогового окна из JournalDialogFragment
     fun showDialogFragment() {
         val dialogFragment = JourmalDialogFragment()
