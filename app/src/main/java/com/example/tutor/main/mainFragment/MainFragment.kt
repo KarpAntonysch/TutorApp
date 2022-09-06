@@ -39,8 +39,7 @@ class MainFragment : Fragment(), MainFragmentAdapter.Listener {
         binding = FragmentMainBinding.inflate(inflater, container, false)
         setHasOptionsMenu(true)
         if (selectedDate !== null){
-            binding.calendarView.date = selectedDate!!
-            realizationOfRV2(selectedDate!!.convertLongToTime("dd-MM-yyyy"))
+           saveSelectedDate()
         }
         return binding.root
 
@@ -109,7 +108,10 @@ class MainFragment : Fragment(), MainFragmentAdapter.Listener {
                 scheduleList.let { adapter.submitList(it.sortedBy { it.scheduleEntity.dateWithTime }) }
             }
     }
-
+    private fun saveSelectedDate(){
+        binding.calendarView.date = selectedDate!!
+        realizationOfRV2(selectedDate!!.convertLongToTime("dd-MM-yyyy"))
+    }
     // функция для удаления объекта в расписании на день через dialog, переопределенная функция из
     // интерфейса
     override fun onClickToDeleteSchedule(scheduleEntity: ScheduleEntity) {
