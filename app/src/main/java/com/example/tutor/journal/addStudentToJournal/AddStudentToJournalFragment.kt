@@ -10,9 +10,10 @@ import androidx.fragment.app.viewModels
 import com.example.tutor.R
 import com.example.tutor.bd.entities.StudentEntity
 import com.example.tutor.databinding.FragmentAddStudentToJournalBinding
+import com.example.tutor.dialogs.DialogInterface
 import com.example.tutor.journal.studentJournal.DBapplication
 
-class AddStudentToJournalFragment : Fragment() {
+class AddStudentToJournalFragment : Fragment(),DialogInterface {
 lateinit var binding: FragmentAddStudentToJournalBinding
     private val studentViewModel: AddStudentToJournalViewModel by viewModels {
         AddStudentToJournalViewModelFactory((requireActivity().application as DBapplication).studentRepository)
@@ -34,6 +35,7 @@ lateinit var binding: FragmentAddStudentToJournalBinding
             if (!empty()){
                 val studentEntity = getStudentValues()
                 addStudentEntityToDB(studentEntity)
+                Toast.makeText(requireContext(), "Добавлено", Toast.LENGTH_SHORT).show()
                 activity?.onBackPressed()
             }
         }
@@ -78,7 +80,7 @@ lateinit var binding: FragmentAddStudentToJournalBinding
         when (item.itemId) {
             android.R.id.home -> activity?.onBackPressed()
             R.id.info -> {
-                var toast = Toast.makeText(requireContext(), "add", Toast.LENGTH_SHORT).show()
+                showDialogFragment(childFragmentManager,R.string.addStudentToJournal)
             }
         }
         return true

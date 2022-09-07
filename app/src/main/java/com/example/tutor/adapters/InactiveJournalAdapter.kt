@@ -11,7 +11,7 @@ import com.example.tutor.bd.entities.StudentEntity
 import com.example.tutor.databinding.InactiveStudentItemBinding
 
 class InactiveJournalAdapter(val listener:Listener) :
-    ListAdapter<StudentEntity, InactiveJournalAdapter.InactiveStudentViewHolder>(InactiveComporator()) {
+    ListAdapter<StudentEntity, InactiveJournalAdapter.InactiveStudentViewHolder>(InactiveComparator()) {
 
     class InactiveStudentViewHolder(view: View) : RecyclerView.ViewHolder(view) {
         val binding = InactiveStudentItemBinding.bind(view)
@@ -37,7 +37,7 @@ class InactiveJournalAdapter(val listener:Listener) :
         holder.bind(currentStudent, position,listener)
     }
 
-    class InactiveComporator : DiffUtil.ItemCallback<StudentEntity>() {
+    class InactiveComparator : DiffUtil.ItemCallback<StudentEntity>() {
         override fun areItemsTheSame(oldItem: StudentEntity, newItem: StudentEntity): Boolean {
             return oldItem == newItem
         }

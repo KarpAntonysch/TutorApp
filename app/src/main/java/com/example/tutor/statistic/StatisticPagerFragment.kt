@@ -8,9 +8,10 @@ import androidx.fragment.app.Fragment
 import com.example.tutor.R
 import com.example.tutor.adapters.StatisticVPAdapter
 import com.example.tutor.databinding.FragmentStatisticPagerBinding
+import com.example.tutor.dialogs.DialogInterface
 import com.google.android.material.tabs.TabLayoutMediator
 
-class StatisticPagerFragment : Fragment() {
+class StatisticPagerFragment : Fragment(),DialogInterface {
    lateinit var binding: FragmentStatisticPagerBinding
 
     override fun onCreateView(
@@ -52,7 +53,7 @@ class StatisticPagerFragment : Fragment() {
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         when (item.itemId) {
             R.id.info -> {
-               Toast.makeText(requireContext(), "статиска" , Toast.LENGTH_SHORT).show()
+           showDialogFragment(childFragmentManager,R.string.statistic)
             }
         }
         return true

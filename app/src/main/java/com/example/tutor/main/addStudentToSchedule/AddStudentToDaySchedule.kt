@@ -1,21 +1,19 @@
 package com.example.tutor.main.addStudentToSchedule
 
 import android.annotation.SuppressLint
-import android.content.Context
 import android.os.Bundle
-import android.util.Log
 import android.view.*
 import android.widget.AdapterView
 import android.widget.ArrayAdapter
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
-import androidx.navigation.fragment.findNavController
-import com.example.tutor.InfoDialogFragment
+import com.example.tutor.dialogs.InfoDialogFragment
 import com.example.tutor.R
 import com.example.tutor.bd.entities.ScheduleEntity
 import com.example.tutor.convertLongToTime
 import com.example.tutor.databinding.FragmentAddStudentToDayScheduleBinding
+import com.example.tutor.dialogs.DialogInterface
 import com.example.tutor.journal.StudentJournalViewModel
 import com.example.tutor.journal.StudentJournalViewModelFactory
 import com.example.tutor.journal.studentJournal.DBapplication
@@ -27,7 +25,7 @@ import java.util.Calendar.getInstance
 import kotlin.collections.ArrayList
 
 
-class AddStudentToDaySchedule : Fragment() {
+class AddStudentToDaySchedule : Fragment(),DialogInterface {
     lateinit var binding: FragmentAddStudentToDayScheduleBinding
     private val scheduleViewModel: AddStudentToScheduleViewModel by viewModels {
         AddStudentToScheduleViewModelFactory((requireActivity().application as DBapplication).scheduleRepository)
@@ -184,14 +182,11 @@ class AddStudentToDaySchedule : Fragment() {
     }
     // Функция вызова диалогового окна из InfoDialogFragment. Для подсказки в toolBar и ошибки пустого спинера
     fun showInfoDialogFragment(target: String) {
-        var dialogFragment : InfoDialogFragment
         if (target=="schedule"){
-             dialogFragment =  InfoDialogFragment("Подсказка",R.string.addStudentToSchedule)
-            dialogFragment.show(childFragmentManager, InfoDialogFragment.TAG)
+          showDialogFragment(childFragmentManager,R.string.addStudentToSchedule)
         }
         if(target=="add") {
-            dialogFragment = InfoDialogFragment("Ошибка",R.string.emptyStudent)
-            dialogFragment.show(childFragmentManager, InfoDialogFragment.TAG)
+           showDialogFragment(childFragmentManager,R.string.emptyStudent)
         }
 
     }

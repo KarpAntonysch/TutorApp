@@ -7,7 +7,7 @@ import android.os.Bundle
 import androidx.core.os.bundleOf
 import androidx.fragment.app.DialogFragment
 
-class JourmalDialogFragment : DialogFragment() {
+class JournalDialogFragment : DialogFragment() {
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
         val listener = DialogInterface.OnClickListener { _, which ->
             parentFragmentManager.setFragmentResult(REQUEST_KEY, bundleOf(KEY_RESPONSE to which))
@@ -22,7 +22,7 @@ class JourmalDialogFragment : DialogFragment() {
 
     companion object {
         @JvmStatic
-        val TAG = JourmalDialogFragment::class.java.simpleName
+        val TAG = JournalDialogFragment::class.java.simpleName
         @JvmStatic
         val REQUEST_KEY = "$TAG:defaultRequestKey"
         @JvmStatic

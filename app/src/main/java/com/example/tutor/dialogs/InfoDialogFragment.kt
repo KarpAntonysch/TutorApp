@@ -1,4 +1,4 @@
-package com.example.tutor
+package com.example.tutor.dialogs
 
 import android.app.AlertDialog
 import android.app.Dialog

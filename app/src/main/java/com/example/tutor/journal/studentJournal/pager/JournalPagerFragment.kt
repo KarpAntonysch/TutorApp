@@ -4,13 +4,14 @@ import android.os.Bundle
 import android.view.*
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
-import com.example.tutor.InfoDialogFragment
+import com.example.tutor.dialogs.InfoDialogFragment
 import com.example.tutor.R
 import com.example.tutor.adapters.JournalVPAdapter
 import com.example.tutor.databinding.FragmentJournalPagerBinding
+import com.example.tutor.dialogs.DialogInterface
 import com.google.android.material.tabs.TabLayoutMediator
 
-class JournalPagerFragment : Fragment() {
+class JournalPagerFragment : Fragment(),DialogInterface {
     lateinit var binding: FragmentJournalPagerBinding
 
     override fun onCreateView(
@@ -54,14 +55,9 @@ class JournalPagerFragment : Fragment() {
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         when (item.itemId) {
             R.id.info -> {
-                showInfoDialogFragment()
+                showDialogFragment(childFragmentManager,R.string.journalFragmentDialog)
             }
         }
         return true
-    }
-    // Функция вызова диалогового окна из InfoDialogFragment
-    private fun showInfoDialogFragment() {
-        val dialogFragment = InfoDialogFragment("Подсказка",R.string.journalFragmentDialog)
-        dialogFragment.show(childFragmentManager, InfoDialogFragment.TAG)
     }
 }

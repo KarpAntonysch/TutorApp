@@ -2,7 +2,6 @@ package com.example.tutor.journal.studentJournal.pager.activeStudents.watchingTh
 
 import WatchingStudentAdapter
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.MenuItem
 import android.view.View
@@ -11,18 +10,17 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.RecyclerView
-import com.example.tutor.InfoDialogFragment
+import com.example.tutor.dialogs.DialogInterface
 import com.example.tutor.R
 import com.example.tutor.bd.entities.StudentEntity
 import com.example.tutor.databinding.FragmentWatchingStudentBinding
 import com.example.tutor.journal.studentJournal.DBapplication
-import kotlin.time.Duration.Companion.days
 
 
-class WatchingStudentFragment : Fragment() {
+class WatchingStudentFragment : Fragment(), DialogInterface {
    lateinit var binding: FragmentWatchingStudentBinding
    lateinit var recyclerView: RecyclerView
-   val adapter = WatchingStudentAdapter()
+   private val adapter = WatchingStudentAdapter()
    private val watchingStudentViewModel:WatchingStudentViewModel by viewModels {
        WatchingStudentViewModelFactory((requireActivity().application as DBapplication).scheduleRepository)
    }
@@ -70,13 +68,9 @@ class WatchingStudentFragment : Fragment() {
         when (item.itemId) {
             android.R.id.home -> activity?.onBackPressed()
             R.id.info -> {
-                showDialogFragment()
+                showDialogFragment(childFragmentManager,R.string.watchStudent)//Метод из DialogInterface
             }
         }
         return true
-    }
-    private fun showDialogFragment(){
-        val dialogFragment = InfoDialogFragment("Подсказка",R.string.watchStudent)
-        dialogFragment.show(childFragmentManager, InfoDialogFragment.TAG)
     }
 }

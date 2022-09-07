@@ -12,7 +12,7 @@ import androidx.fragment.app.FragmentResultListener
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.RecyclerView
-import com.example.tutor.InfoDialogFragment
+import com.example.tutor.dialogs.InfoDialogFragment
 import com.example.tutor.R
 import com.example.tutor.adapters.MainFragmentAdapter
 import com.example.tutor.bd.entities.ScheduleEntity
@@ -22,7 +22,7 @@ import com.example.tutor.journal.studentJournal.DBapplication
 import java.util.*
 
 
-class MainFragment : Fragment(), MainFragmentAdapter.Listener {
+class MainFragment : Fragment(), MainFragmentAdapter.Listener,com.example.tutor.dialogs.DialogInterface {
     lateinit var binding: FragmentMainBinding
     private val mainFragmentViewModel: MainFragmentViewModel by viewModels {
         MainFragmentViewModelFactory((requireActivity().application as DBapplication).scheduleRepository)
@@ -94,7 +94,7 @@ class MainFragment : Fragment(), MainFragmentAdapter.Listener {
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         when (item.itemId) {
             R.id.info -> {
-                showInfoDialogFragment()
+                showDialogFragment(childFragmentManager,R.string.mainFragmentDialog)
             }
         }
         return true
@@ -151,11 +151,5 @@ class MainFragment : Fragment(), MainFragmentAdapter.Listener {
                 }
             }
         })
-    }
-
-    // Функция вызова диалогового окна из InfoDialogFragment
-    private fun showInfoDialogFragment() {
-        val dialogFragment = InfoDialogFragment("Подсказка",R.string.mainFragmentDialog)
-        dialogFragment.show(childFragmentManager, InfoDialogFragment.TAG)
     }
 }

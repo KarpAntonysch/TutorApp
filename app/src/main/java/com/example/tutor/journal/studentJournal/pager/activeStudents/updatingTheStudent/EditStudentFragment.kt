@@ -6,10 +6,11 @@ import android.view.*
 import androidx.fragment.app.Fragment
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.viewModels
-import com.example.tutor.InfoDialogFragment
+import com.example.tutor.dialogs.InfoDialogFragment
 import com.example.tutor.R
 import com.example.tutor.bd.entities.StudentEntity
 import com.example.tutor.databinding.FragmentEditStudentBinding
+import com.example.tutor.dialogs.DialogInterface
 import com.example.tutor.journal.studentJournal.DBapplication
 import com.example.tutor.journal.studentJournal.pager.activeStudents.EditStudentViewModel
 import com.example.tutor.journal.studentJournal.pager.activeStudents.EditStudentViewModelFactory
@@ -17,7 +18,7 @@ import com.example.tutor.toEditable
 
 
 
-class EditStudentFragment : Fragment() {
+class EditStudentFragment : Fragment(),DialogInterface {
     lateinit var binding: FragmentEditStudentBinding
     private val editStudentViewModel: EditStudentViewModel by viewModels {
         EditStudentViewModelFactory((requireActivity().application as DBapplication).studentRepository)
@@ -58,7 +59,7 @@ class EditStudentFragment : Fragment() {
         when (item.itemId) {
             android.R.id.home -> activity?.onBackPressed()
             R.id.info -> {
-                showDialogFragment()
+                showDialogFragment(childFragmentManager,R.string.editStudentDialog)
             }
         }
         return true
@@ -80,8 +81,5 @@ class EditStudentFragment : Fragment() {
         val price = binding.editPrice.text.toString().toInt()
         editStudentViewModel.updateStudent(studentID!!,firstName,secondName,schoolClass,price)
     }
-    private fun showDialogFragment(){
-        val dialogFragment = InfoDialogFragment("Подсказка",R.string.editStudentDialog)
-        dialogFragment.show(childFragmentManager,InfoDialogFragment.TAG)
-    }
+
 }

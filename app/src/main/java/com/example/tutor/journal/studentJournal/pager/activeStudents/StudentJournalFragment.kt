@@ -18,7 +18,7 @@ import com.example.tutor.databinding.FragmentStudentJournalBinding
 import com.example.tutor.journal.StudentJournalViewModel
 import com.example.tutor.journal.StudentJournalViewModelFactory
 import com.example.tutor.journal.studentJournal.DBapplication
-import com.example.tutor.journal.studentJournal.JourmalDialogFragment
+import com.example.tutor.journal.studentJournal.JournalDialogFragment
 
 
 class StudentJournalFragment() : Fragment(), StudentJournalAdapter.Listener,
@@ -94,16 +94,16 @@ class StudentJournalFragment() : Fragment(), StudentJournalAdapter.Listener,
 
     // Функция вызова диалогового окна из JournalDialogFragment
     fun showDialogFragment() {
-        val dialogFragment = JourmalDialogFragment()
-        dialogFragment.show(childFragmentManager, JourmalDialogFragment.TAG)
+        val dialogFragment = JournalDialogFragment()
+        dialogFragment.show(childFragmentManager, JournalDialogFragment.TAG)
     }
 
     // Функция инициализации кнопок в диалоговом окне из JournalDialogFragment
     fun setupDialogFragmentListener(studentEntity: StudentEntity) {
-        childFragmentManager.setFragmentResultListener(JourmalDialogFragment.REQUEST_KEY,
+        childFragmentManager.setFragmentResultListener(JournalDialogFragment.REQUEST_KEY,
             this,
             FragmentResultListener { _, result ->
-                val which = result.getInt(JourmalDialogFragment.KEY_RESPONSE)
+                val which = result.getInt(JournalDialogFragment.KEY_RESPONSE)
                 when (which) {
                     DialogInterface.BUTTON_POSITIVE -> {
                         studentJournalViewModel.changeStudentActive(
