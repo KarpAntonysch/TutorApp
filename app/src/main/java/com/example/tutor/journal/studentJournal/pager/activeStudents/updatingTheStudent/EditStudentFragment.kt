@@ -1,7 +1,6 @@
 package com.example.tutor.journal.studentJournal.pager.activeStudents.updatingTheStudent
 
 import android.os.Bundle
-import android.util.Log
 import android.view.*
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
@@ -33,7 +32,6 @@ class EditStudentFragment : Fragment(),DialogInterface {
         fillTheLayout()
         binding.btnEditDB.setOnClickListener {
             updateStudent()
-            Log.v("update","${updateStudent()}")
             activity?.onBackPressed()
         }
     }

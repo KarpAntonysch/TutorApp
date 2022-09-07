@@ -85,7 +85,7 @@ class StudentJournalFragment : Fragment(), StudentJournalAdapter.Listener,
         bundle.putParcelable("ArgForStudentEditing: com.example.tutor.bd.entities.StudentEntity",studentEntity)
         findNavController().navigate(R.id.action_jornalPagerFragment_to_editStudentFragment,bundle)
     }
-
+    // Реализация метода интерфейса ActionModeListener для просмотра ученика
     override fun clickToMenuWatch(studentEntity: StudentEntity) {
         val bundle = Bundle()
         bundle.putParcelable("ArgForWatching: com.example.tutor.bd.entities.StudentEntity",studentEntity)

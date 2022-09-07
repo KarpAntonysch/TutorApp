@@ -60,10 +60,11 @@ lateinit var binding: FragmentAddStudentToJournalBinding
     // Проверка на заполнение полей
     private fun empty():Boolean{
         binding.apply {
-            if (edFirstName.text.isNullOrEmpty())edFirstName.error="Заполните поле"
-            if (edSecondName.text.isNullOrEmpty())edSecondName.error="Заполните поле"
-            if (edClass.text.isNullOrEmpty())edClass.error="Заполните поле"
-            if (edPrice.text.isNullOrEmpty())edPrice.error="Заполните поле"
+            val warning = R.string.emptyWarning.toString()
+            if (edFirstName.text.isNullOrEmpty())edFirstName.error= warning
+            if (edSecondName.text.isNullOrEmpty())edSecondName.error=warning
+            if (edClass.text.isNullOrEmpty())edClass.error=warning
+            if (edPrice.text.isNullOrEmpty())edPrice.error=warning
             return edFirstName.text.isNullOrEmpty() || edSecondName.text.isNullOrEmpty() ||
                     edClass.text.isNullOrEmpty() || edPrice.text.isNullOrEmpty()
         }

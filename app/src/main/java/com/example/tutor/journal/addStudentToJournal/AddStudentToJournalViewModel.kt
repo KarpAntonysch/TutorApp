@@ -7,20 +7,19 @@ import com.example.tutor.bd.entities.StudentEntity
 import com.example.tutor.repository.StudentRepository
 import kotlinx.coroutines.launch
 
-class AddStudentToJournalViewModel(private val repository: StudentRepository):ViewModel() {
-
-
-
+class AddStudentToJournalViewModel(private val repository: StudentRepository) : ViewModel() {
     // Создаем метод-оболочку insert, который вызывает insert из репозитория
-    fun insert(studentEntity: StudentEntity)=viewModelScope.launch {
+    fun insert(studentEntity: StudentEntity) = viewModelScope.launch {
         repository.insertStudent(studentEntity)
     }
 }
+
 // эта конструкция необходима для того, что б проинициализировать VM в фрагменте с передачей в
 // конструктор ссылки на репозиторий
-class AddStudentToJournalViewModelFactory(private val repository: StudentRepository): ViewModelProvider.Factory{
-    override fun <T:ViewModel> create(modelClass:Class<T>): T{
-        if (modelClass.isAssignableFrom(AddStudentToJournalViewModel::class.java)){
+class AddStudentToJournalViewModelFactory(private val repository: StudentRepository) :
+    ViewModelProvider.Factory {
+    override fun <T : ViewModel> create(modelClass: Class<T>): T {
+        if (modelClass.isAssignableFrom(AddStudentToJournalViewModel::class.java)) {
             //тестовая аннотация для обнаружения ошибок. Означает, что тестовый метод не будет включен в набор тестов
             @Suppress("UNCHECKED_CAST")
             return AddStudentToJournalViewModel(repository) as T
