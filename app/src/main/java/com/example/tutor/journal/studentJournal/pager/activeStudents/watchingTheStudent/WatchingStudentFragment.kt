@@ -1,6 +1,6 @@
 package com.example.tutor.journal.studentJournal.pager.activeStudents.watchingTheStudent
 
-import WatchingStudentAdapter
+import com.example.tutor.adapters.WatchingStudentAdapter
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.MenuItem

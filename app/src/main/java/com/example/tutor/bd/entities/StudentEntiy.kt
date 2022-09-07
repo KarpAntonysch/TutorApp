@@ -25,7 +25,7 @@ data class StudentEntity(
     var id: Int = 0
 
 }
-data class studentForSchedule(
+data class StudentForSchedule(
     @ColumnInfo
     val id:Int,
     @ColumnInfo(name = "firstName")

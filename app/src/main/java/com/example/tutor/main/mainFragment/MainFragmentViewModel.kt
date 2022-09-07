@@ -27,6 +27,6 @@ class MainFragmentViewModelFactory(private val repository: ScheduleRepository) :
             @Suppress("UNCHECKED_CAST")
             return MainFragmentViewModel(repository) as T
         }
-        throw IllegalArgumentException("Unknow VM")
+        throw IllegalArgumentException("Unknown VM")
     }
 }

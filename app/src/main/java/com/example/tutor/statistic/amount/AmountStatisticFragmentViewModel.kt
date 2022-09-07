@@ -1,4 +1,4 @@
-package com.example.tutor.statistic
+package com.example.tutor.statistic.amount
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.ViewModel
@@ -25,6 +25,6 @@ class StatisticFragmentViewModelFactory(private val repository: ScheduleReposito
             @Suppress("UNCHECKED_CAST")
             return AmountStatisticFragmentViewModel(repository) as T
         }
-        throw IllegalArgumentException("Unknow VM")
+        throw IllegalArgumentException("Unknown VM")
     }
 }

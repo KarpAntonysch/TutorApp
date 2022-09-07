@@ -4,8 +4,6 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.asLiveData
-import com.example.tutor.bd.entities.ScheduleEntity
-import com.example.tutor.journal.studentJournal.pager.activeStudents.EditStudentViewModel
 import com.example.tutor.repository.ScheduleRepository
 
 class WatchingStudentViewModel(val repository: ScheduleRepository) : ViewModel() {
@@ -19,6 +17,6 @@ class WatchingStudentViewModelFactory(private val repository: ScheduleRepository
             @Suppress("UNCHECKED_CAST")
             return WatchingStudentViewModel(repository) as T
         }
-        throw IllegalArgumentException("Unknow VM")
+        throw IllegalArgumentException("Unknown VM")
     }
 }

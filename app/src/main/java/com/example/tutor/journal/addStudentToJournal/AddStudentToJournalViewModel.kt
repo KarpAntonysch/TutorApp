@@ -25,6 +25,6 @@ class AddStudentToJournalViewModelFactory(private val repository: StudentReposit
             @Suppress("UNCHECKED_CAST")
             return AddStudentToJournalViewModel(repository) as T
         }
-        throw IllegalArgumentException("Unknow VM")
+        throw IllegalArgumentException("Unknown VM")
     }
 }

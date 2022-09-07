@@ -21,7 +21,7 @@ import com.example.tutor.journal.studentJournal.DBapplication
 import com.example.tutor.journal.studentJournal.JournalDialogFragment
 
 
-class StudentJournalFragment() : Fragment(), StudentJournalAdapter.Listener,
+class StudentJournalFragment : Fragment(), StudentJournalAdapter.Listener,
     JournalActionModeCallback.ActionModeListener {
     lateinit var binding: FragmentStudentJournalBinding
     lateinit var recyclerView: RecyclerView
@@ -29,7 +29,7 @@ class StudentJournalFragment() : Fragment(), StudentJournalAdapter.Listener,
     private val studentJournalViewModel: StudentJournalViewModel by viewModels {
         StudentJournalViewModelFactory((requireActivity().application as DBapplication).studentRepository)
     }
-    lateinit var actionMode: JournalActionModeCallback
+    private lateinit  var actionMode: JournalActionModeCallback
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -93,18 +93,17 @@ class StudentJournalFragment() : Fragment(), StudentJournalAdapter.Listener,
     }
 
     // Функция вызова диалогового окна из JournalDialogFragment
-    fun showDialogFragment() {
+    private fun showDialogFragment() {
         val dialogFragment = JournalDialogFragment()
         dialogFragment.show(childFragmentManager, JournalDialogFragment.TAG)
     }
 
     // Функция инициализации кнопок в диалоговом окне из JournalDialogFragment
-    fun setupDialogFragmentListener(studentEntity: StudentEntity) {
+    private fun setupDialogFragmentListener(studentEntity: StudentEntity) {
         childFragmentManager.setFragmentResultListener(JournalDialogFragment.REQUEST_KEY,
             this,
             FragmentResultListener { _, result ->
-                val which = result.getInt(JournalDialogFragment.KEY_RESPONSE)
-                when (which) {
+                when (result.getInt(JournalDialogFragment.KEY_RESPONSE)) {
                     DialogInterface.BUTTON_POSITIVE -> {
                         studentJournalViewModel.changeStudentActive(
                             studentEntity.id)
@@ -117,7 +116,7 @@ class StudentJournalFragment() : Fragment(), StudentJournalAdapter.Listener,
 
 
     // функция для динамического исчезания FAB при прокрутке списка
-    fun hideFAB() {
+    private fun hideFAB() {
         recyclerView.addOnScrollListener(object : RecyclerView.OnScrollListener() {
             override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
                 super.onScrolled(recyclerView, dx, dy)

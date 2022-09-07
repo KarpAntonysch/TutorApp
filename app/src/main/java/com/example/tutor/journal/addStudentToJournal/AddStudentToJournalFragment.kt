@@ -3,7 +3,6 @@ package com.example.tutor.journal.addStudentToJournal
 import android.os.Bundle
 import android.view.*
 import android.widget.Toast
-import android.widget.Toolbar
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
@@ -23,7 +22,7 @@ lateinit var binding: FragmentAddStudentToJournalBinding
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
         binding= FragmentAddStudentToJournalBinding.inflate(inflater,container,false)
         setHasOptionsMenu(true)
         return binding.root
@@ -47,11 +46,11 @@ lateinit var binding: FragmentAddStudentToJournalBinding
         (activity as AppCompatActivity).supportActionBar?.title = "Добавление ученика"
     }
 
-    fun addStudentEntityToDB(studentEntity: StudentEntity){
+    private fun addStudentEntityToDB(studentEntity: StudentEntity){
         studentViewModel.insert(studentEntity)
     }
 
-    fun getStudentValues():StudentEntity{
+    private fun getStudentValues():StudentEntity{
         val firstName:String = binding.edFirstName.text.toString()
         val secondName:String = binding.edSecondName.text.toString()
         val schoolClass:Int = binding.edClass.text.toString().toInt()

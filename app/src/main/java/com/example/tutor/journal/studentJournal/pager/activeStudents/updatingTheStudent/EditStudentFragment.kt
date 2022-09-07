@@ -3,19 +3,15 @@ package com.example.tutor.journal.studentJournal.pager.activeStudents.updatingTh
 import android.os.Bundle
 import android.util.Log
 import android.view.*
-import androidx.fragment.app.Fragment
 import androidx.appcompat.app.AppCompatActivity
+import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
-import com.example.tutor.dialogs.InfoDialogFragment
 import com.example.tutor.R
 import com.example.tutor.bd.entities.StudentEntity
 import com.example.tutor.databinding.FragmentEditStudentBinding
 import com.example.tutor.dialogs.DialogInterface
 import com.example.tutor.journal.studentJournal.DBapplication
-import com.example.tutor.journal.studentJournal.pager.activeStudents.EditStudentViewModel
-import com.example.tutor.journal.studentJournal.pager.activeStudents.EditStudentViewModelFactory
 import com.example.tutor.toEditable
-
 
 
 class EditStudentFragment : Fragment(),DialogInterface {

@@ -1,11 +1,8 @@
 package com.example.tutor.repository
 
-import android.util.Log
 import androidx.annotation.WorkerThread
 import androidx.lifecycle.LiveData
 import com.example.tutor.bd.dao.ScheduleDAO
-import com.example.tutor.bd.entities.AmountByDays
-import com.example.tutor.bd.entities.LessonsByDays
 import com.example.tutor.bd.entities.ScheduleEntity
 import com.example.tutor.bd.entities.ScheduleWithStudent
 import kotlinx.coroutines.flow.Flow

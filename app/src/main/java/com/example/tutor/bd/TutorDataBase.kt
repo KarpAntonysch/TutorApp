@@ -35,7 +35,7 @@ abstract class TutorDataBase : RoomDatabase() {
         }
     }
 }
-
+// Оставил миграции, для собственного понимания изменений
 // здесь были миграции MIGRATION_1_4 (добавление таблицы scheduleTable) и MIGRATION_4_5 (добавление
 // в таблицу scheduleTable столбец для времени). Колонка "время" была не нужна. Эта миграция ее удалила.
 val MIGRATION_5_6 = object : Migration(5, 6) {

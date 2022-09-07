@@ -24,6 +24,6 @@ class AddStudentToScheduleViewModelFactory(private val repository: ScheduleRepos
             @Suppress("UNCHECKED_CAST")
             return AddStudentToScheduleViewModel(repository) as T
         }
-        throw IllegalArgumentException("Unknow VM")
+        throw IllegalArgumentException("Unknown VM")
     }
 }

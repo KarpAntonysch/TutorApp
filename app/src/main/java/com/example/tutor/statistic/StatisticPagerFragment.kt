@@ -2,7 +2,6 @@ package com.example.tutor.statistic
 
 import android.os.Bundle
 import android.view.*
-import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import com.example.tutor.R
@@ -37,9 +36,9 @@ class StatisticPagerFragment : Fragment(),DialogInterface {
         TabLayoutMediator(binding.statisticTabLayout, binding.statisticViewPager) { tab, position ->
             when (position) {
                 0 -> {
-                    tab.setText("Доход")
+                    tab.text = "Доход"
                 }
-                else -> tab.setText("Занятия")
+                else -> tab.text = "Занятия"
             }
         }.attach()
     }

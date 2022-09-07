@@ -16,7 +16,7 @@ import com.example.tutor.journal.studentJournal.DBapplication
 class InactiveStudentsFragment : Fragment(), InactiveJournalAdapter.Listener {
     lateinit var binding: FragmentInactiveStudentsBinding
     lateinit var recyclerView: RecyclerView
-    val adapter = InactiveJournalAdapter(this)
+    private val adapter = InactiveJournalAdapter(this)
     private val inactiveViewModel: InactiveStudentsViewModel by viewModels {
         InactiveStudentsViewModelFactory((requireActivity().application as DBapplication).studentRepository)
     }
@@ -24,7 +24,7 @@ class InactiveStudentsFragment : Fragment(), InactiveJournalAdapter.Listener {
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?,
-    ): View? {
+    ): View {
         binding = FragmentInactiveStudentsBinding.inflate(inflater, container, false)
         return binding.root
     }

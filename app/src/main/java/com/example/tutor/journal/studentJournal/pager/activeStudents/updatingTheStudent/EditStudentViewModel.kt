@@ -1,4 +1,4 @@
-package com.example.tutor.journal.studentJournal.pager.activeStudents
+package com.example.tutor.journal.studentJournal.pager.activeStudents.updatingTheStudent
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
@@ -16,6 +16,6 @@ class EditStudentViewModelFactory(private val repository: StudentRepository) :
             @Suppress("UNCHECKED_CAST")
             return EditStudentViewModel(repository) as T
         }
-        throw IllegalArgumentException("Unknow VM")
+        throw IllegalArgumentException("Unknown VM")
     }
 }

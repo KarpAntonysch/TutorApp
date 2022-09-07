@@ -5,7 +5,6 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.asLiveData
 import com.example.tutor.repository.ScheduleRepository
-import com.example.tutor.statistic.AmountStatisticFragmentViewModel
 
 class LessonsStatisticFragmentViewModel(private val repository: ScheduleRepository) : ViewModel() {
     var totalWeekLessons: LiveData<Int> = repository.getTotalWeekLessons().asLiveData()
@@ -27,6 +26,6 @@ class LessonsStatisticFragmentViewModelFactory(private val repository: ScheduleR
             @Suppress("UNCHECKED_CAST")
             return LessonsStatisticFragmentViewModel(repository) as T
         }
-        throw IllegalArgumentException("Unknow VM")
+        throw IllegalArgumentException("Unknown VM")
     }
 }

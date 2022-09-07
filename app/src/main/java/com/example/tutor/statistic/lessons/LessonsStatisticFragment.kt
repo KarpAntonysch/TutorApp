@@ -22,7 +22,7 @@ class LessonsStatisticFragment : Fragment() {
     private val lessonsStatisticFragmentViewModel: LessonsStatisticFragmentViewModel by viewModels {
         LessonsStatisticFragmentViewModelFactory((requireActivity().application as DBapplication).scheduleRepository)
     }
-    val months = mutableMapOf(
+    private val months = mutableMapOf(
         Months.JANUARY to 0,
         Months.FEBRUARY to 0,
         Months.MARCH to 0,
@@ -39,7 +39,7 @@ class LessonsStatisticFragment : Fragment() {
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?,
-    ): View? {
+    ): View {
         binding = FragmentLessonsStatisticBinding.inflate(inflater,container,false)
         return binding.root
     }
@@ -51,18 +51,23 @@ class LessonsStatisticFragment : Fragment() {
         weekChart()
         tabLayout.addOnTabSelectedListener(object : TabLayout.OnTabSelectedListener{
             override fun onTabSelected(tab: TabLayout.Tab) {
-                if (tab.position ==0){
-                    getWeekLessons()
-                    weekChart()
-                }else if(tab.position ==1){
-                    getMonthLessons()
-                    monthChart()
-                }else if(tab.position ==2){
-                    getPeriodLessons("-5 months")
-                    sixMonthChart()
-                }else if(tab.position ==3){
-                    getPeriodLessons("-11 months")
-                    yearChart()
+                when (tab.position) {
+                    0 -> {
+                        getWeekLessons()
+                        weekChart()
+                    }
+                    1 -> {
+                        getMonthLessons()
+                        monthChart()
+                    }
+                    2 -> {
+                        getPeriodLessons("-5 months")
+                        sixMonthChart()
+                    }
+                    3 -> {
+                        getPeriodLessons("-11 months")
+                        yearChart()
+                    }
                 }
             }
 
@@ -73,7 +78,7 @@ class LessonsStatisticFragment : Fragment() {
         })
     }
 
-    fun chart(dates: Array<String>, lessons: Array<Int>): AAChartModel {
+    private fun chart(dates: Array<String>, lessons: Array<Int>): AAChartModel {
         val aaChartModel: AAChartModel = AAChartModel()
             .chartType(AAChartType.Column)
             .backgroundColor("#FFFFFFFF")
@@ -110,7 +115,7 @@ class LessonsStatisticFragment : Fragment() {
 
     fun weekChart() {
         val mapOfWeek = lessonsStatisticFragmentViewModel.getMapOfWeekLessons()
-        var daysOfWeek = mutableMapOf(
+        val daysOfWeek = mutableMapOf(
             DaysOfWeek.MONDAY to 0,
             DaysOfWeek.TUESDAY to 0,
             DaysOfWeek.WEDNESDAY to 0,

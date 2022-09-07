@@ -9,7 +9,6 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.tutor.R
 import com.example.tutor.bd.entities.StudentEntity
 import com.example.tutor.databinding.StudentJournalItemBinding
-import com.example.tutor.journal.studentJournal.pager.activeStudents.JournalActionModeCallback
 
 class StudentJournalAdapter(val listener: Listener) :
     ListAdapter<StudentEntity, StudentJournalAdapter.StudentViewHolder>(StudentComparator()) {

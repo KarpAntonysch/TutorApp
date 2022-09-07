@@ -2,8 +2,6 @@ package com.example.tutor.bd.dao
 
 import androidx.lifecycle.LiveData
 import androidx.room.*
-import com.example.tutor.bd.entities.AmountByDays
-import com.example.tutor.bd.entities.LessonsByDays
 import com.example.tutor.bd.entities.ScheduleEntity
 import com.example.tutor.bd.entities.ScheduleWithStudent
 import kotlinx.coroutines.flow.Flow
@@ -76,9 +74,6 @@ interface ScheduleDAO {
     @Query("SELECT  count(*) AS lessons ,strftime('%d.%m',b.dateWithTime/1000,'unixepoch') AS dateWithTime FROM schedeulTable b LEFT JOIN studentTable a ON a.id=b.studentId WHERE CAST(b.dateWithTime/1000 as integer) BETWEEN strftime('%s',date('now','start of month')) AND strftime('%s','now') GROUP BY strftime('%d.%m',b.dateWithTime/1000,'unixepoch')")
     fun getMapOfMonthLessons():Map<String,Int>
 
-
-    @Query("SELECT * from schedeulTable WHERE date('now','weekday 1','-7 days')")
-    fun getStud(): LiveData<List<ScheduleWithStudent>>
 
     @Query("SELECT dateWithTime FROM schedeulTable where studentId = :id ")
     fun getStudentLessons(id:Int): Flow<List<Long>>

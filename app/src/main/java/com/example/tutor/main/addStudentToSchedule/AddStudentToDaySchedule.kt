@@ -8,7 +8,6 @@ import android.widget.ArrayAdapter
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
-import com.example.tutor.dialogs.InfoDialogFragment
 import com.example.tutor.R
 import com.example.tutor.bd.entities.ScheduleEntity
 import com.example.tutor.convertLongToTime
@@ -34,7 +33,7 @@ class AddStudentToDaySchedule : Fragment(),DialogInterface {
         StudentJournalViewModelFactory((requireActivity().application as DBapplication).studentRepository)
     }
     var studentID: Int = 0 // начальная инициализация. задаю как 0 т.к.  id студента !=0
-    var timeFromPicker: Long = 0
+    private var timeFromPicker: Long = 0
 
 
     override fun onCreateView(
@@ -181,7 +180,7 @@ class AddStudentToDaySchedule : Fragment(),DialogInterface {
         scheduleViewModel.insert(scheduleEntity)
     }
     // Функция вызова диалогового окна из InfoDialogFragment. Для подсказки в toolBar и ошибки пустого спинера
-    fun showInfoDialogFragment(target: String) {
+    private fun showInfoDialogFragment(target: String) {
         if (target=="schedule"){
           showDialogFragment(childFragmentManager,R.string.addStudentToSchedule)
         }

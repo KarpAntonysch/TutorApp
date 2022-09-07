@@ -12,7 +12,6 @@ import androidx.fragment.app.FragmentResultListener
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.RecyclerView
-import com.example.tutor.dialogs.InfoDialogFragment
 import com.example.tutor.R
 import com.example.tutor.adapters.MainFragmentAdapter
 import com.example.tutor.bd.entities.ScheduleEntity
@@ -130,8 +129,7 @@ class MainFragment : Fragment(), MainFragmentAdapter.Listener,com.example.tutor.
         childFragmentManager.setFragmentResultListener(ScheduleDialogFragment.REQUEST_KEY,
             this,
             FragmentResultListener { _, result ->
-                val that = result.getInt(ScheduleDialogFragment.KEY_RESPONSE)
-                when (that) {
+                when (result.getInt(ScheduleDialogFragment.KEY_RESPONSE)) {
                     DialogInterface.BUTTON_POSITIVE -> mainFragmentViewModel
                         .deleteSchedule(scheduleEntity)
                 }

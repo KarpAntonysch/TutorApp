@@ -2,20 +2,16 @@ package com.example.tutor.journal
 
 import androidx.lifecycle.*
 import com.example.tutor.bd.entities.StudentEntity
-import com.example.tutor.bd.entities.studentForSchedule
+import com.example.tutor.bd.entities.StudentForSchedule
 import com.example.tutor.repository.StudentRepository
-import kotlinx.coroutines.launch
 
 class StudentJournalViewModel(private val repository: StudentRepository) : ViewModel() {
     //Создаем переменную для получения списка из БД типа LD, которая инициализируется Flow из репозитория
     val allStudents: LiveData<List<StudentEntity>> = repository.allStudents.asLiveData()
-    fun getInfo(): LiveData<MutableList<studentForSchedule>>{
+    fun getInfo(): LiveData<MutableList<StudentForSchedule>>{
         return repository.infoForSchedule
     }
 
-    fun deleteStudent(studentEntity: StudentEntity)=viewModelScope.launch {
-        repository.deleteStudent(studentEntity)
-    }
 
     fun changeStudentActive(studentID:Int) = repository.changeStudentActive(studentID)
 }

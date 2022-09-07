@@ -1,6 +1,5 @@
 package com.example.tutor.journal.studentJournal.pager.activeStudents
 
-import android.util.Log
 import android.view.ActionMode
 import android.view.Menu
 import android.view.MenuItem
@@ -8,13 +7,12 @@ import android.view.View
 import androidx.annotation.MenuRes
 import com.example.tutor.R
 import com.example.tutor.bd.entities.StudentEntity
-import com.example.tutor.journal.studentJournal.pager.activeStudents.StudentJournalFragment.*
 
 
 class JournalActionModeCallback(
     private val studentEntity: StudentEntity) : ActionMode.Callback {
     private var mode: ActionMode? = null
-    var actionModeListener: ActionModeListener? = null // определяем переменную с типом
+    private var actionModeListener: ActionModeListener? = null // определяем переменную с типом
     // ActionModeListener как поле класса благодаря этому получаю доступ к функциям интерфейса.
     // Но интерфейс это абстракция, а нам нужна его конкретная реализация, котрая задается в функции startActionMode
     @MenuRes
