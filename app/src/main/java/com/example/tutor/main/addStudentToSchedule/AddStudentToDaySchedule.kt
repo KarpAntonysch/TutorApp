@@ -1,10 +1,12 @@
 package com.example.tutor.main.addStudentToSchedule
 
 import android.annotation.SuppressLint
+import android.os.Build
 import android.os.Bundle
 import android.view.*
 import android.widget.AdapterView
 import android.widget.ArrayAdapter
+import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
@@ -16,15 +18,13 @@ import com.example.tutor.dialogs.DialogInterface
 import com.example.tutor.journal.StudentJournalViewModel
 import com.example.tutor.journal.StudentJournalViewModelFactory
 import com.example.tutor.journal.studentJournal.DBapplication
-import java.time.LocalDateTime
-import java.time.ZoneId
-import java.time.format.DateTimeFormatter
 import java.util.*
 import java.util.Calendar.getInstance
 import kotlin.collections.ArrayList
+import kotlin.properties.Delegates
 
 
-class AddStudentToDaySchedule : Fragment(),DialogInterface {
+class AddStudentToDaySchedule : Fragment(), DialogInterface {
     lateinit var binding: FragmentAddStudentToDayScheduleBinding
     private val scheduleViewModel: AddStudentToScheduleViewModel by viewModels {
         AddStudentToScheduleViewModelFactory((requireActivity().application as DBapplication).scheduleRepository)
@@ -32,9 +32,9 @@ class AddStudentToDaySchedule : Fragment(),DialogInterface {
     private val studentJournalViewModel: StudentJournalViewModel by viewModels {
         StudentJournalViewModelFactory((requireActivity().application as DBapplication).studentRepository)
     }
-    var studentID: Int = 0 // начальная инициализация. задаю как 0 т.к.  id студента !=0
+    var studentID by Delegates.notNull<Int>()// начальная инициализация. задаю как 0 т.к.  id студента !=0
     private var timeFromPicker: Long = 0
-
+    private val addStudentToDayScheduleClass = AddStudentToDayScheduleClass()// объект класса логики
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -57,26 +57,24 @@ class AddStudentToDaySchedule : Fragment(),DialogInterface {
         addingSchedule()
     }
 
-
-
-    private fun addingSchedule(){
+    @SuppressLint("NewApi")
+    private fun addingSchedule() {
         binding.btnAddSchedule.setOnClickListener {
             formattedCurrentDate()
             // Проверка на наличие студентов в спинере
-            if (getScheduleValues().studentId == 0){
-                showInfoDialogFragment("add")
-            }
-            else{
+            if (getScheduleValues().studentId == 0) {
+                showInfoDialogFragment("warning")
+            } else {
                 addScheduleToDB(getScheduleValues())
-                activity?.onBackPressed()/*"мягкое" закрытие фрагмента. Т.е. фрагмент просыпается,
-             а не уничтожается из стека или не создается новый экземпляр этого фрагмента в стеке,
+                activity?.onBackPressed()/*"мягкое" закрытие фрагмента. Т.е. фрагмент просыпается из стека.
+             Он не уничтожается из стека, не создается новый экземпляр этого фрагмента в стеке,
                 в отличие от findNavController().navigate(R.id.action_addStudentToDaySchedule_to_mainFragment)
                 здесь в стек добавляется новый экземпляр фрагмента, без уничтожения старого*/
             }
         }
     }
 
-    private fun spinnerRealization(){
+    private fun spinnerRealization() {
         // получение информации для таблицы schedule(id,firstname,secondName), реализация спинера
         studentJournalViewModel.getInfo().observe(viewLifecycleOwner, {
             //спинер
@@ -110,7 +108,8 @@ class AddStudentToDaySchedule : Fragment(),DialogInterface {
                 }
         })
     }
-    private fun toolBarSetting(){
+
+    private fun toolBarSetting() {
         val toolbar = binding.addScheduleToolbar
         (activity as AppCompatActivity).setSupportActionBar(toolbar)
         (activity as AppCompatActivity).supportActionBar?.setDisplayHomeAsUpEnabled(true)
@@ -128,7 +127,7 @@ class AddStudentToDaySchedule : Fragment(),DialogInterface {
         when (item.itemId) {
             android.R.id.home -> activity?.onBackPressed()
             R.id.info -> {
-            showInfoDialogFragment("schedule")
+                showInfoDialogFragment("schedule")
             }
         }
         return true
@@ -154,38 +153,29 @@ class AddStudentToDaySchedule : Fragment(),DialogInterface {
     }
 
     // сбор общего времени из отдельной даты и отдельного времени. Приведение данных в нужный формат
-    @SuppressLint("NewApi")
+    @RequiresApi(Build.VERSION_CODES.O)
     fun formattedCurrentDate(): Long {
-        val jointDate = getCurrentDate().convertLongToTime("dd.MM.yyyy") +
-                timeFromPicker.convertLongToTime(" HH:mm")
-        //Перевожу String в LocalDateTime с помощью DateTimeFormatter
-        val formatter = DateTimeFormatter.ofPattern("dd.MM.yyyy HH:mm")
-        val formatDate = LocalDateTime.parse(jointDate, formatter)
-        // Преобразование LocalDateTime в миллисекнды(Long), исспользуется ZoneID т.к.
-        // LocalDateTime изначально не имеет часового пояса
-        val dateForTransmission = formatDate.atZone(ZoneId.of("Europe/Moscow"))
-            .toInstant().toEpochMilli()
-        return dateForTransmission
+        return addStudentToDayScheduleClass.formattedCurrentDate(getCurrentDate(), timeFromPicker)
     }
 
     // Заполнение объекта ScheduleEntity временем и id
-    private fun getScheduleValues(): ScheduleEntity {
-        val dateWithTime: Long = formattedCurrentDate()
-        val studentId: Int = studentID
-        return ScheduleEntity(dateWithTime, studentId)
+    @SuppressLint("NewApi")
+    fun getScheduleValues(): ScheduleEntity {
+        return addStudentToDayScheduleClass.getScheduleValues(formattedCurrentDate(), studentID)
     }
 
     // добавление объекта расписания в БД (scheduleTable)
     private fun addScheduleToDB(scheduleEntity: ScheduleEntity) {
         scheduleViewModel.insert(scheduleEntity)
     }
+
     // Функция вызова диалогового окна из InfoDialogFragment. Для подсказки в toolBar и ошибки пустого спинера
     private fun showInfoDialogFragment(target: String) {
-        if (target=="schedule"){
-          showDialogFragment(childFragmentManager,R.string.addStudentToSchedule)
+        if (target == "schedule") {
+            showDialogFragment(childFragmentManager, R.string.addStudentToSchedule)
         }
-        if(target=="add") {
-           showDialogFragment(childFragmentManager,R.string.emptyStudent)
+        if (target == "warning") {
+            showDialogFragment(childFragmentManager, R.string.emptyStudent)
         }
 
     }
