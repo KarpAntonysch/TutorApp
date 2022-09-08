@@ -4,10 +4,21 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.viewModelScope
 import com.example.tutor.bd.entities.ScheduleEntity
+import com.example.tutor.bd.entities.StudentForSchedule
+import com.example.tutor.bd.entities.StudentForSpinnerModel
 import com.example.tutor.repository.ScheduleRepository
+import com.example.tutor.toSpinnerModel
 import kotlinx.coroutines.launch
 
 class AddStudentToScheduleViewModel(private val repository: ScheduleRepository) : ViewModel() {
+    var studentID:Int = 1
+    // получение из List<StudentForSchedule> List<StudentForSpinnerModel>
+    fun getNewList(infoList: MutableList<StudentForSchedule>): List<StudentForSpinnerModel>{
+        return infoList.map { item ->item.toSpinnerModel() }
+    }
+    fun searchID(list:List<StudentForSpinnerModel>):Int{
+        return list.indices.find{list[it] == list.first{o ->o.id == studentID}}!!
+    }
 
     fun insert(scheduleEntity: ScheduleEntity) = viewModelScope.launch {
         repository.insertSchedule(scheduleEntity)

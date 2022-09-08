@@ -37,9 +37,7 @@ class MainFragment : Fragment(), MainFragmentAdapter.Listener,com.example.tutor.
     ): View {
         binding = FragmentMainBinding.inflate(inflater, container, false)
         setHasOptionsMenu(true)
-        if (selectedDate !== null){
            saveSelectedDate()
-        }
         return binding.root
 
     }
@@ -108,8 +106,9 @@ class MainFragment : Fragment(), MainFragmentAdapter.Listener,com.example.tutor.
             }
     }
     private fun saveSelectedDate(){
-        binding.calendarView.date = selectedDate!!
-        realizationOfRV2(selectedDate!!.convertLongToTime("dd-MM-yyyy"))
+        if (selectedDate !==null){
+            binding.calendarView.date = selectedDate!!
+        }
     }
     // функция для удаления объекта в расписании на день через dialog, переопределенная функция из
     // интерфейса

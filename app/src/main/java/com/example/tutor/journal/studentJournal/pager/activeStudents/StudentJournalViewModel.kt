@@ -23,6 +23,6 @@ class StudentJournalViewModelFactory(private val repository: StudentRepository) 
             @Suppress("UNCHECKED_CAST")
             return StudentJournalViewModel(repository) as T
         }
-        throw IllegalArgumentException("Unknow VM")
+        throw IllegalArgumentException("Unknown VM")
     }
 }

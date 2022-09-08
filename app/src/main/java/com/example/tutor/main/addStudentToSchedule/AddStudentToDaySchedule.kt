@@ -3,6 +3,7 @@ package com.example.tutor.main.addStudentToSchedule
 import android.annotation.SuppressLint
 import android.os.Build
 import android.os.Bundle
+import android.util.Log
 import android.view.*
 import android.widget.AdapterView
 import android.widget.ArrayAdapter
@@ -20,8 +21,6 @@ import com.example.tutor.journal.StudentJournalViewModelFactory
 import com.example.tutor.journal.studentJournal.DBapplication
 import java.util.*
 import java.util.Calendar.getInstance
-import kotlin.collections.ArrayList
-import kotlin.properties.Delegates
 
 
 class AddStudentToDaySchedule : Fragment(), DialogInterface {
@@ -32,7 +31,6 @@ class AddStudentToDaySchedule : Fragment(), DialogInterface {
     private val studentJournalViewModel: StudentJournalViewModel by viewModels {
         StudentJournalViewModelFactory((requireActivity().application as DBapplication).studentRepository)
     }
-    var studentID by Delegates.notNull<Int>()// начальная инициализация. задаю как 0 т.к.  id студента !=0
     private var timeFromPicker: Long = 0
     private val addStudentToDayScheduleClass = AddStudentToDayScheduleClass()// объект класса логики
 
@@ -55,6 +53,7 @@ class AddStudentToDaySchedule : Fragment(), DialogInterface {
         spinnerRealization()
         getCurrentTime()
         addingSchedule()
+        Log.v("spin","${scheduleViewModel.studentID}")
     }
 
     @SuppressLint("NewApi")
@@ -79,19 +78,13 @@ class AddStudentToDaySchedule : Fragment(), DialogInterface {
         studentJournalViewModel.getInfo().observe(viewLifecycleOwner, {
             //спинер
             val spinner = binding.spinnerForSchedule
-            val infoList = ArrayList(it)
-            // получение отдельных списков имен и фамилий
-            val infoName = infoList.map { it.firstName }
-            val infoSecondName = infoList.map { it.secondName }
-            // комбинация этих списков и задание вида отображения в {}
-            val spinnerList =
-                infoName.zip(infoSecondName) { name1st, name2nd -> "$name1st $name2nd" }
-            //spinner.setSelection(0) для установки значения по умолчанию
+            val newList = scheduleViewModel.getNewList(it)
             spinner.adapter = ArrayAdapter(
                 requireContext(),
                 android.R.layout.simple_spinner_dropdown_item,
-                spinnerList
+                newList
             )
+            spinner.setSelection(scheduleViewModel.searchID(newList)) //для установки значения по умолчанию
             spinner.onItemSelectedListener =
                 object : AdapterView.OnItemSelectedListener {
                     override fun onItemSelected(
@@ -100,9 +93,8 @@ class AddStudentToDaySchedule : Fragment(), DialogInterface {
                         position: Int,
                         p3: Long,
                     ) {
-                        studentID = infoList[position].id
+                        scheduleViewModel.studentID = newList[position].id
                     }
-
                     override fun onNothingSelected(p0: AdapterView<*>?) {
                     }
                 }
@@ -111,6 +103,7 @@ class AddStudentToDaySchedule : Fragment(), DialogInterface {
 
     private fun toolBarSetting() {
         val toolbar = binding.addScheduleToolbar
+        (activity as AppCompatActivity).supportActionBar?.hide()
         (activity as AppCompatActivity).setSupportActionBar(toolbar)
         (activity as AppCompatActivity).supportActionBar?.setDisplayHomeAsUpEnabled(true)
         (activity as AppCompatActivity).supportActionBar?.title = "Добавление занятия"
@@ -161,7 +154,7 @@ class AddStudentToDaySchedule : Fragment(), DialogInterface {
     // Заполнение объекта ScheduleEntity временем и id
     @SuppressLint("NewApi")
     fun getScheduleValues(): ScheduleEntity {
-        return addStudentToDayScheduleClass.getScheduleValues(formattedCurrentDate(), studentID)
+        return addStudentToDayScheduleClass.getScheduleValues(formattedCurrentDate(), scheduleViewModel.studentID)
     }
 
     // добавление объекта расписания в БД (scheduleTable)
