@@ -22,6 +22,8 @@
         <entry key="..\:/Users/ANTON/AndroidStudioProjects/Tutor/app/src/main/res/drawable/shape_selector.xml" value="0.2703125" />
         <entry key="..\:/Users/ANTON/AndroidStudioProjects/Tutor/app/src/main/res/drawable/tabs_selector.xml" value="0.2703125" />
         <entry key="..\:/Users/ANTON/AndroidStudioProjects/Tutor/app/src/main/res/drawable/wwww.xml" value="0.2703125" />
+        <entry key="..\:/Users/ANTON/AndroidStudioProjects/Tutor/app/src/main/res/layout/activity_enterance.xml" value="0.4" />
+        <entry key="..\:/Users/ANTON/AndroidStudioProjects/Tutor/app/src/main/res/layout/activity_entrance.xml" value="0.25416666666666665" />
         <entry key="..\:/Users/ANTON/AndroidStudioProjects/Tutor/app/src/main/res/layout/activity_main.xml" value="0.25416666666666665" />
         <entry key="..\:/Users/ANTON/AndroidStudioProjects/Tutor/app/src/main/res/layout/dddd.xml" value="0.25416666666666665" />
         <entry key="..\:/Users/ANTON/AndroidStudioProjects/Tutor/app/src/main/res/layout/fragment_add_student_to_day_schedule.xml" value="0.25416666666666665" />
@@ -56,5 +58,12 @@
   </component>
   <component name="ProjectType">
     <option name="id" value="Android" />
+  </component>
+  <component name="VisualizationToolProject">
+    <option name="state">
+      <ProjectState>
+        <option name="scale" value="0.25416666666666665" />
+      </ProjectState>
+    </option>
   </component>
 </project>

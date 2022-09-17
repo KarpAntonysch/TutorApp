@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "1669365880",
+    "firebase_url": "https://tutor-5d912-default-rtdb.europe-west1.firebasedatabase.app",
+    "project_id": "tutor-5d912",
+    "storage_bucket": "tutor-5d912.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1669365880:android:f54b94a43c73a0129f2d8d",
+        "android_client_info": {
+          "package_name": "com.example.tutor"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "1669365880-v0aonmk1dq9tbvpn6e8fpg3utgeqs2i3.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBbTOpruzFzc3h3rYmZXZTF7DbI6Qb_hYU"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "1669365880-v0aonmk1dq9tbvpn6e8fpg3utgeqs2i3.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
