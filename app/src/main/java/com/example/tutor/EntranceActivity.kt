@@ -6,6 +6,8 @@ import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import com.example.tutor.databinding.ActivityEntranceBinding
 import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.auth.UserProfileChangeRequest
+import com.google.firebase.database.FirebaseDatabase
 
 class EntranceActivity : AppCompatActivity() {
     lateinit var binding: ActivityEntranceBinding
@@ -25,9 +27,14 @@ class EntranceActivity : AppCompatActivity() {
         binding.btnRegistration.setOnClickListener {
             val email = binding.edMail.text.toString()
             val password = binding.edPassword.text.toString()
-
+            val name = binding.edRegName.text.toString()
+            val secondName = binding.edRegSecondName.text.toString()
+            val profileName = "$name $secondName"
             auth.createUserWithEmailAndPassword(email, password).addOnCompleteListener {
+                val user = auth.currentUser
                 if (it.isSuccessful) {
+                    val userName = UserProfileChangeRequest.Builder().setDisplayName(profileName).build()
+                    user?.updateProfile(userName)
                     val intent = Intent(this, MainActivity::class.java)
                     startActivity(intent)
                     finish()

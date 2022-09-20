@@ -2,6 +2,7 @@ package com.example.tutor.journal.studentJournal.pager.activeStudents
 
 import android.content.DialogInterface
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -15,6 +16,7 @@ import com.example.tutor.R
 import com.example.tutor.adapters.StudentJournalAdapter
 import com.example.tutor.bd.entities.StudentEntity
 import com.example.tutor.databinding.FragmentStudentJournalBinding
+import com.example.tutor.fireBase.FireBaseRepository
 import com.example.tutor.journal.StudentJournalViewModel
 import com.example.tutor.journal.StudentJournalViewModelFactory
 import com.example.tutor.journal.studentJournal.DBapplication
@@ -30,6 +32,7 @@ class StudentJournalFragment : Fragment(), StudentJournalAdapter.Listener,
         StudentJournalViewModelFactory((requireActivity().application as DBapplication).studentRepository)
     }
     private lateinit  var actionMode: JournalActionModeCallback
+    private val fireBaseRepository = FireBaseRepository()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -52,6 +55,7 @@ class StudentJournalFragment : Fragment(), StudentJournalAdapter.Listener,
         }
         realizationOfRV()
         hideFAB()
+        Log.v("FB","${fireBaseRepository.readDataFromDB()}")
     }
 
     private fun realizationOfRV() {

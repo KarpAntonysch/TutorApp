@@ -10,6 +10,7 @@ import com.example.tutor.R
 import com.example.tutor.bd.entities.StudentEntity
 import com.example.tutor.databinding.FragmentAddStudentToJournalBinding
 import com.example.tutor.dialogs.DialogInterface
+import com.example.tutor.fireBase.FireBaseRepository
 import com.example.tutor.journal.studentJournal.DBapplication
 
 class AddStudentToJournalFragment : Fragment(),DialogInterface {
@@ -17,7 +18,7 @@ lateinit var binding: FragmentAddStudentToJournalBinding
     private val studentViewModel: AddStudentToJournalViewModel by viewModels {
         AddStudentToJournalViewModelFactory((requireActivity().application as DBapplication).studentRepository)
     }
-
+    private val fireBaseRepository = FireBaseRepository()
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -34,6 +35,9 @@ lateinit var binding: FragmentAddStudentToJournalBinding
             if (!empty()){
                 val studentEntity = getStudentValues()
                 addStudentEntityToDB(studentEntity)
+                fireBaseRepository.addDataToFB(studentEntity.firstName,studentEntity.secondName,
+                studentEntity.price,studentEntity.schoolClass,studentEntity.activeStatus,studentEntity.id,
+                requireContext())
                 Toast.makeText(requireContext(), "Добавлено", Toast.LENGTH_SHORT).show()
                 activity?.onBackPressed()
             }
