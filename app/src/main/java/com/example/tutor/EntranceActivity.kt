@@ -7,7 +7,6 @@ import androidx.appcompat.app.AppCompatActivity
 import com.example.tutor.databinding.ActivityEntranceBinding
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.UserProfileChangeRequest
-import com.google.firebase.database.FirebaseDatabase
 
 class EntranceActivity : AppCompatActivity() {
     lateinit var binding: ActivityEntranceBinding
@@ -17,12 +16,19 @@ class EntranceActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         binding = ActivityEntranceBinding.inflate(layoutInflater)
         setContentView(binding.root)
-
         auth = FirebaseAuth.getInstance()
+       entrance()
         registration()
         login()
     }
-
+    private fun entrance(){
+        val user = auth.currentUser
+        if(user != null){
+            val intent = Intent(this, MainActivity::class.java)
+            startActivity(intent)
+            finish()
+        }
+    }
     private fun registration() {
         binding.btnRegistration.setOnClickListener {
             val email = binding.edMail.text.toString()
