@@ -2,7 +2,6 @@ package com.example.tutor.journal.studentJournal.pager.activeStudents
 
 import android.content.DialogInterface
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -55,7 +54,6 @@ class StudentJournalFragment : Fragment(), StudentJournalAdapter.Listener,
         }
         realizationOfRV()
         hideFAB()
-        Log.v("FB","${fireBaseRepository.readDataFromDB()}")
     }
 
     private fun realizationOfRV() {

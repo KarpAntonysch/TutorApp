@@ -1,14 +1,12 @@
 package com.example.tutor.fireBase
 
 import android.content.Context
-import android.util.Log
 import android.widget.Toast
 import com.google.firebase.auth.FirebaseAuth
-import com.google.firebase.database.*
-import com.google.firebase.database.ktx.getValue
+import com.google.firebase.firestore.FirebaseFirestore
+
 
 class FireBaseRepository {
-    var database: DatabaseReference = FirebaseDatabase.getInstance().getReference("Users")
 
     fun addDataToFB(
         firstName: String,
@@ -19,30 +17,21 @@ class FireBaseRepository {
         id: Int,
         requireContext: Context
     ) {
-        database = FirebaseDatabase.getInstance().getReference("Users")
-        val student = StudentEntityFB(firstName, secondName, price, schoolClass, activeStatus, id)
-        val userID = FirebaseAuth.getInstance().currentUser!!.displayName!!
-        database.child(userID).child("Students").child("$firstName $secondName").setValue(student)
+        val fireStoreDB = FirebaseFirestore.getInstance()
+        val user = hashMapOf("firstName" to firstName,
+            "secondName" to secondName,
+            "price" to price,
+            "schoolClass" to schoolClass,
+            "activeStatus" to activeStatus,
+            "id" to id)
+        fireStoreDB.collection("Users").document("${FirebaseAuth.getInstance()
+            .currentUser?.uid}").collection("Students").document().set(user)
             .addOnSuccessListener {
-                Toast.makeText(requireContext, "Добавлено в ФаирБэйз", Toast.LENGTH_LONG).show()
-            }.addOnFailureListener { exception ->
+            Toast.makeText(requireContext, "Добавлено в ФаирБэйз", Toast.LENGTH_LONG).show()
+        }.addOnFailureListener { exception ->
             Toast.makeText(requireContext, exception.localizedMessage, Toast.LENGTH_LONG).show()
         }
     }
-    fun readDataFromDB(){
-        val postListener = object: ValueEventListener{
-
-            override fun onDataChange(snapshot: DataSnapshot) {
-                val studentEntityFB = snapshot.children
-                studentEntityFB.forEach{
-                    println(it.toString())
-                }
-            }
-
-            override fun onCancelled(error: DatabaseError) {
-                Log.v("FBB","loadPost:onCancelled", error.toException())
-            }
-        }
-       database.addValueEventListener(postListener)
-    }
 }
+
+
