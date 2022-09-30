@@ -35,9 +35,9 @@ lateinit var binding: FragmentAddStudentToJournalBinding
             if (!empty()){
                 val studentEntity = getStudentValues()
                 addStudentEntityToDB(studentEntity)
-                fireBaseRepository.addDataToFB(studentEntity.firstName,studentEntity.secondName,
+             /*   fireBaseRepository.addDataToFB(studentEntity.firstName,studentEntity.secondName,
                 studentEntity.price,studentEntity.schoolClass,studentEntity.activeStatus,studentEntity.id,
-                requireContext())
+                requireContext())*/
                 Toast.makeText(requireContext(), "Добавлено", Toast.LENGTH_SHORT).show()
                 activity?.onBackPressed()
             }

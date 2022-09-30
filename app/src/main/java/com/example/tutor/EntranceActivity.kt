@@ -2,71 +2,87 @@ package com.example.tutor
 
 import android.content.Intent
 import android.os.Bundle
+import android.view.View
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.view.isVisible
+import androidx.lifecycle.Observer
 import com.example.tutor.databinding.ActivityEntranceBinding
+import com.example.tutor.fireBase.FireBaseViewModel
+import com.example.tutor.fireBase.Resource
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.UserProfileChangeRequest
 
 class EntranceActivity : AppCompatActivity() {
     lateinit var binding: ActivityEntranceBinding
-    private lateinit var auth: FirebaseAuth
+    private val fireBaseViewModel = FireBaseViewModel()
+    private val auth = FirebaseAuth.getInstance()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityEntranceBinding.inflate(layoutInflater)
         setContentView(binding.root)
-        auth = FirebaseAuth.getInstance()
-       entrance()
+        //entrance()
         registration()
-        login()
+        signIn()
+
     }
-    private fun entrance(){
+    private fun transition(){
+        val intent = Intent(this, MainActivity::class.java)
+        startActivity(intent)
+        finish()
+    }
+    private fun signIn(){
+        binding.btnEntering.setOnClickListener {
+            fireBaseViewModel.signInUser(binding.edMail.text.toString(),binding.edPassword.text.toString())
+            fireBaseViewModel.userSignUpStatus.observe(this, Observer {
+                when (it) {
+                    is Resource.Loading -> {
+                        Toast.makeText(applicationContext, "Загрузка", Toast.LENGTH_SHORT).show()
+                    }
+                    is Resource.Success -> {
+                        Toast.makeText(applicationContext, "Успешно", Toast.LENGTH_SHORT).show()
+                        transition()
+                    }
+                    is Resource.Error -> {
+                        Toast.makeText(applicationContext, it.message, Toast.LENGTH_SHORT).show()
+                    }
+                }
+            })
+        }
+    }
+    private fun registration(){
+        binding.btnRegistration.setOnClickListener {
+          binding.edRegName.visibility = View.VISIBLE
+          binding.edRegSecondName.visibility = View.VISIBLE
+            fireBaseViewModel.createUser( binding.edRegName.text.toString()+binding.edRegSecondName.text.toString()
+                ,binding.edMail.text.toString(), binding.edPassword.text.toString())
+                // реализация статуса
+            fireBaseViewModel.userRegistrationStatus.observe(this, Observer {
+                when (it) {
+                    is Resource.Loading -> {
+                        Toast.makeText(applicationContext, "Загрузка", Toast.LENGTH_SHORT).show()
+                    }
+                    is Resource.Success -> {
+                        Toast.makeText(applicationContext, "Регистрация прошла успешно", Toast.LENGTH_SHORT).show()
+                        val userName = UserProfileChangeRequest.Builder()
+                            .setDisplayName(binding.edRegName.text.toString()+binding.edRegSecondName.text.toString()).build()
+                        auth.currentUser?.updateProfile(userName)
+                        transition()
+                    }
+                    is Resource.Error -> {
+                        Toast.makeText(applicationContext, it.message, Toast.LENGTH_SHORT).show()
+                    }
+                }
+            })
+        }
+    }
+    private fun entrance() {
         val user = auth.currentUser
-        if(user != null){
+        if (user != null) {
             val intent = Intent(this, MainActivity::class.java)
             startActivity(intent)
             finish()
-        }
-    }
-    private fun registration() {
-        binding.btnRegistration.setOnClickListener {
-            val email = binding.edMail.text.toString()
-            val password = binding.edPassword.text.toString()
-            val name = binding.edRegName.text.toString()
-            val secondName = binding.edRegSecondName.text.toString()
-            val profileName = "$name $secondName"
-            auth.createUserWithEmailAndPassword(email, password).addOnCompleteListener {
-                val user = auth.currentUser
-                if (it.isSuccessful) {
-                    val userName = UserProfileChangeRequest.Builder().setDisplayName(profileName).build()
-                    user?.updateProfile(userName)
-                    val intent = Intent(this, MainActivity::class.java)
-                    startActivity(intent)
-                    finish()
-                }
-            }.addOnFailureListener { exception ->
-                Toast.makeText(applicationContext, exception.localizedMessage, Toast.LENGTH_LONG)
-                    .show()
-            }
-        }
-
-    }
-
-    private fun login() {
-        binding.btnEntering.setOnClickListener {
-            val email = binding.edMail.text.toString()
-            val password = binding.edPassword.text.toString()
-            auth.signInWithEmailAndPassword(email, password).addOnCompleteListener {
-                if (it.isSuccessful) {
-                    val intent = Intent(this, MainActivity::class.java)
-                    startActivity(intent)
-                    finish()
-                }
-            }.addOnFailureListener { exception ->
-                Toast.makeText(applicationContext, exception.localizedMessage, Toast.LENGTH_LONG)
-                    .show()
-            }
         }
     }
 
