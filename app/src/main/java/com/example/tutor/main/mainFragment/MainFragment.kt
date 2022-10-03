@@ -17,6 +17,7 @@ import com.example.tutor.adapters.MainFragmentAdapter
 import com.example.tutor.bd.entities.ScheduleEntity
 import com.example.tutor.convertLongToTime
 import com.example.tutor.databinding.FragmentMainBinding
+import com.example.tutor.fireBase.FireBaseViewModel
 import com.example.tutor.journal.studentJournal.DBapplication
 import java.util.*
 
@@ -29,6 +30,7 @@ class MainFragment : Fragment(), MainFragmentAdapter.Listener,com.example.tutor.
     lateinit var recyclerView: RecyclerView
     private var adapter = MainFragmentAdapter(this)
     private var selectedDate:Long? = null
+    private val fireBaseViewModel = FireBaseViewModel()
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -75,11 +77,14 @@ class MainFragment : Fragment(), MainFragmentAdapter.Listener,com.example.tutor.
         binding.tvSelectedDate.text = currentDate.convertLongToTime("dd MMMM yyyy")
     }
     private fun  toolBarSetting(){
+
         // Скрытие toolbar activity и создание своего
         (activity as AppCompatActivity).supportActionBar?.hide()
         val toolbar = binding.fragmentToolbar
         (activity as AppCompatActivity).setSupportActionBar(toolbar)
         (activity as AppCompatActivity).supportActionBar?.title = "Расписание"
+        (activity as AppCompatActivity).supportActionBar?.setDisplayHomeAsUpEnabled(true)
+        (activity as AppCompatActivity).supportActionBar?.setHomeAsUpIndicator(R.drawable.ic_exit)
     }
     // меню ToolBar
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
@@ -90,6 +95,10 @@ class MainFragment : Fragment(), MainFragmentAdapter.Listener,com.example.tutor.
     // слушатель айтемов меню ToolBar
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         when (item.itemId) {
+            android.R.id.home -> {
+                exit()
+                transition()
+            }
             R.id.info -> {
                 showDialogFragment(childFragmentManager,R.string.mainFragmentDialog)
             }
@@ -97,6 +106,12 @@ class MainFragment : Fragment(), MainFragmentAdapter.Listener,com.example.tutor.
         return true
     }
 
+    private fun exit(){
+        fireBaseViewModel.signOut()
+    }
+    private fun transition(){
+        findNavController().navigate(R.id.action_mainFragment_to_entranceActivity)
+    }
     private fun realizationOfRV2(currentDate: String) {
         recyclerView = binding.recyclerviewSchedule
         recyclerView.adapter = adapter

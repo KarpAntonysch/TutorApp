@@ -16,15 +16,17 @@ class FireBaseViewModel:ViewModel(){
     // аутентификации. Содержит метод, возвращающий текущего пользователя, вошедшего в систему,
     // после завершения операции.
     val userRegistrationStatus: LiveData<Resource<AuthResult>> = _userRegistrationStatus
-
-    private val _userSignUpStatus = MutableLiveData<Resource<AuthResult>>()
-    val userSignUpStatus: LiveData<Resource<AuthResult>> = _userSignUpStatus
     // _userRegistrationStatus - для изменения статуса регистрации
     // userRegistrationStatus - для единственного источника данных для UI
+    private val _userSignUpStatus = MutableLiveData<Resource<AuthResult>>()
+    val userSignUpStatus: LiveData<Resource<AuthResult>> = _userSignUpStatus
+
+    private val _userSignOutStatus = MutableLiveData<Resource<AuthResult>>()
+    val userSignOutStatus: LiveData<Resource<AuthResult>> = _userSignOutStatus
 
     private val fireBaseRepository = FireBaseRepository()
     fun createUser(userName: String, userEmailAddress: String, userLoginPassword: String) {
-        var error =
+        val error =
             if (userEmailAddress.isEmpty() || userName.isEmpty() || userLoginPassword.isEmpty()) {
                 "Заполните все строки"
             } else if (!Patterns.EMAIL_ADDRESS.matcher(userEmailAddress).matches()) {
@@ -55,5 +57,8 @@ class FireBaseViewModel:ViewModel(){
                 _userSignUpStatus.postValue(loginResult)
             }
         }
+    }
+    fun signOut(){
+       fireBaseRepository.signOut()
     }
 }

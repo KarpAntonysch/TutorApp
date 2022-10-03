@@ -5,8 +5,6 @@ import android.os.Bundle
 import android.view.View
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.view.isVisible
-import androidx.lifecycle.Observer
 import com.example.tutor.databinding.ActivityEntranceBinding
 import com.example.tutor.fireBase.FireBaseViewModel
 import com.example.tutor.fireBase.Resource
@@ -22,7 +20,7 @@ class EntranceActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         binding = ActivityEntranceBinding.inflate(layoutInflater)
         setContentView(binding.root)
-        //entrance()
+        entrance()
         registration()
         signIn()
 
@@ -35,7 +33,7 @@ class EntranceActivity : AppCompatActivity() {
     private fun signIn(){
         binding.btnEntering.setOnClickListener {
             fireBaseViewModel.signInUser(binding.edMail.text.toString(),binding.edPassword.text.toString())
-            fireBaseViewModel.userSignUpStatus.observe(this, Observer {
+            fireBaseViewModel.userSignUpStatus.observe(this) {
                 when (it) {
                     is Resource.Loading -> {
                         Toast.makeText(applicationContext, "Загрузка", Toast.LENGTH_SHORT).show()
@@ -48,7 +46,7 @@ class EntranceActivity : AppCompatActivity() {
                         Toast.makeText(applicationContext, it.message, Toast.LENGTH_SHORT).show()
                     }
                 }
-            })
+            }
         }
     }
     private fun registration(){
@@ -58,7 +56,7 @@ class EntranceActivity : AppCompatActivity() {
             fireBaseViewModel.createUser( binding.edRegName.text.toString()+binding.edRegSecondName.text.toString()
                 ,binding.edMail.text.toString(), binding.edPassword.text.toString())
                 // реализация статуса
-            fireBaseViewModel.userRegistrationStatus.observe(this, Observer {
+            fireBaseViewModel.userRegistrationStatus.observe(this) {
                 when (it) {
                     is Resource.Loading -> {
                         Toast.makeText(applicationContext, "Загрузка", Toast.LENGTH_SHORT).show()
@@ -74,7 +72,7 @@ class EntranceActivity : AppCompatActivity() {
                         Toast.makeText(applicationContext, it.message, Toast.LENGTH_SHORT).show()
                     }
                 }
-            })
+            }
         }
     }
     private fun entrance() {

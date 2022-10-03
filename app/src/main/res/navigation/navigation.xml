@@ -13,6 +13,9 @@
         <action
             android:id="@+id/action_mainFragment_to_addStudentToDaySchedule"
             app:destination="@id/addStudentToDaySchedule" />
+        <action
+            android:id="@+id/action_mainFragment_to_entranceActivity"
+            app:destination="@id/entranceActivity" />
     </fragment>
     <fragment
         android:id="@+id/statisticFragment"
@@ -78,4 +81,9 @@
             android:name="ArgForWatching"
             app:argType="com.example.tutor.bd.entities.StudentEntity" />
     </fragment>
+    <activity
+        android:id="@+id/entranceActivity"
+        android:name="com.example.tutor.EntranceActivity"
+        android:label="activity_entrance"
+        tools:layout="@layout/activity_entrance" />
 </navigation>
