@@ -53,7 +53,7 @@ class EditStudentFragment : Fragment(),JointDialogInterface {
         when (item.itemId) {
             android.R.id.home -> activity?.onBackPressed()
             R.id.info -> {
-                showYesOrNowDialog(R.string.hint,false,R.string.good,R.string.empty,
+                showJoinDialog(R.string.hint,false,R.string.good,R.string.empty,
                     childFragmentManager,R.string.editStudentDialog,true)
             }
         }

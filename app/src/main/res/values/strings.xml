@@ -59,4 +59,5 @@
     <string name="no">Нет</string>
     <string name="empty"> </string>
     <string name="deleteQuestion">Вы действительно хотите удалить?</string>
+    <string name="exitQuestion">Вы действительно хотите выйти из учетной записи?</string>
 </resources>

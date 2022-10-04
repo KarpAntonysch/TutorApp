@@ -23,6 +23,7 @@ import java.util.Calendar.getInstance
 
 
 class AddStudentToDaySchedule : Fragment(),JointDialogInterface {
+
     lateinit var binding: FragmentAddStudentToDayScheduleBinding
     private val scheduleViewModel: AddStudentToScheduleViewModel by viewModels {
         AddStudentToScheduleViewModelFactory((requireActivity().application as DBapplication).scheduleRepository)
@@ -163,11 +164,11 @@ class AddStudentToDaySchedule : Fragment(),JointDialogInterface {
     // Функция вызова диалогового окна из InfoDialogFragment. Для подсказки в toolBar и ошибки пустого спинера
     private fun showInfoDialogFragment(target: String) {
         if (target == "schedule") {
-            showYesOrNowDialog(R.string.hint,false,R.string.good,
+            showJoinDialog(R.string.hint,false,R.string.good,
                 R.string.empty,childFragmentManager,R.string.addStudentToSchedule,true)
         }
         if (target == "warning") {
-            showYesOrNowDialog(R.string.hint,false,R.string.good,
+            showJoinDialog(R.string.hint,false,R.string.good,
                 R.string.empty,childFragmentManager,R.string.emptyStudent,true)
         }
 

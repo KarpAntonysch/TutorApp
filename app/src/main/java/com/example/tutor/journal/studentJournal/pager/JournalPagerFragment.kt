@@ -54,7 +54,7 @@ class JournalPagerFragment : Fragment(),JointDialogInterface {
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         when (item.itemId) {
             R.id.info -> {
-                showYesOrNowDialog(R.string.hint,false,R.string.good,R.string.empty,
+                showJoinDialog(R.string.hint,false,R.string.good,R.string.empty,
                     childFragmentManager,R.string.journalFragmentDialog,true)
             }
         }

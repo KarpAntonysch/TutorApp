@@ -21,6 +21,7 @@ import com.example.tutor.dialogs.JointDialogFragment
 import com.example.tutor.dialogs.JointDialogInterface
 import com.example.tutor.fireBase.FireBaseViewModel
 import com.example.tutor.journal.studentJournal.DBapplication
+import com.google.firebase.auth.FirebaseAuth
 import java.util.*
 
 
@@ -85,7 +86,7 @@ JointDialogInterface{
         (activity as AppCompatActivity).supportActionBar?.hide()
         val toolbar = binding.fragmentToolbar
         (activity as AppCompatActivity).setSupportActionBar(toolbar)
-        (activity as AppCompatActivity).supportActionBar?.title = "Расписание"
+        (activity as AppCompatActivity).supportActionBar?.title = FirebaseAuth.getInstance().currentUser?.displayName
         (activity as AppCompatActivity).supportActionBar?.setDisplayHomeAsUpEnabled(true)
         (activity as AppCompatActivity).supportActionBar?.setHomeAsUpIndicator(R.drawable.ic_exit)
     }
@@ -99,10 +100,12 @@ JointDialogInterface{
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         when (item.itemId) {
             android.R.id.home -> {
-                exitFromFbAccount()
+                showJoinDialog(R.string.exitQuestion,true,R.string.yes,R.string.no,
+                    childFragmentManager,R.string.mainFragmentDialog,false)
+                setupJoinDialogFragmentListener()
             }
             R.id.info -> {
-                showYesOrNowDialog(R.string.hint,false,R.string.good,R.string.empty,
+                showJoinDialog(R.string.hint,false,R.string.good,R.string.empty,
                     childFragmentManager,R.string.mainFragmentDialog,true)
             }
         }
@@ -129,11 +132,20 @@ JointDialogInterface{
     // функция для удаления объекта в расписании на день через dialog, переопределенная функция из
     // интерфейса
     override fun onClickToDeleteSchedule(scheduleEntity: ScheduleEntity) {
-        showYesOrNowDialog(R.string.deleteQuestion,true,R.string.yes,R.string.no,
+        showJoinDialog(R.string.deleteQuestion,true,R.string.yes,R.string.no,
             childFragmentManager,R.string.empty,false)
         setupDialogFragmentListener(scheduleEntity)
     }
-
+    private fun setupJoinDialogFragmentListener() {
+        childFragmentManager.setFragmentResultListener(
+            JointDialogFragment.REQUEST_KEY,
+            this,
+            FragmentResultListener { _, result ->
+                when (result.getInt(JointDialogFragment.KEY_RESPONSE)) {
+                    DialogInterface.BUTTON_POSITIVE -> exitFromFbAccount()
+                }
+            })
+    }
     // Функция инициализации кнопок в диалоговом окне из YesOrNoDialogFragment
     private fun setupDialogFragmentListener(scheduleEntity: ScheduleEntity) {
         childFragmentManager.setFragmentResultListener(

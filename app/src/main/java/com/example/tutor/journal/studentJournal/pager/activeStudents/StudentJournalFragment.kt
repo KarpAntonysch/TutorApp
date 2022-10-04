@@ -77,7 +77,7 @@ class StudentJournalFragment : Fragment(), StudentJournalAdapter.Listener,
 
     // Реализация метода интерфейса ActionModeListener для удаления ученика через диалог фрагмент
     override fun clickToMenuDelete(studentEntity: StudentEntity) {
-        showYesOrNowDialog(R.string.deleteQuestion,true,R.string.yes,R.string.no,
+        showJoinDialog(R.string.deleteQuestion,true,R.string.yes,R.string.no,
         childFragmentManager,R.string.empty,false)
         setupDialogFragmentListener(studentEntity)
     }
