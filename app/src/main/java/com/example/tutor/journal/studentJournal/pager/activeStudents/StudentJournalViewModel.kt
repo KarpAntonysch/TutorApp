@@ -1,4 +1,4 @@
-package com.example.tutor.journal
+package com.example.tutor.journal.studentJournal.pager.activeStudents
 
 import androidx.lifecycle.*
 import com.example.tutor.bd.entities.StudentEntity
@@ -8,6 +8,7 @@ import com.example.tutor.repository.StudentRepository
 class StudentJournalViewModel(private val repository: StudentRepository) : ViewModel() {
     //Создаем переменную для получения списка из БД типа LD, которая инициализируется Flow из репозитория
     val allStudents: LiveData<List<StudentEntity>> = repository.allStudents.asLiveData()
+    val test:LiveData<List<StudentEntity>> = repository.test
     fun getInfo(): LiveData<MutableList<StudentForSchedule>>{
         return repository.infoForSchedule
     }

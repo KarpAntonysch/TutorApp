@@ -20,20 +20,26 @@ import com.example.tutor.databinding.FragmentMainBinding
 import com.example.tutor.dialogs.JointDialogFragment
 import com.example.tutor.dialogs.JointDialogInterface
 import com.example.tutor.fireBase.FireBaseViewModel
+import com.example.tutor.journal.studentJournal.pager.activeStudents.StudentJournalViewModel
+import com.example.tutor.journal.studentJournal.pager.activeStudents.StudentJournalViewModelFactory
 import com.example.tutor.journal.studentJournal.DBapplication
 import com.google.firebase.auth.FirebaseAuth
 import java.util.*
 
 
 class MainFragment : Fragment(), MainFragmentAdapter.Listener,
-JointDialogInterface{
+    JointDialogInterface {
     lateinit var binding: FragmentMainBinding
     private val mainFragmentViewModel: MainFragmentViewModel by viewModels {
         MainFragmentViewModelFactory((requireActivity().application as DBapplication).scheduleRepository)
     }
+    private val studentJournalViewModel: StudentJournalViewModel by viewModels {
+        StudentJournalViewModelFactory((requireActivity().application as DBapplication).studentRepository)
+    }
+
     lateinit var recyclerView: RecyclerView
     private var adapter = MainFragmentAdapter(this)
-    private var selectedDate:Long? = null
+    private var selectedDate: Long? = null
     private val fireBaseViewModel = FireBaseViewModel()
 
     override fun onCreateView(
@@ -43,14 +49,14 @@ JointDialogInterface{
     ): View {
         binding = FragmentMainBinding.inflate(inflater, container, false)
         setHasOptionsMenu(true)
-           saveSelectedDate()
+        saveSelectedDate()
         return binding.root
 
     }
 
     @RequiresApi(Build.VERSION_CODES.O)
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        Log.v("tess","onViewCreated")
+        Log.v("tess", "onViewCreated")
         super.onViewCreated(view, savedInstanceState)
         toolBarSetting()
         // передадим дату (Long) через  Bundle
@@ -65,31 +71,50 @@ JointDialogInterface{
             currentCalendar.set(year, moth, dayOfMoth)
             // возвращает дату и время в Long
             currentDate = currentCalendar.timeInMillis
-            selectedDate= currentDate
+            selectedDate = currentDate
             realizationOfRV2(currentDate.convertLongToTime("dd-MM-yyyy"))
             dateDisplaying(currentDate)
         }
-        binding.btnAddToCalendar.setOnClickListener {
-            bundle.putLong("ArgForDate", currentDate)
-            findNavController().navigate(R.id.action_mainFragment_to_addStudentToDaySchedule,
-                bundle)
-        }
+
+        studentJournalViewModel.allStudents.observe(viewLifecycleOwner, {
+            Log.v("jjj", "$it")
+            if (it.isNullOrEmpty()) {
+                binding.btnAddToCalendar.setOnClickListener {
+                    //проверка на нулевой или пустой список в Журнале (==пустой список в спинере)
+                    showJoinDialog(
+                        R.string.warning, false, R.string.good, R.string.empty,
+                        childFragmentManager, R.string.warningText, true
+                    )
+                }
+            } else {
+                binding.btnAddToCalendar.setOnClickListener {
+                    bundle.putLong("ArgForDate", currentDate)
+                    findNavController().navigate(
+                        R.id.action_mainFragment_to_addStudentToDaySchedule,
+                        bundle
+                    )
+                }
+            }
+        })
         hideFAB()
     }
 
-    private fun dateDisplaying(currentDate : Long){
+    private fun dateDisplaying(currentDate: Long) {
         binding.tvSelectedDate.text = currentDate.convertLongToTime("dd MMMM yyyy")
     }
-    private fun  toolBarSetting(){
+
+    private fun toolBarSetting() {
 
         // Скрытие toolbar activity и создание своего
         (activity as AppCompatActivity).supportActionBar?.hide()
         val toolbar = binding.fragmentToolbar
         (activity as AppCompatActivity).setSupportActionBar(toolbar)
-        (activity as AppCompatActivity).supportActionBar?.title = FirebaseAuth.getInstance().currentUser?.displayName
+        (activity as AppCompatActivity).supportActionBar?.title =
+            FirebaseAuth.getInstance().currentUser?.displayName
         (activity as AppCompatActivity).supportActionBar?.setDisplayHomeAsUpEnabled(true)
         (activity as AppCompatActivity).supportActionBar?.setHomeAsUpIndicator(R.drawable.ic_exit)
     }
+
     // меню ToolBar
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
         menu.clear()
@@ -100,22 +125,27 @@ JointDialogInterface{
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         when (item.itemId) {
             android.R.id.home -> {
-                showJoinDialog(R.string.exitQuestion,true,R.string.yes,R.string.no,
-                    childFragmentManager,R.string.mainFragmentDialog,false)
+                showJoinDialog(
+                    R.string.exitQuestion, true, R.string.yes, R.string.no,
+                    childFragmentManager, R.string.mainFragmentDialog, false
+                )
                 setupJoinDialogFragmentListener()
             }
             R.id.info -> {
-                showJoinDialog(R.string.hint,false,R.string.good,R.string.empty,
-                    childFragmentManager,R.string.mainFragmentDialog,true)
+                showJoinDialog(
+                    R.string.hint, false, R.string.good, R.string.empty,
+                    childFragmentManager, R.string.mainFragmentDialog, true
+                )
             }
         }
         return true
     }
 
-    private fun exitFromFbAccount(){
+    private fun exitFromFbAccount() {
         fireBaseViewModel.signOut()//выход из аккаунта
         findNavController().navigate(R.id.action_mainFragment_to_entranceActivity)//переход на экран авторизации
     }
+
     private fun realizationOfRV2(currentDate: String) {
         recyclerView = binding.recyclerviewSchedule
         recyclerView.adapter = adapter
@@ -124,18 +154,23 @@ JointDialogInterface{
                 scheduleList.let { adapter.submitList(it.sortedBy { it.scheduleEntity.dateWithTime }) }
             }
     }
-    private fun saveSelectedDate(){
-        if (selectedDate !==null){
+
+    private fun saveSelectedDate() {
+        if (selectedDate !== null) {
             binding.calendarView.date = selectedDate!!
         }
     }
+
     // функция для удаления объекта в расписании на день через dialog, переопределенная функция из
     // интерфейса
     override fun onClickToDeleteSchedule(scheduleEntity: ScheduleEntity) {
-        showJoinDialog(R.string.deleteQuestion,true,R.string.yes,R.string.no,
-            childFragmentManager,R.string.empty,false)
+        showJoinDialog(
+            R.string.deleteQuestion, true, R.string.yes, R.string.no,
+            childFragmentManager, R.string.empty, false
+        )
         setupDialogFragmentListener(scheduleEntity)
     }
+
     private fun setupJoinDialogFragmentListener() {
         childFragmentManager.setFragmentResultListener(
             JointDialogFragment.REQUEST_KEY,
@@ -146,6 +181,7 @@ JointDialogInterface{
                 }
             })
     }
+
     // Функция инициализации кнопок в диалоговом окне из YesOrNoDialogFragment
     private fun setupDialogFragmentListener(scheduleEntity: ScheduleEntity) {
         childFragmentManager.setFragmentResultListener(

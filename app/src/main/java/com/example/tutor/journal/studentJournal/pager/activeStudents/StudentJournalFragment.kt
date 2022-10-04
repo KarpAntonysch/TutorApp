@@ -17,8 +17,6 @@ import com.example.tutor.bd.entities.StudentEntity
 import com.example.tutor.databinding.FragmentStudentJournalBinding
 import com.example.tutor.dialogs.JointDialogFragment
 import com.example.tutor.dialogs.JointDialogInterface
-import com.example.tutor.journal.StudentJournalViewModel
-import com.example.tutor.journal.StudentJournalViewModelFactory
 import com.example.tutor.journal.studentJournal.DBapplication
 
 

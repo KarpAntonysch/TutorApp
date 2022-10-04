@@ -60,4 +60,6 @@
     <string name="empty"> </string>
     <string name="deleteQuestion">Вы действительно хотите удалить?</string>
     <string name="exitQuestion">Вы действительно хотите выйти из учетной записи?</string>
+    <string name="warning">Предупреждение</string>
+    <string name="warningText">Добавьте ученика в раздел \"Журнал\"!\n\n Невозможно добавить занятия без учеников.</string>
 </resources>
