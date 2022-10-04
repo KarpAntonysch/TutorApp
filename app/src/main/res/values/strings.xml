@@ -40,7 +40,7 @@
       При редактировании параметров ученика, параметры записей занятий в \"Расписании\" и \"Статистике\" изменятся автоматически.
     </string>
     <string name="watchStudent">
-       ● В этом разделе находится информация об ученике, а также список всех его занятий
+        В этом разделе находится информация об ученике, а также список всех его занятий
     </string>
     <string name="addStudentToJournal">
        ● Заполните все поля с информацией об ученике.\n\n
@@ -53,4 +53,10 @@
        ● Учитываются все занятия, проведенные до настоящего времени.Будущие занятия не учитываются.
     </string>
     <string name="emptyWarning"> Заполните поле </string>
+    <string name="hint">Подсказка</string>
+    <string name="good">Хорошо</string>
+    <string name="yes">Да</string>
+    <string name="no">Нет</string>
+    <string name="empty"> </string>
+    <string name="deleteQuestion">Вы действительно хотите удалить?</string>
 </resources>

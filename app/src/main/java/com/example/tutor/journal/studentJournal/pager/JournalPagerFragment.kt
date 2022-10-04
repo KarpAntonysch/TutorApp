@@ -7,10 +7,10 @@ import androidx.fragment.app.Fragment
 import com.example.tutor.R
 import com.example.tutor.adapters.JournalVPAdapter
 import com.example.tutor.databinding.FragmentJournalPagerBinding
-import com.example.tutor.dialogs.DialogInterface
+import com.example.tutor.dialogs.JointDialogInterface
 import com.google.android.material.tabs.TabLayoutMediator
 
-class JournalPagerFragment : Fragment(),DialogInterface {
+class JournalPagerFragment : Fragment(),JointDialogInterface {
     lateinit var binding: FragmentJournalPagerBinding
 
     override fun onCreateView(
@@ -54,7 +54,8 @@ class JournalPagerFragment : Fragment(),DialogInterface {
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         when (item.itemId) {
             R.id.info -> {
-                showDialogFragment(childFragmentManager,R.string.journalFragmentDialog)
+                showYesOrNowDialog(R.string.hint,false,R.string.good,R.string.empty,
+                    childFragmentManager,R.string.journalFragmentDialog,true)
             }
         }
         return true

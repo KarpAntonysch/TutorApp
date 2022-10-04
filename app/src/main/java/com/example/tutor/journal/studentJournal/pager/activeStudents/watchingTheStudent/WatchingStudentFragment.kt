@@ -10,14 +10,14 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.RecyclerView
-import com.example.tutor.dialogs.DialogInterface
 import com.example.tutor.R
 import com.example.tutor.bd.entities.StudentEntity
 import com.example.tutor.databinding.FragmentWatchingStudentBinding
+import com.example.tutor.dialogs.JointDialogInterface
 import com.example.tutor.journal.studentJournal.DBapplication
 
 
-class WatchingStudentFragment : Fragment(), DialogInterface {
+class WatchingStudentFragment : Fragment(),JointDialogInterface {
    lateinit var binding: FragmentWatchingStudentBinding
    lateinit var recyclerView: RecyclerView
    private val adapter = WatchingStudentAdapter()
@@ -68,7 +68,8 @@ class WatchingStudentFragment : Fragment(), DialogInterface {
         when (item.itemId) {
             android.R.id.home -> activity?.onBackPressed()
             R.id.info -> {
-                showDialogFragment(childFragmentManager,R.string.watchStudent)//Метод из DialogInterface
+                showYesOrNowDialog(R.string.hint,false,R.string.good,R.string.empty,
+                    childFragmentManager,R.string.watchStudent,true)
             }
         }
         return true

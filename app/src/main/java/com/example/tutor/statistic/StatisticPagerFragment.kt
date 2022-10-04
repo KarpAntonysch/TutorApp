@@ -7,10 +7,10 @@ import androidx.fragment.app.Fragment
 import com.example.tutor.R
 import com.example.tutor.adapters.StatisticVPAdapter
 import com.example.tutor.databinding.FragmentStatisticPagerBinding
-import com.example.tutor.dialogs.DialogInterface
+import com.example.tutor.dialogs.JointDialogInterface
 import com.google.android.material.tabs.TabLayoutMediator
 
-class StatisticPagerFragment : Fragment(),DialogInterface {
+class StatisticPagerFragment : Fragment(),JointDialogInterface {
    lateinit var binding: FragmentStatisticPagerBinding
 
     override fun onCreateView(
@@ -52,7 +52,8 @@ class StatisticPagerFragment : Fragment(),DialogInterface {
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         when (item.itemId) {
             R.id.info -> {
-           showDialogFragment(childFragmentManager,R.string.statistic)
+            showYesOrNowDialog(R.string.hint,false,R.string.good,R.string.empty,
+                childFragmentManager,R.string.statistic,true)
             }
         }
         return true

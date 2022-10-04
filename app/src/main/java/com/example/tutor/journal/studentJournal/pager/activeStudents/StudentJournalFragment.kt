@@ -2,7 +2,6 @@ package com.example.tutor.journal.studentJournal.pager.activeStudents
 
 import android.content.DialogInterface
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -16,15 +15,15 @@ import com.example.tutor.R
 import com.example.tutor.adapters.StudentJournalAdapter
 import com.example.tutor.bd.entities.StudentEntity
 import com.example.tutor.databinding.FragmentStudentJournalBinding
-import com.example.tutor.fireBase.FireBaseRepository
+import com.example.tutor.dialogs.JointDialogFragment
+import com.example.tutor.dialogs.JointDialogInterface
 import com.example.tutor.journal.StudentJournalViewModel
 import com.example.tutor.journal.StudentJournalViewModelFactory
 import com.example.tutor.journal.studentJournal.DBapplication
-import com.example.tutor.journal.studentJournal.JournalDialogFragment
 
 
 class StudentJournalFragment : Fragment(), StudentJournalAdapter.Listener,
-    JournalActionModeCallback.ActionModeListener {
+    JournalActionModeCallback.ActionModeListener,JointDialogInterface {
     lateinit var binding: FragmentStudentJournalBinding
     lateinit var recyclerView: RecyclerView
     private var adapter = StudentJournalAdapter(this)
@@ -32,7 +31,6 @@ class StudentJournalFragment : Fragment(), StudentJournalAdapter.Listener,
         StudentJournalViewModelFactory((requireActivity().application as DBapplication).studentRepository)
     }
     private lateinit  var actionMode: JournalActionModeCallback
-    private val fireBaseRepository = FireBaseRepository()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -77,9 +75,10 @@ class StudentJournalFragment : Fragment(), StudentJournalAdapter.Listener,
         // Которая реализвована как раз в фрагменте(ниже)
     }
 
-    // Реализация метода интерфейса ActionModeListener для удаления ученика
+    // Реализация метода интерфейса ActionModeListener для удаления ученика через диалог фрагмент
     override fun clickToMenuDelete(studentEntity: StudentEntity) {
-        showDialogFragment()
+        showYesOrNowDialog(R.string.deleteQuestion,true,R.string.yes,R.string.no,
+        childFragmentManager,R.string.empty,false)
         setupDialogFragmentListener(studentEntity)
     }
     // Реализация метода интерфейса ActionModeListener для редактирования ученика
@@ -95,18 +94,12 @@ class StudentJournalFragment : Fragment(), StudentJournalAdapter.Listener,
         findNavController().navigate(R.id.action_jornalPagerFragment_to_watchingStudentFragment,bundle)
     }
 
-    // Функция вызова диалогового окна из JournalDialogFragment
-    private fun showDialogFragment() {
-        val dialogFragment = JournalDialogFragment()
-        dialogFragment.show(childFragmentManager, JournalDialogFragment.TAG)
-    }
-
-    // Функция инициализации кнопок в диалоговом окне из JournalDialogFragment
+    // Функция инициализации кнопок в диалоговом окне из YesOrNoDialogFragment
     private fun setupDialogFragmentListener(studentEntity: StudentEntity) {
-        childFragmentManager.setFragmentResultListener(JournalDialogFragment.REQUEST_KEY,
+        childFragmentManager.setFragmentResultListener(JointDialogFragment.REQUEST_KEY,
             this,
             FragmentResultListener { _, result ->
-                when (result.getInt(JournalDialogFragment.KEY_RESPONSE)) {
+                when (result.getInt(JointDialogFragment.KEY_RESPONSE)) {
                     DialogInterface.BUTTON_POSITIVE -> {
                         studentJournalViewModel.changeStudentActive(
                             studentEntity.id)

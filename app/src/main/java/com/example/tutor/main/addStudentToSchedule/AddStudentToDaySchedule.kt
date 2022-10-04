@@ -3,7 +3,6 @@ package com.example.tutor.main.addStudentToSchedule
 import android.annotation.SuppressLint
 import android.os.Build
 import android.os.Bundle
-import android.util.Log
 import android.view.*
 import android.widget.AdapterView
 import android.widget.ArrayAdapter
@@ -15,7 +14,7 @@ import com.example.tutor.R
 import com.example.tutor.bd.entities.ScheduleEntity
 import com.example.tutor.convertLongToTime
 import com.example.tutor.databinding.FragmentAddStudentToDayScheduleBinding
-import com.example.tutor.dialogs.DialogInterface
+import com.example.tutor.dialogs.JointDialogInterface
 import com.example.tutor.journal.StudentJournalViewModel
 import com.example.tutor.journal.StudentJournalViewModelFactory
 import com.example.tutor.journal.studentJournal.DBapplication
@@ -23,7 +22,7 @@ import java.util.*
 import java.util.Calendar.getInstance
 
 
-class AddStudentToDaySchedule : Fragment(), DialogInterface {
+class AddStudentToDaySchedule : Fragment(),JointDialogInterface {
     lateinit var binding: FragmentAddStudentToDayScheduleBinding
     private val scheduleViewModel: AddStudentToScheduleViewModel by viewModels {
         AddStudentToScheduleViewModelFactory((requireActivity().application as DBapplication).scheduleRepository)
@@ -53,7 +52,6 @@ class AddStudentToDaySchedule : Fragment(), DialogInterface {
         spinnerRealization()
         getCurrentTime()
         addingSchedule()
-        Log.v("spin","${scheduleViewModel.studentID}")
     }
 
     @SuppressLint("NewApi")
@@ -165,10 +163,12 @@ class AddStudentToDaySchedule : Fragment(), DialogInterface {
     // Функция вызова диалогового окна из InfoDialogFragment. Для подсказки в toolBar и ошибки пустого спинера
     private fun showInfoDialogFragment(target: String) {
         if (target == "schedule") {
-            showDialogFragment(childFragmentManager, R.string.addStudentToSchedule)
+            showYesOrNowDialog(R.string.hint,false,R.string.good,
+                R.string.empty,childFragmentManager,R.string.addStudentToSchedule,true)
         }
         if (target == "warning") {
-            showDialogFragment(childFragmentManager, R.string.emptyStudent)
+            showYesOrNowDialog(R.string.hint,false,R.string.good,
+                R.string.empty,childFragmentManager,R.string.emptyStudent,true)
         }
 
     }

@@ -17,12 +17,15 @@ import com.example.tutor.adapters.MainFragmentAdapter
 import com.example.tutor.bd.entities.ScheduleEntity
 import com.example.tutor.convertLongToTime
 import com.example.tutor.databinding.FragmentMainBinding
+import com.example.tutor.dialogs.JointDialogFragment
+import com.example.tutor.dialogs.JointDialogInterface
 import com.example.tutor.fireBase.FireBaseViewModel
 import com.example.tutor.journal.studentJournal.DBapplication
 import java.util.*
 
 
-class MainFragment : Fragment(), MainFragmentAdapter.Listener,com.example.tutor.dialogs.DialogInterface {
+class MainFragment : Fragment(), MainFragmentAdapter.Listener,
+JointDialogInterface{
     lateinit var binding: FragmentMainBinding
     private val mainFragmentViewModel: MainFragmentViewModel by viewModels {
         MainFragmentViewModelFactory((requireActivity().application as DBapplication).scheduleRepository)
@@ -96,21 +99,19 @@ class MainFragment : Fragment(), MainFragmentAdapter.Listener,com.example.tutor.
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         when (item.itemId) {
             android.R.id.home -> {
-                exit()
-                transition()
+                exitFromFbAccount()
             }
             R.id.info -> {
-                showDialogFragment(childFragmentManager,R.string.mainFragmentDialog)
+                showYesOrNowDialog(R.string.hint,false,R.string.good,R.string.empty,
+                    childFragmentManager,R.string.mainFragmentDialog,true)
             }
         }
         return true
     }
 
-    private fun exit(){
-        fireBaseViewModel.signOut()
-    }
-    private fun transition(){
-        findNavController().navigate(R.id.action_mainFragment_to_entranceActivity)
+    private fun exitFromFbAccount(){
+        fireBaseViewModel.signOut()//выход из аккаунта
+        findNavController().navigate(R.id.action_mainFragment_to_entranceActivity)//переход на экран авторизации
     }
     private fun realizationOfRV2(currentDate: String) {
         recyclerView = binding.recyclerviewSchedule
@@ -128,22 +129,18 @@ class MainFragment : Fragment(), MainFragmentAdapter.Listener,com.example.tutor.
     // функция для удаления объекта в расписании на день через dialog, переопределенная функция из
     // интерфейса
     override fun onClickToDeleteSchedule(scheduleEntity: ScheduleEntity) {
-        showDialogFragment()
+        showYesOrNowDialog(R.string.deleteQuestion,true,R.string.yes,R.string.no,
+            childFragmentManager,R.string.empty,false)
         setupDialogFragmentListener(scheduleEntity)
     }
 
-    // Функция вызова диалогового окна из ScheduleDialogFragment
-    private fun showDialogFragment() {
-        val dialogFragment = ScheduleDialogFragment()
-        dialogFragment.show(childFragmentManager, ScheduleDialogFragment.TAG)
-    }
-
-    // Функция инициализации кнопок в диалоговом окне из JournalDialogFragment
+    // Функция инициализации кнопок в диалоговом окне из YesOrNoDialogFragment
     private fun setupDialogFragmentListener(scheduleEntity: ScheduleEntity) {
-        childFragmentManager.setFragmentResultListener(ScheduleDialogFragment.REQUEST_KEY,
+        childFragmentManager.setFragmentResultListener(
+            JointDialogFragment.REQUEST_KEY,
             this,
             FragmentResultListener { _, result ->
-                when (result.getInt(ScheduleDialogFragment.KEY_RESPONSE)) {
+                when (result.getInt(JointDialogFragment.KEY_RESPONSE)) {
                     DialogInterface.BUTTON_POSITIVE -> mainFragmentViewModel
                         .deleteSchedule(scheduleEntity)
                 }

@@ -8,12 +8,12 @@ import androidx.fragment.app.viewModels
 import com.example.tutor.R
 import com.example.tutor.bd.entities.StudentEntity
 import com.example.tutor.databinding.FragmentEditStudentBinding
-import com.example.tutor.dialogs.DialogInterface
+import com.example.tutor.dialogs.JointDialogInterface
 import com.example.tutor.journal.studentJournal.DBapplication
 import com.example.tutor.toEditable
 
 
-class EditStudentFragment : Fragment(),DialogInterface {
+class EditStudentFragment : Fragment(),JointDialogInterface {
     lateinit var binding: FragmentEditStudentBinding
     private val editStudentViewModel: EditStudentViewModel by viewModels {
         EditStudentViewModelFactory((requireActivity().application as DBapplication).studentRepository)
@@ -53,7 +53,8 @@ class EditStudentFragment : Fragment(),DialogInterface {
         when (item.itemId) {
             android.R.id.home -> activity?.onBackPressed()
             R.id.info -> {
-                showDialogFragment(childFragmentManager,R.string.editStudentDialog)
+                showYesOrNowDialog(R.string.hint,false,R.string.good,R.string.empty,
+                    childFragmentManager,R.string.editStudentDialog,true)
             }
         }
         return true

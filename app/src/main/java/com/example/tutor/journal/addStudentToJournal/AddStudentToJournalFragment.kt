@@ -9,16 +9,14 @@ import androidx.fragment.app.viewModels
 import com.example.tutor.R
 import com.example.tutor.bd.entities.StudentEntity
 import com.example.tutor.databinding.FragmentAddStudentToJournalBinding
-import com.example.tutor.dialogs.DialogInterface
-import com.example.tutor.fireBase.FireBaseRepository
+import com.example.tutor.dialogs.JointDialogInterface
 import com.example.tutor.journal.studentJournal.DBapplication
 
-class AddStudentToJournalFragment : Fragment(),DialogInterface {
+class AddStudentToJournalFragment : Fragment(),JointDialogInterface {
 lateinit var binding: FragmentAddStudentToJournalBinding
     private val studentViewModel: AddStudentToJournalViewModel by viewModels {
         AddStudentToJournalViewModelFactory((requireActivity().application as DBapplication).studentRepository)
     }
-    private val fireBaseRepository = FireBaseRepository()
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -84,7 +82,9 @@ lateinit var binding: FragmentAddStudentToJournalBinding
         when (item.itemId) {
             android.R.id.home -> activity?.onBackPressed()
             R.id.info -> {
-                showDialogFragment(childFragmentManager,R.string.addStudentToJournal)
+               // showDialogFragment(childFragmentManager,R.string.addStudentToJournal)
+                showYesOrNowDialog(R.string.hint,false,R.string.good,R.string.empty,
+                childFragmentManager,R.string.addStudentToJournal,true)
             }
         }
         return true
