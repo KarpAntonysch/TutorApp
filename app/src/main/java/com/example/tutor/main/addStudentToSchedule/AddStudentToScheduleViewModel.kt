@@ -11,7 +11,7 @@ import com.example.tutor.toSpinnerModel
 import kotlinx.coroutines.launch
 
 class AddStudentToScheduleViewModel(private val repository: ScheduleRepository) : ViewModel() {
-    var studentID:Int = 1
+    var studentID:Int? = null
     // получение из List<StudentForSchedule> List<StudentForSpinnerModel>
     fun getNewList(infoList: MutableList<StudentForSchedule>): List<StudentForSpinnerModel>{
         return infoList.map { item ->item.toSpinnerModel() }

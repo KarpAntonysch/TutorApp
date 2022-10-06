@@ -71,6 +71,9 @@ class AddStudentToDaySchedule : Fragment(),JointDialogInterface {
         // получение информации для таблицы schedule(id,firstname,secondName), реализация спинера
         studentJournalViewModel.getInfo().observe(viewLifecycleOwner, {
             //спинер
+            val spinnerCheck:Int? = scheduleViewModel.studentID/*проверка выбранного ученика
+            при изменении конфигурации, если ученик был удален, то список в спинере по порядку, если
+            не удален, то выбор запоминается и переживает конфигурацию*/
             val spinner = binding.spinnerForSchedule
             val newList = scheduleViewModel.getNewList(it)
             spinner.adapter = ArrayAdapter(
@@ -78,8 +81,9 @@ class AddStudentToDaySchedule : Fragment(),JointDialogInterface {
                 android.R.layout.simple_spinner_dropdown_item,
                 newList
             )
-                // spinner.setSelection(scheduleViewModel.searchID(newList)) //для установки значения по умолчанию
-
+            if (spinnerCheck !== null){
+                spinner.setSelection(scheduleViewModel.searchID(newList))
+            }
             spinner.onItemSelectedListener =
                 object : AdapterView.OnItemSelectedListener {
                     override fun onItemSelected(
@@ -150,7 +154,7 @@ class AddStudentToDaySchedule : Fragment(),JointDialogInterface {
     // Заполнение объекта ScheduleEntity временем и id
     @SuppressLint("NewApi")
     fun getScheduleValues(): ScheduleEntity {
-        return addStudentToDayScheduleClass.getScheduleValues(formattedCurrentDate(), scheduleViewModel.studentID)
+        return addStudentToDayScheduleClass.getScheduleValues(formattedCurrentDate(), scheduleViewModel.studentID!!)
     }
 
     // добавление объекта расписания в БД (scheduleTable)
