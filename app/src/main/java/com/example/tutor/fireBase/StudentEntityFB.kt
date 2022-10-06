@@ -1,12 +1,12 @@
 package com.example.tutor.fireBase
 
 data class StudentEntityFB(
-    val firstName: String? = null,
-    val secondName: String? = null,
-    val price: Int? = null,
-    val schoolClass: Int? = null,
+    val firstName: String ,
+    val secondName: String ,
+    val price: Int ,
+    val schoolClass: Int ,
     val activeStatus: Boolean = true,
-    val id: Int? = null
+    val id: Int
 )
 
 

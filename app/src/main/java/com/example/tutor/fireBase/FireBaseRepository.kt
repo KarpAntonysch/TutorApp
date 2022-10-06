@@ -1,9 +1,13 @@
 package com.example.tutor.fireBase
 
+import android.content.Context
+import android.widget.Toast
+import com.google.android.gms.tasks.Task
 import com.google.firebase.auth.AuthResult
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.UserProfileChangeRequest
 import com.google.firebase.firestore.FirebaseFirestore
+import com.google.firebase.firestore.QuerySnapshot
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.tasks.await
 import kotlinx.coroutines.withContext
@@ -35,31 +39,27 @@ class FireBaseRepository {
             }
         }
     }
-    }
-    /*fun addDataToFB(
-        firstName: String,
-        secondName: String,
-        price: Int,
-        schoolClass: Int,
-        activeStatus: Boolean = true,
-        id: Int,
+    fun addStudentToFBCloud(
+        studentEntityFB: StudentEntityFB,
         requireContext: Context
-    ) { val user = StudentEntityFB(firstName,secondName,price,schoolClass,activeStatus,id)
+    ) {
         fireStoreDB.collection("Users").document("${FirebaseAuth.getInstance()
-            .currentUser?.uid}").collection("Students").document().set(user)
+            .currentUser?.uid}").collection("Students").document().set(studentEntityFB)
             .addOnSuccessListener {
-            Toast.makeText(requireContext, "Добавлено в ФаирБэйз", Toast.LENGTH_LONG).show()
-        }.addOnFailureListener { exception ->
-            Toast.makeText(requireContext, exception.localizedMessage, Toast.LENGTH_LONG).show()
-        }
+                Toast.makeText(requireContext, "Добавлено в ФаирБэйз", Toast.LENGTH_LONG).show()
+            }.addOnFailureListener { exception ->
+                Toast.makeText(requireContext, exception.localizedMessage, Toast.LENGTH_LONG).show()
+            }
     }
 
-    fun  readDataFromDB(): Task<QuerySnapshot> {
+   /* fun  readDataFromDB(): Task<QuerySnapshot> {
         return fireStoreDB.collection("Users").document("${FirebaseAuth.getInstance()
             .currentUser?.uid}").collection("Students").get().addOnSuccessListener {
-                print(it.documentChanges)
+            print(it.documentChanges)
         }
     }*/
+    }
+
 
 inline fun <T> safeCall(action: () -> Resource<T>): Resource<T> {
     return try {

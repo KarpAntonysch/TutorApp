@@ -1,5 +1,6 @@
 package com.example.tutor.fireBase
 
+import android.content.Context
 import android.util.Patterns
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
@@ -20,9 +21,6 @@ class FireBaseViewModel:ViewModel(){
     // userRegistrationStatus - для единственного источника данных для UI
     private val _userSignUpStatus = MutableLiveData<Resource<AuthResult>>()
     val userSignUpStatus: LiveData<Resource<AuthResult>> = _userSignUpStatus
-
-    private val _userSignOutStatus = MutableLiveData<Resource<AuthResult>>()
-    val userSignOutStatus: LiveData<Resource<AuthResult>> = _userSignOutStatus
 
     private val fireBaseRepository = FireBaseRepository()
     fun createUser(userName: String, userEmailAddress: String, userLoginPassword: String) {
@@ -60,5 +58,8 @@ class FireBaseViewModel:ViewModel(){
     }
     fun signOut(){
        fireBaseRepository.signOut()
+    }
+    fun addStudentToFBCloud(studentEntityFB: StudentEntityFB,requireContext: Context){
+        fireBaseRepository.addStudentToFBCloud(studentEntityFB,requireContext)
     }
 }
