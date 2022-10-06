@@ -1,11 +1,13 @@
 package com.example.tutor.journal.addStudentToJournal
 
 import android.os.Bundle
+import android.util.Log
 import android.view.*
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
+import androidx.navigation.fragment.findNavController
 import com.example.tutor.R
 import com.example.tutor.bd.entities.StudentEntity
 import com.example.tutor.databinding.FragmentAddStudentToJournalBinding
@@ -17,6 +19,8 @@ lateinit var binding: FragmentAddStudentToJournalBinding
     private val studentViewModel: AddStudentToJournalViewModel by viewModels {
         AddStudentToJournalViewModelFactory((requireActivity().application as DBapplication).studentRepository)
     }
+    private var firstStudentCheck:Int = 0 /*Проверка для добавления первого ученика, если переход
+    совершен с mainFragment то при добавлении возврат туда же, если с StudentJournalFragment , то на него*/
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -29,6 +33,8 @@ lateinit var binding: FragmentAddStudentToJournalBinding
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         toolbarSetting()
+        firstStudentCheck = firstStudentChecking()
+        Log.v("qsq","${firstStudentChecking()}")
         binding.btnAddToDB.setOnClickListener{
             if (!empty()){
                 val studentEntity = getStudentValues()
@@ -37,9 +43,18 @@ lateinit var binding: FragmentAddStudentToJournalBinding
                 studentEntity.price,studentEntity.schoolClass,studentEntity.activeStatus,studentEntity.id,
                 requireContext())*/
                 Toast.makeText(requireContext(), "Добавлено", Toast.LENGTH_SHORT).show()
-                activity?.onBackPressed()
+                if (firstStudentCheck == 0){
+                    activity?.onBackPressed()
+                }else{
+                    findNavController().navigate(R.id.action_addStudentToJournalFragment_to_mainFragment)
+                }
+                firstStudentCheck = 0
             }
         }
+    }
+    private fun firstStudentChecking():Int{
+        val studentCheck = arguments?.getInt("ArgForStudent")
+        return studentCheck!!
     }
     private fun toolbarSetting(){
         val toolbar = binding.addStudentToolbar

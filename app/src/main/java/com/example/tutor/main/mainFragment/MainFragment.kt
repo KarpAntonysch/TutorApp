@@ -60,7 +60,8 @@ class MainFragment : Fragment(), MainFragmentAdapter.Listener,
         super.onViewCreated(view, savedInstanceState)
         toolBarSetting()
         // передадим дату (Long) через  Bundle
-        val bundle = Bundle()
+        val bundleForSchedule = Bundle()
+        val bundleForStudent = Bundle()
         var currentDate = binding.calendarView.date
         dateDisplaying(currentDate)
         realizationOfRV2(currentDate.convertLongToTime("dd-MM-yyyy"))
@@ -82,16 +83,17 @@ class MainFragment : Fragment(), MainFragmentAdapter.Listener,
                 binding.btnAddToCalendar.setOnClickListener {
                     //проверка на нулевой или пустой список в Журнале (==пустой список в спинере)
                     showJoinDialog(
-                        R.string.warning, false, R.string.good, R.string.empty,
+                        R.string.warning, false, R.string.toJournal, R.string.empty,
                         childFragmentManager, R.string.warningText, true
                     )
+                    setupAddBtnDialogFragmentListener(bundleForStudent)
                 }
             } else {
                 binding.btnAddToCalendar.setOnClickListener {
-                    bundle.putLong("ArgForDate", currentDate)
+                    bundleForSchedule.putLong("ArgForDate", currentDate)
                     findNavController().navigate(
                         R.id.action_mainFragment_to_addStudentToDaySchedule,
-                        bundle
+                        bundleForSchedule
                     )
                 }
             }
@@ -171,6 +173,22 @@ class MainFragment : Fragment(), MainFragmentAdapter.Listener,
         setupDialogFragmentListener(scheduleEntity)
     }
 
+    private fun setupAddBtnDialogFragmentListener(bundleForStudent: Bundle) {
+        childFragmentManager.setFragmentResultListener(
+            JointDialogFragment.REQUEST_KEY,
+            this,
+            FragmentResultListener { _, result ->
+                when (result.getInt(JointDialogFragment.KEY_RESPONSE)) {
+                    DialogInterface.BUTTON_POSITIVE ->{
+                        bundleForStudent.putInt("ArgForStudent",1)
+                        findNavController().navigate(
+                        R.id.action_mainFragment_to_addStudentToJournalFragment,bundleForStudent
+                    )
+                   }
+                }
+            })
+    }
+    // инициализация кнопки выхода из аккаунта
     private fun setupJoinDialogFragmentListener() {
         childFragmentManager.setFragmentResultListener(
             JointDialogFragment.REQUEST_KEY,
@@ -182,7 +200,7 @@ class MainFragment : Fragment(), MainFragmentAdapter.Listener,
             })
     }
 
-    // Функция инициализации кнопок в диалоговом окне из YesOrNoDialogFragment
+    // Функция инициализации кнопки удаления в диалоговом окне
     private fun setupDialogFragmentListener(scheduleEntity: ScheduleEntity) {
         childFragmentManager.setFragmentResultListener(
             JointDialogFragment.REQUEST_KEY,
