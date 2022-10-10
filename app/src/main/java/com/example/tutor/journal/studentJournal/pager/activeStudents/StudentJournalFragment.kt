@@ -17,6 +17,7 @@ import com.example.tutor.bd.entities.StudentEntity
 import com.example.tutor.databinding.FragmentStudentJournalBinding
 import com.example.tutor.dialogs.JointDialogFragment
 import com.example.tutor.dialogs.JointDialogInterface
+import com.example.tutor.fireBase.FireBaseViewModel
 import com.example.tutor.journal.studentJournal.DBapplication
 
 
@@ -28,6 +29,7 @@ class StudentJournalFragment : Fragment(), StudentJournalAdapter.Listener,
     private val studentJournalViewModel: StudentJournalViewModel by viewModels {
         StudentJournalViewModelFactory((requireActivity().application as DBapplication).studentRepository)
     }
+    private val fireBaseViewModel = FireBaseViewModel()
     private lateinit  var actionMode: JournalActionModeCallback
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -46,6 +48,7 @@ class StudentJournalFragment : Fragment(), StudentJournalAdapter.Listener,
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        fireBaseViewModel.readData()
         binding.btnAddStudent.setOnClickListener {
             findNavController().navigate(R.id.action_jornalPagerFragment_to_addStudentToJournalFragment)
         }

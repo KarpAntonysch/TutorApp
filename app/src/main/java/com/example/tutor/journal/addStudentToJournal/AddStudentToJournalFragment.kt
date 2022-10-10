@@ -12,16 +12,16 @@ import com.example.tutor.R
 import com.example.tutor.bd.entities.StudentEntity
 import com.example.tutor.databinding.FragmentAddStudentToJournalBinding
 import com.example.tutor.dialogs.JointDialogInterface
-import com.example.tutor.fireBase.FireBaseViewModel
-import com.example.tutor.fireBase.StudentEntityFB
+import com.example.tutor.fireBase.FireBaseRepository
 import com.example.tutor.journal.studentJournal.DBapplication
 
 class AddStudentToJournalFragment : Fragment(),JointDialogInterface {
 lateinit var binding: FragmentAddStudentToJournalBinding
     private val studentViewModel: AddStudentToJournalViewModel by viewModels {
-        AddStudentToJournalViewModelFactory((requireActivity().application as DBapplication).studentRepository)
+        AddStudentToJournalViewModelFactory((requireActivity().application as DBapplication).studentRepository,
+            FireBaseRepository()
+        )
     }
-    private val fireBaseViewModel = FireBaseViewModel()
     private var firstStudentCheck:Int = 0 /*Проверка для добавления первого ученика, если переход
     совершен с mainFragment то при добавлении возврат туда же, если с StudentJournalFragment , то на него*/
     override fun onCreateView(
@@ -42,16 +42,14 @@ lateinit var binding: FragmentAddStudentToJournalBinding
             if (!empty()){
                 val studentEntity = getStudentValues()
                 addStudentEntityToDB(studentEntity)
-                val studentEntityFB = StudentEntityFB(studentEntity.firstName,studentEntity.secondName,
-                studentEntity.price,studentEntity.schoolClass,studentEntity.activeStatus,studentEntity.id)
+                    Toast.makeText(requireContext(), "Добавлено", Toast.LENGTH_SHORT).show()
+                    if (firstStudentCheck == 0){
+                        activity?.onBackPressed()
+                    }else{
+                        findNavController().navigate(R.id.action_addStudentToJournalFragment_to_mainFragment)
+                    }
 
-                fireBaseViewModel.addStudentToFBCloud(studentEntityFB,requireContext())
-                Toast.makeText(requireContext(), "Добавлено", Toast.LENGTH_SHORT).show()
-                if (firstStudentCheck == 0){
-                    activity?.onBackPressed()
-                }else{
-                    findNavController().navigate(R.id.action_addStudentToJournalFragment_to_mainFragment)
-                }
+
                 firstStudentCheck = 0
             }
         }
@@ -68,7 +66,7 @@ lateinit var binding: FragmentAddStudentToJournalBinding
     }
 
     private fun addStudentEntityToDB(studentEntity: StudentEntity){
-        studentViewModel.insert(studentEntity)
+       studentViewModel.insert(studentEntity)
     }
 
     private fun getStudentValues():StudentEntity{
@@ -81,11 +79,11 @@ lateinit var binding: FragmentAddStudentToJournalBinding
     // Проверка на заполнение полей
     private fun empty():Boolean{
         binding.apply {
-            val warning = R.string.emptyWarning.toString()
-            if (edFirstName.text.isNullOrEmpty())edFirstName.error= warning
-            if (edSecondName.text.isNullOrEmpty())edSecondName.error=warning
-            if (edClass.text.isNullOrEmpty())edClass.error=warning
-            if (edPrice.text.isNullOrEmpty())edPrice.error=warning
+            val warning = R.string.emptyWarning
+            if (edFirstName.text.isNullOrEmpty())edFirstName.error= getString(warning)
+            if (edSecondName.text.isNullOrEmpty())edSecondName.error=getString(warning)
+            if (edClass.text.isNullOrEmpty())edClass.error=getString(warning)
+            if (edPrice.text.isNullOrEmpty())edPrice.error=getString(warning)
             return edFirstName.text.isNullOrEmpty() || edSecondName.text.isNullOrEmpty() ||
                     edClass.text.isNullOrEmpty() || edPrice.text.isNullOrEmpty()
         }

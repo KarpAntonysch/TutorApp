@@ -18,8 +18,9 @@ class StudentRepository(private val studentDAO: StudentDAO) {
 
     @Suppress("RedundantSuspendModifier")
     @WorkerThread
-    suspend fun insertStudent(studentEntity: StudentEntity) {
-        studentDAO.insertStudent(studentEntity)
+    // возвращает сгенерированный в БД  id для заполнения studentEntity при добавлении в FB
+    suspend fun insertStudent(studentEntity: StudentEntity):Long {
+        return  studentDAO.insertStudent(studentEntity)
     }
 
     fun changeStudentActive(studentID:Int) = studentDAO.changeStudentActive(studentID)

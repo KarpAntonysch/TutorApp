@@ -9,9 +9,9 @@ import kotlinx.coroutines.flow.Flow
 
 @Dao
 interface StudentDAO {
-
+    // возвращает Long это будет studentEntity.id так как это primaryKey
     @Insert(onConflict = OnConflictStrategy.IGNORE)
-    suspend fun insertStudent(studentEntity: StudentEntity)
+    suspend fun insertStudent(studentEntity: StudentEntity):Long
     @Delete
     suspend fun deleteStudent(studentEntity: StudentEntity)// не использую
     // добавляю функцию для получения списка всех активных студентов

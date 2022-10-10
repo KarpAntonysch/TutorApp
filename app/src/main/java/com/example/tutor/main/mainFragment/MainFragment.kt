@@ -78,7 +78,6 @@ class MainFragment : Fragment(), MainFragmentAdapter.Listener,
         }
 
         studentJournalViewModel.allStudents.observe(viewLifecycleOwner, {
-            Log.v("jjj", "$it")
             if (it.isNullOrEmpty()) {
                 binding.btnAddToCalendar.setOnClickListener {
                     //проверка на нулевой или пустой список в Журнале (==пустой список в спинере)

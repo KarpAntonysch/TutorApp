@@ -6,6 +6,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.example.tutor.bd.entities.StudentEntity
 import com.google.firebase.auth.AuthResult
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -59,7 +60,8 @@ class FireBaseViewModel:ViewModel(){
     fun signOut(){
        fireBaseRepository.signOut()
     }
-    fun addStudentToFBCloud(studentEntityFB: StudentEntityFB,requireContext: Context){
-        fireBaseRepository.addStudentToFBCloud(studentEntityFB,requireContext)
+
+    fun readData(){
+        fireBaseRepository.readDataFromDB()
     }
 }
