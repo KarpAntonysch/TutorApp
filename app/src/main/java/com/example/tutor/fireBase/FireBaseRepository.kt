@@ -6,7 +6,10 @@ import com.google.firebase.auth.AuthResult
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.UserProfileChangeRequest
 import com.google.firebase.firestore.FirebaseFirestore
+import com.google.firebase.firestore.Query
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.flow.catch
+import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.tasks.await
 import kotlinx.coroutines.withContext
 
@@ -47,38 +50,29 @@ class FireBaseRepository {
         }
     }
 
-    fun addStudentToFBCloud(
+    suspend fun addStudentToFBCloud(
         studentEntityFB: StudentEntity,
     ) {
         fireStoreDB.collection("Users").document(
-            "${FirebaseAuth.getInstance().currentUser?.uid}"
-        ).collection("Students").document().set(studentEntityFB)
+                    "${FirebaseAuth.getInstance().currentUser?.uid}"
+                ).collection("Students").document().set(studentEntityFB).await()
     }
 
-    fun readDataFromDB(): List<StudentEntity> {
-        val userList = arrayListOf<StudentEntity>()
-        fireStoreDB.collection("Users").document(
-            "${
-                FirebaseAuth.getInstance()
-                    .currentUser?.uid
-            }"
-        ).collection("Students").get().addOnSuccessListener { documents ->
-            for (document in documents) {
-                val firstName = document.data["firstName"].toString()
-                val secondName = document.data["secondName"].toString()
-                val price = document.data["price"].toString().toInt()
-                val schoolClass = document.data["schoolClass"].toString().toInt()
-                val activeStatus = document.data["activeStatus"].toString().toBoolean()
-                val id = document.data["id"].toString().toInt()
-                val student =
-                    StudentEntity(firstName, secondName, price, schoolClass, activeStatus)
-                student.id = id
-                userList.add(student)
-                println("qqqqq $userList ")/* ${document } =>${document.data}*/
-            }
+    // запрос на получение списка студентов из FB отсортированный по хронологии добавления ученика
+    private val studentQueryFromFB = fireStoreDB.collection("Users").document(
+        "${FirebaseAuth.getInstance().currentUser?.uid}"
+    ).collection("Students").orderBy("id", Query.Direction.DESCENDING)
 
+    // функция чтения из бд
+    fun getStudents()= flow {
+        emit(Resource.Loading())
+        emit(Resource.Success(studentQueryFromFB.get().await().documents.mapNotNull { doc ->
+            doc.toObject(StudentEntity::class.java)
+        }))
+    }.catch { error ->
+        error.message?.let { errorMessage ->
+            emit(Resource.Error(errorMessage))
         }
-        return userList
     }
 }
 

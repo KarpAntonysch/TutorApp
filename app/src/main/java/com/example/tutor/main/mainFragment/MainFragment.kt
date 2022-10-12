@@ -19,6 +19,7 @@ import com.example.tutor.convertLongToTime
 import com.example.tutor.databinding.FragmentMainBinding
 import com.example.tutor.dialogs.JointDialogFragment
 import com.example.tutor.dialogs.JointDialogInterface
+import com.example.tutor.fireBase.FireBaseRepository
 import com.example.tutor.fireBase.FireBaseViewModel
 import com.example.tutor.journal.studentJournal.pager.activeStudents.StudentJournalViewModel
 import com.example.tutor.journal.studentJournal.pager.activeStudents.StudentJournalViewModelFactory
@@ -34,7 +35,9 @@ class MainFragment : Fragment(), MainFragmentAdapter.Listener,
         MainFragmentViewModelFactory((requireActivity().application as DBapplication).scheduleRepository)
     }
     private val studentJournalViewModel: StudentJournalViewModel by viewModels {
-        StudentJournalViewModelFactory((requireActivity().application as DBapplication).studentRepository)
+        StudentJournalViewModelFactory((requireActivity().application as DBapplication).studentRepository,
+            FireBaseRepository()
+        )
     }
 
     lateinit var recyclerView: RecyclerView

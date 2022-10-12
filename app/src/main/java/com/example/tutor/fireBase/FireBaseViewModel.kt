@@ -1,12 +1,10 @@
 package com.example.tutor.fireBase
 
-import android.content.Context
 import android.util.Patterns
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.tutor.bd.entities.StudentEntity
 import com.google.firebase.auth.AuthResult
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -59,9 +57,5 @@ class FireBaseViewModel:ViewModel(){
     }
     fun signOut(){
        fireBaseRepository.signOut()
-    }
-
-    fun readData(){
-        fireBaseRepository.readDataFromDB()
     }
 }

@@ -17,7 +17,9 @@ import com.example.tutor.bd.entities.StudentEntity
 import com.example.tutor.databinding.FragmentStudentJournalBinding
 import com.example.tutor.dialogs.JointDialogFragment
 import com.example.tutor.dialogs.JointDialogInterface
+import com.example.tutor.fireBase.FireBaseRepository
 import com.example.tutor.fireBase.FireBaseViewModel
+import com.example.tutor.fireBase.Resource
 import com.example.tutor.journal.studentJournal.DBapplication
 
 
@@ -27,7 +29,9 @@ class StudentJournalFragment : Fragment(), StudentJournalAdapter.Listener,
     lateinit var recyclerView: RecyclerView
     private var adapter = StudentJournalAdapter(this)
     private val studentJournalViewModel: StudentJournalViewModel by viewModels {
-        StudentJournalViewModelFactory((requireActivity().application as DBapplication).studentRepository)
+        StudentJournalViewModelFactory((requireActivity().application as DBapplication).studentRepository,
+        FireBaseRepository()
+        )
     }
     private val fireBaseViewModel = FireBaseViewModel()
     private lateinit  var actionMode: JournalActionModeCallback
@@ -48,10 +52,10 @@ class StudentJournalFragment : Fragment(), StudentJournalAdapter.Listener,
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        fireBaseViewModel.readData()
         binding.btnAddStudent.setOnClickListener {
             findNavController().navigate(R.id.action_jornalPagerFragment_to_addStudentToJournalFragment)
         }
+        getStudentsFromFB()
         realizationOfRV()
         hideFAB()
     }
@@ -64,7 +68,19 @@ class StudentJournalFragment : Fragment(), StudentJournalAdapter.Listener,
             studentList.let { adapter.submitList(it) }
         }
     }
+    private fun getStudentsFromFB(){
+        studentJournalViewModel.getStudentsFromFB().observe(this,{response ->
+            when(response){
+                is Resource.Loading -> Toast.makeText(requireContext(), "Загрузка", Toast.LENGTH_SHORT).show()
 
+                is Resource.Success -> {
+                    val fbList = response.data
+                    binding.textView6.text = fbList.toString()
+                }
+                is Resource.Error -> Toast.makeText(requireContext(), "Ошибка ФБ", Toast.LENGTH_SHORT).show()
+            }
+        })
+    }
     // переопределенная функция из интерфейса Listener для открытия actionMode.Callback1
     override fun onClickToChangeStudentActive(
         studentEntity: StudentEntity,

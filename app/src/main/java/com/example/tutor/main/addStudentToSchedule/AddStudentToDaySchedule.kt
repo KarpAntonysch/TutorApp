@@ -15,6 +15,7 @@ import com.example.tutor.bd.entities.ScheduleEntity
 import com.example.tutor.convertLongToTime
 import com.example.tutor.databinding.FragmentAddStudentToDayScheduleBinding
 import com.example.tutor.dialogs.JointDialogInterface
+import com.example.tutor.fireBase.FireBaseRepository
 import com.example.tutor.journal.studentJournal.pager.activeStudents.StudentJournalViewModel
 import com.example.tutor.journal.studentJournal.pager.activeStudents.StudentJournalViewModelFactory
 import com.example.tutor.journal.studentJournal.DBapplication
@@ -29,7 +30,9 @@ class AddStudentToDaySchedule : Fragment(),JointDialogInterface {
         AddStudentToScheduleViewModelFactory((requireActivity().application as DBapplication).scheduleRepository)
     }
     private val studentJournalViewModel: StudentJournalViewModel by viewModels {
-        StudentJournalViewModelFactory((requireActivity().application as DBapplication).studentRepository)
+        StudentJournalViewModelFactory((requireActivity().application as DBapplication).studentRepository,
+            FireBaseRepository()
+        )
     }
     private var timeFromPicker: Long = 0
     private val addStudentToDayScheduleClass = AddStudentToDayScheduleClass()// объект класса логики

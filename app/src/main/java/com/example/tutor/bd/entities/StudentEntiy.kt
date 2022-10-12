@@ -11,13 +11,13 @@ import java.io.Serializable
 @Entity(tableName = "studentTable")
 data class StudentEntity(
     @ColumnInfo(name = "firstName")
-    var firstName: String,
+    var firstName: String="",
     @ColumnInfo(name = "secondName")
-    var secondName: String,
+    var secondName: String="",
     @ColumnInfo(name = "price")
-    var price: Int,
+    var price: Int=0,
     @ColumnInfo(name = "schoolClass")
-    var schoolClass: Int,
+    var schoolClass: Int=0,
     @ColumnInfo(name = "activeStatus")
     var activeStatus:Boolean = true,
 ) : Serializable, Parcelable {
