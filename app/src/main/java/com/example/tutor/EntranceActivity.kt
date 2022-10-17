@@ -78,9 +78,7 @@ class EntranceActivity : AppCompatActivity() {
     private fun entrance() {
         val user = auth.currentUser
         if (user != null) {
-            val intent = Intent(this, MainActivity::class.java)
-            startActivity(intent)
-            finish()
+          transition()
         }
     }
 

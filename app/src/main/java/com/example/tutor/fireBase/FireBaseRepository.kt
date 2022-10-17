@@ -18,11 +18,7 @@ class FireBaseRepository {
     private val fireStoreDB = FirebaseFirestore.getInstance()
     private val firebaseAuth = FirebaseAuth.getInstance()
 
-    fun signOut() {
-        firebaseAuth.signOut()
-    }
-
-    //функция c возвращаемым тип AuthResult, которой заключен в Resource класс
+    //функция для регистрации c возвращаемым типом Resource<AuthResult>
     suspend fun createUser(
         userName: String,
         userEmailAddress: String,
@@ -49,7 +45,7 @@ class FireBaseRepository {
             }
         }
     }
-
+    // запрос на добавение студента в FB
     suspend fun addStudentToFBCloud(
         studentEntityFB: StudentEntity,
     ) {
@@ -63,7 +59,9 @@ class FireBaseRepository {
         "${FirebaseAuth.getInstance().currentUser?.uid}"
     ).collection("Students").orderBy("id", Query.Direction.DESCENDING)
 
-    // функция чтения из бд
+    // функция чтения из бд. Альтернативное исопльзование корутин без suspend, но с flow(предпочтитльнее для
+    // получения нескольких объектов).
+    // обработка ошибок не через общую функцию высшего порядка, а напрямую в методе.
     fun getStudents()= flow {
         emit(Resource.Loading())
         emit(Resource.Success(studentQueryFromFB.get().await().documents.mapNotNull { doc ->
@@ -74,12 +72,23 @@ class FireBaseRepository {
             emit(Resource.Error(errorMessage))
         }
     }
+        // получение списка студентов из FB. С использованием корутины(в виде suspend).
+    suspend fun fbStudentList():List<StudentEntity> {
+        val f = studentQueryFromFB.get().await().documents.mapNotNull { doc ->
+            doc.toObject(StudentEntity::class.java)
+        }
+        return f
+    }
+    // функция выхода из учетной записи
+    fun signOut() {
+        firebaseAuth.signOut()
+    }
 }
 
-
+// функция высшего порядка для вызовов действий FB
 inline fun <T> safeCall(action: () -> Resource<T>): Resource<T> {
     return try {
-        action()
+        action()// сюда попадает функция, которая возвращает Resource. Если возникает ошибка ее ловит catch
     } catch (e: Exception) {
         Resource.Error(e.message ?: "An unknown Error Occurred")
     }

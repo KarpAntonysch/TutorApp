@@ -18,7 +18,6 @@ import com.example.tutor.databinding.FragmentStudentJournalBinding
 import com.example.tutor.dialogs.JointDialogFragment
 import com.example.tutor.dialogs.JointDialogInterface
 import com.example.tutor.fireBase.FireBaseRepository
-import com.example.tutor.fireBase.FireBaseViewModel
 import com.example.tutor.fireBase.Resource
 import com.example.tutor.journal.studentJournal.DBapplication
 
@@ -33,7 +32,6 @@ class StudentJournalFragment : Fragment(), StudentJournalAdapter.Listener,
         FireBaseRepository()
         )
     }
-    private val fireBaseViewModel = FireBaseViewModel()
     private lateinit  var actionMode: JournalActionModeCallback
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -55,7 +53,6 @@ class StudentJournalFragment : Fragment(), StudentJournalAdapter.Listener,
         binding.btnAddStudent.setOnClickListener {
             findNavController().navigate(R.id.action_jornalPagerFragment_to_addStudentToJournalFragment)
         }
-        getStudentsFromFB()
         realizationOfRV()
         hideFAB()
     }
@@ -63,24 +60,15 @@ class StudentJournalFragment : Fragment(), StudentJournalAdapter.Listener,
     private fun realizationOfRV() {
         recyclerView = binding.allStudentsRV
         recyclerView.adapter = adapter
-        studentJournalViewModel.allStudents.observe(viewLifecycleOwner)
+
+       studentJournalViewModel.allStudents.observe(viewLifecycleOwner)
         { studentList ->
+            studentJournalViewModel.fillingDBWithFB()
             studentList.let { adapter.submitList(it) }
         }
     }
-    private fun getStudentsFromFB(){
-        studentJournalViewModel.getStudentsFromFB().observe(this,{response ->
-            when(response){
-                is Resource.Loading -> Toast.makeText(requireContext(), "Загрузка", Toast.LENGTH_SHORT).show()
 
-                is Resource.Success -> {
-                    val fbList = response.data
-                    binding.textView6.text = fbList.toString()
-                }
-                is Resource.Error -> Toast.makeText(requireContext(), "Ошибка ФБ", Toast.LENGTH_SHORT).show()
-            }
-        })
-    }
+
     // переопределенная функция из интерфейса Listener для открытия actionMode.Callback1
     override fun onClickToChangeStudentActive(
         studentEntity: StudentEntity,
@@ -140,6 +128,18 @@ class StudentJournalFragment : Fragment(), StudentJournalAdapter.Listener,
                 } else if (dy <= 0 && binding.btnAddStudent.visibility !== View.VISIBLE) {
                     binding.btnAddStudent.show()
                 }
+            }
+        })
+    }
+    // Функция для получения списка из FB c использованием состояний sealed склассаи корутин
+    private fun getStudentsFromFB(){
+        studentJournalViewModel.getStudentsFromFB().observe(this,{response ->
+            when(response){
+                is Resource.Success -> {
+                    val fbList = response.data
+                    binding.textView6.text = fbList.toString()
+                }
+                is Resource.Error -> Toast.makeText(requireContext(), "Ошибка ФБ", Toast.LENGTH_SHORT).show()
             }
         })
     }

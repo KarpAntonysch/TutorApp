@@ -22,6 +22,9 @@ class StudentRepository(private val studentDAO: StudentDAO) {
     suspend fun insertStudent(studentEntity: StudentEntity):Long {
         return  studentDAO.insertStudent(studentEntity)
     }
+     fun insertAllStudent(studentList: List<StudentEntity>){
+        studentDAO.insertAllStudent(studentList)
+    }
 
     fun changeStudentActive(studentID:Int) = studentDAO.changeStudentActive(studentID)
     fun changeStudentActiveToTrue(studentID: Int) = studentDAO.changeStudentActiveToTrue(studentID)
