@@ -17,6 +17,7 @@ class EntranceActivity : AppCompatActivity() {
     private val auth = FirebaseAuth.getInstance()
 
     override fun onCreate(savedInstanceState: Bundle?) {
+        setTheme(R.style.Theme_Tutor)// переход к теме приложения вместо темы splashScreen
         super.onCreate(savedInstanceState)
         binding = ActivityEntranceBinding.inflate(layoutInflater)
         setContentView(binding.root)

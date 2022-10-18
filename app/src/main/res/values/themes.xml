@@ -19,7 +19,13 @@
         <item name="android:statusBarColor" tools:targetApi="l">?attr/colorPrimaryVariant</item>
         <!-- Customize your theme here. -->
     </style>
-    <style name="SplashScreen" parent="Theme.AppCompat.DayNight.DarkActionBar">
+    <style name="SplashScreen" parent="Theme.MaterialComponents.DayNight.DarkActionBar">
         <item name="android:windowBackground">@drawable/splashscreen</item>
+        <item name="colorPrimary">@color/purple_500</item>
+        <item name="colorPrimaryVariant">@color/purple_700</item>
+        <item name="colorOnPrimary">@color/white</item>
+        <!-- отлкючил actionbar и заголовок для работы с  toolbar -->
+        <item name="windowActionBar">false</item>
+        <item name="windowNoTitle">true</item>
     </style>
 </resources>
