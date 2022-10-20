@@ -10,6 +10,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.tutor.adapters.InactiveJournalAdapter
 import com.example.tutor.bd.entities.StudentEntity
 import com.example.tutor.databinding.FragmentInactiveStudentsBinding
+import com.example.tutor.fireBase.FireBaseRepository
 import com.example.tutor.journal.studentJournal.DBapplication
 
 
@@ -18,7 +19,8 @@ class InactiveStudentsFragment : Fragment(), InactiveJournalAdapter.Listener {
     lateinit var recyclerView: RecyclerView
     private val adapter = InactiveJournalAdapter(this)
     private val inactiveViewModel: InactiveStudentsViewModel by viewModels {
-        InactiveStudentsViewModelFactory((requireActivity().application as DBapplication).studentRepository)
+        InactiveStudentsViewModelFactory((requireActivity().application as DBapplication).studentRepository
+            , FireBaseRepository())
     }
 
     override fun onCreateView(
@@ -46,6 +48,7 @@ class InactiveStudentsFragment : Fragment(), InactiveJournalAdapter.Listener {
 
     override fun returnStudent(studentEntity: StudentEntity) {
         inactiveViewModel.returnStudentToActive(studentEntity.id)
+        inactiveViewModel.returnStudentToActiveFB(studentEntity)
     }
 
 }

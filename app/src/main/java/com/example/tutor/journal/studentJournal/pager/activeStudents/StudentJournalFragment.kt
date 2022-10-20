@@ -108,6 +108,7 @@ class StudentJournalFragment : Fragment(), StudentJournalAdapter.Listener,
                     DialogInterface.BUTTON_POSITIVE -> {
                         studentJournalViewModel.changeStudentActive(
                             studentEntity.id)
+                        studentJournalViewModel.changeStudentActiveFB(studentEntity)
                         actionMode.hideActionMode()
                         Toast.makeText(requireContext(), "удалено", Toast.LENGTH_SHORT).show()
                     }

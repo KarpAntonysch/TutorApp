@@ -45,13 +45,14 @@ class FireBaseRepository {
             }
         }
     }
-    // запрос на добавение студента в FB
+    // запрос на добавение студента в FB. В FB документ будет называться Имя+Фамилия+id
     suspend fun addStudentToFBCloud(
         studentEntityFB: StudentEntity,
     ) {
         fireStoreDB.collection("Users").document(
                     "${FirebaseAuth.getInstance().currentUser?.uid}"
-                ).collection("Students").document().set(studentEntityFB).await()
+                ).collection("Students").document(studentEntityFB.firstName+" "+
+                studentEntityFB.secondName+" "+ studentEntityFB.id).set(studentEntityFB).await()
     }
 
     // запрос на получение списка студентов из FB отсортированный по хронологии добавления ученика
@@ -79,6 +80,13 @@ class FireBaseRepository {
         }
         return f
     }
+        // обновление активности ученика с true на false.
+  fun changeStudentActiveToFireBase(studentEntityFB: StudentEntity, activeStatus:Boolean){
+       fireStoreDB.collection("Users").document(
+            "${FirebaseAuth.getInstance().currentUser?.uid}"
+        ).collection("Students").document(studentEntityFB.firstName+" "+
+               studentEntityFB.secondName+" "+ studentEntityFB.id).update("activeStatus",activeStatus)
+        }
     // функция выхода из учетной записи
     fun signOut() {
         firebaseAuth.signOut()

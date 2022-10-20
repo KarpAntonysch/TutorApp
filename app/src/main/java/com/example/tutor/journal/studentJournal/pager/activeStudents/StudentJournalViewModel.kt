@@ -35,6 +35,9 @@ class StudentJournalViewModel(private val repository: StudentRepository,
             emit(resource)
         }
     }
+    fun changeStudentActiveFB(studentEntity: StudentEntity){
+        fbRepository.changeStudentActiveToFireBase(studentEntity,false)
+    }
 
 }
 class StudentJournalViewModelFactory(private val repository: StudentRepository,
