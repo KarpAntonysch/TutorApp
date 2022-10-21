@@ -8,8 +8,6 @@ import com.google.firebase.auth.UserProfileChangeRequest
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.Query
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.flow.catch
-import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.tasks.await
 import kotlinx.coroutines.withContext
 
@@ -55,30 +53,33 @@ class FireBaseRepository {
                 studentEntityFB.secondName+" "+ studentEntityFB.id).set(studentEntityFB).await()
     }
 
-    // запрос на получение списка студентов из FB отсортированный по хронологии добавления ученика
-    private val studentQueryFromFB = fireStoreDB.collection("Users").document(
-        "${FirebaseAuth.getInstance().currentUser?.uid}"
-    ).collection("Students").orderBy("id", Query.Direction.DESCENDING)
+    // запрос на получение списка студентов из FB и добавление в лБД
+    private fun studentQueryFromFB(): Query {
+        return fireStoreDB.collection("Users").document(
+           "${FirebaseAuth.getInstance().currentUser?.uid}"
+       ).collection("Students")
+    }
 
-    // функция чтения из бд. Альтернативное исопльзование корутин без suspend, но с flow(предпочтитльнее для
-    // получения нескольких объектов).
-    // обработка ошибок не через общую функцию высшего порядка, а напрямую в методе.
-    fun getStudents()= flow {
+
+    /*функция чтения из бд. Альтернативное исопльзование корутин без suspend, но с flow(предпочтитльнее для
+    получения нескольких объектов).обработка ошибок не через общую функцию высшего порядка,
+    а напрямую в методе.НЕ ИСПОЛЬЗУЮ, ДЛЯ ПРИМЕРА*/
+    /*fun getStudents()= flow {
         emit(Resource.Loading())
-        emit(Resource.Success(studentQueryFromFB.get().await().documents.mapNotNull { doc ->
+        emit(Resource.Success(studentQueryFromFB(*//*true*//*).get().await().documents.mapNotNull { doc ->
             doc.toObject(StudentEntity::class.java)
         }))
     }.catch { error ->
         error.message?.let { errorMessage ->
             emit(Resource.Error(errorMessage))
         }
-    }
+    }*/
         // получение списка студентов из FB. С использованием корутины(в виде suspend).
     suspend fun fbStudentList():List<StudentEntity> {
-        val f = studentQueryFromFB.get().await().documents.mapNotNull { doc ->
+        val fbStudentList = studentQueryFromFB().get().await().documents.mapNotNull { doc ->
             doc.toObject(StudentEntity::class.java)
         }
-        return f
+        return fbStudentList
     }
         // обновление активности ученика с true на false.
   fun changeStudentActiveToFireBase(studentEntityFB: StudentEntity, activeStatus:Boolean){

@@ -17,6 +17,9 @@ interface StudentDAO {
      fun insertAllStudent(studentList: List<StudentEntity> )
     @Delete
     suspend fun deleteStudent(studentEntity: StudentEntity)// не использую
+    // добавляю функцию для получения списка всех  студентов
+    @Query("SELECT * FROM studentTable")
+    fun getAllStudents(): Flow<List<StudentEntity>>
     // добавляю функцию для получения списка всех активных студентов
     @Query("SELECT * FROM studentTable WHERE activeStatus = 1")
     fun getAllActiveStudents(): Flow<List<StudentEntity>>

@@ -18,7 +18,6 @@ import com.example.tutor.databinding.FragmentStudentJournalBinding
 import com.example.tutor.dialogs.JointDialogFragment
 import com.example.tutor.dialogs.JointDialogInterface
 import com.example.tutor.fireBase.FireBaseRepository
-import com.example.tutor.fireBase.Resource
 import com.example.tutor.journal.studentJournal.DBapplication
 
 
@@ -60,11 +59,10 @@ class StudentJournalFragment : Fragment(), StudentJournalAdapter.Listener,
     private fun realizationOfRV() {
         recyclerView = binding.allStudentsRV
         recyclerView.adapter = adapter
-
-       studentJournalViewModel.allStudents.observe(viewLifecycleOwner)
+        studentJournalViewModel.fillingDBWithFB()// заполнение лБД списком объектов FB
+       studentJournalViewModel.allActiveStudents.observe(viewLifecycleOwner)
         { studentList ->
-            studentJournalViewModel.fillingDBWithFB()
-            studentList.let { adapter.submitList(it) }
+            studentList.let { adapter.submitList(it.sortedBy {order -> order.id }) }
         }
     }
 
@@ -132,16 +130,15 @@ class StudentJournalFragment : Fragment(), StudentJournalAdapter.Listener,
             }
         })
     }
-    // Функция для получения списка из FB c использованием состояний sealed склассаи корутин
-    private fun getStudentsFromFB(){
+    // Функция для получения списка из FB c использованием состояний sealed склассаи корутин. оставлена для примера
+   /* private fun getStudentsFromFB(){
         studentJournalViewModel.getStudentsFromFB().observe(this,{response ->
             when(response){
                 is Resource.Success -> {
                     val fbList = response.data
-                    binding.textView6.text = fbList.toString()
                 }
                 is Resource.Error -> Toast.makeText(requireContext(), "Ошибка ФБ", Toast.LENGTH_SHORT).show()
             }
         })
-    }
+    }*/
 }

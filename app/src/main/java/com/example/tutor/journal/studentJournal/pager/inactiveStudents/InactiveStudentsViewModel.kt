@@ -11,10 +11,12 @@ import com.example.tutor.repository.StudentRepository
 class InactiveStudentsViewModel(val repository: StudentRepository,
                                 private val fbRepository: FireBaseRepository
 ) : ViewModel() {
+    // получение списка неактивных студентов из БД
     val allInactiveStudents: LiveData<List<StudentEntity>> =
         repository.allInactiveStudents.asLiveData()
+    //Изменение статуса студента на "активный" в БД
     fun returnStudentToActive(studentID: Int) = repository.changeStudentActiveToTrue(studentID)
-    // возврат активного статуса студента в FB
+    //Изменение статуса студента на "активный" в FB
     fun returnStudentToActiveFB(studentEntityFB: StudentEntity){
         fbRepository.changeStudentActiveToFireBase(studentEntityFB,true)
     }

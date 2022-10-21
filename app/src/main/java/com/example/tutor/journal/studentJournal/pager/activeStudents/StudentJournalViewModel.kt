@@ -13,6 +13,7 @@ class StudentJournalViewModel(private val repository: StudentRepository,
                               private val fbRepository: FireBaseRepository) : ViewModel() {
     //Создаем переменную для получения списка из локальной БД типа LD, которая инициализируется Flow из репозитория
     val allStudents: LiveData<List<StudentEntity>> = repository.allStudents.asLiveData()
+    val allActiveStudents: LiveData<List<StudentEntity>> = repository.allActiveStudents.asLiveData()
     fun getInfo(): LiveData<MutableList<StudentForSchedule>>{
         return repository.infoForSchedule
     }
@@ -22,7 +23,7 @@ class StudentJournalViewModel(private val repository: StudentRepository,
     // функция для добавления данных в локальную БД из FB, при условии пустой лБД
        fun fillingDBWithFB(){
          CoroutineScope(Dispatchers.IO).launch {
-             val fbStudentList = fbRepository.fbStudentList()
+             val fbStudentList = fbRepository.fbStudentList(/*true*/)
              if (allStudents.value.isNullOrEmpty() && !fbStudentList.isNullOrEmpty()){
                  repository.insertAllStudent(fbStudentList)
              }
@@ -30,11 +31,11 @@ class StudentJournalViewModel(private val repository: StudentRepository,
     }
 
     //Получение списка всех студентов из FB. Не используется. Оставлена для примера
-    fun getStudentsFromFB()= liveData(Dispatchers.IO){
+/*    fun getStudentsFromFB()= liveData(Dispatchers.IO){
         fbRepository.getStudents().collect{ resource ->
             emit(resource)
         }
-    }
+    }*/
     fun changeStudentActiveFB(studentEntity: StudentEntity){
         fbRepository.changeStudentActiveToFireBase(studentEntity,false)
     }

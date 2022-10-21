@@ -80,7 +80,7 @@ class MainFragment : Fragment(), MainFragmentAdapter.Listener,
             dateDisplaying(currentDate)
         }
 
-        studentJournalViewModel.allStudents.observe(viewLifecycleOwner, {
+        studentJournalViewModel.allActiveStudents.observe(viewLifecycleOwner, {
             if (it.isNullOrEmpty()) {
                 binding.btnAddToCalendar.setOnClickListener {
                     //проверка на нулевой или пустой список в Журнале (==пустой список в спинере)
@@ -155,7 +155,7 @@ class MainFragment : Fragment(), MainFragmentAdapter.Listener,
         recyclerView.adapter = adapter
         mainFragmentViewModel.getScheduleOfDay(currentDate)
             .observe(viewLifecycleOwner) { scheduleList ->// добавлена сортировка по времени
-                scheduleList.let { adapter.submitList(it.sortedBy { it.scheduleEntity.dateWithTime }) }
+                scheduleList.let { adapter.submitList(it.sortedBy {order -> order.scheduleEntity.dateWithTime }) }
             }
     }
 
