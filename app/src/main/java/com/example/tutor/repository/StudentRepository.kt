@@ -32,6 +32,7 @@ class StudentRepository(private val studentDAO: StudentDAO) {
     fun updateStudent(studentID:Int,firstName:String,secondName:String,schoolClass:Int,price:Int){
         studentDAO.updateStudent(studentID,firstName,secondName,schoolClass,price)
     }
+     fun deleteStudent(studentEntity: StudentEntity) = studentDAO.deleteStudent(studentEntity)
 }
 
 

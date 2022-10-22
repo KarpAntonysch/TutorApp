@@ -20,6 +20,10 @@ class InactiveStudentsViewModel(val repository: StudentRepository,
     fun returnStudentToActiveFB(studentEntityFB: StudentEntity){
         fbRepository.changeStudentActiveToFireBase(studentEntityFB,true)
     }
+    fun deleteStudent(studentEntity: StudentEntity) {
+        repository.deleteStudent(studentEntity)
+        fbRepository.deleteStudentFromFB(studentEntity)
+    }
 }
 class InactiveStudentsViewModelFactory(private val repository: StudentRepository,
                                        private val fbRepository: FireBaseRepository) :

@@ -10,7 +10,7 @@ import com.example.tutor.R
 import com.example.tutor.bd.entities.StudentEntity
 import com.example.tutor.databinding.InactiveStudentItemBinding
 
-class InactiveJournalAdapter(val listener:Listener) :
+class InactiveJournalAdapter(private val listener:Listener) :
     ListAdapter<StudentEntity, InactiveJournalAdapter.InactiveStudentViewHolder>(InactiveComparator()) {
 
     class InactiveStudentViewHolder(view: View) : RecyclerView.ViewHolder(view) {
@@ -19,7 +19,9 @@ class InactiveJournalAdapter(val listener:Listener) :
             tvInactiveNumber.text = (position + 1).toString()
             tvInactiveName.text = studentEntity.firstName
             tvInactiveSecondName.text = studentEntity.secondName
-            tvInactiveSchoolClass.text = studentEntity.schoolClass.toString()
+            btnDelete.setOnClickListener{
+                listener.deleteStudent(studentEntity)
+            }
             btnReturn.setOnClickListener{
                 listener.returnStudent(studentEntity)
             }
@@ -48,5 +50,6 @@ class InactiveJournalAdapter(val listener:Listener) :
     }
     interface Listener{
         fun returnStudent(studentEntity: StudentEntity)
+        fun deleteStudent(studentEntity: StudentEntity)
     }
 }

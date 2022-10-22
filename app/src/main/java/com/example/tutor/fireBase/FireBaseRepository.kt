@@ -88,6 +88,13 @@ class FireBaseRepository {
         ).collection("Students").document(studentEntityFB.firstName+" "+
                studentEntityFB.secondName+" "+ studentEntityFB.id).update("activeStatus",activeStatus)
         }
+    // удаление ученика из FB
+    fun deleteStudentFromFB(studentEntityFB: StudentEntity){
+            fireStoreDB.collection("Users").document(
+                "${FirebaseAuth.getInstance().currentUser?.uid}"
+            ).collection("Students").document(studentEntityFB.firstName+" "+
+                    studentEntityFB.secondName+" "+ studentEntityFB.id).delete()
+    }
     // функция выхода из учетной записи
     fun signOut() {
         firebaseAuth.signOut()

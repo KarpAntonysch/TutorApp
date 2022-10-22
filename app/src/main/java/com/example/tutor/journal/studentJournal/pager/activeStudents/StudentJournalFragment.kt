@@ -6,6 +6,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
+import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentResultListener
 import androidx.fragment.app.viewModels
@@ -105,10 +106,9 @@ class StudentJournalFragment : Fragment(), StudentJournalAdapter.Listener,
                 when (result.getInt(JointDialogFragment.KEY_RESPONSE)) {
                     DialogInterface.BUTTON_POSITIVE -> {
                         studentJournalViewModel.changeStudentActive(
-                            studentEntity.id)
-                        studentJournalViewModel.changeStudentActiveFB(studentEntity)
+                            studentEntity)
                         actionMode.hideActionMode()
-                        Toast.makeText(requireContext(), "удалено", Toast.LENGTH_SHORT).show()
+                        Toast.makeText(requireContext(), "Перенесено в \"ВЫПУСКНИКИ\" ", Toast.LENGTH_SHORT).show()
                     }
                 }
             })
@@ -121,10 +121,10 @@ class StudentJournalFragment : Fragment(), StudentJournalAdapter.Listener,
             override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
                 super.onScrolled(recyclerView, dx, dy)
                 // вниз
-                if (dy > 0 && binding.btnAddStudent.visibility === View.VISIBLE) {
+                if (dy > 0 && binding.btnAddStudent.isVisible) {
                     binding.btnAddStudent.hide()
                     // вверх и статика
-                } else if (dy <= 0 && binding.btnAddStudent.visibility !== View.VISIBLE) {
+                } else if (dy <= 0 && !binding.btnAddStudent.isVisible) {
                     binding.btnAddStudent.show()
                 }
             }

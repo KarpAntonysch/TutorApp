@@ -64,4 +64,6 @@
     <string name="exitQuestion">Вы действительно хотите выйти из учетной записи?</string>
     <string name="warning">Предупреждение</string>
     <string name="warningText">Добавьте ученика в раздел \"Журнал\"!\n\n Невозможно добавить занятия без учеников.</string>
+    <string name="delete">Удаление.</string>
+    <string name="foreverDelete">Подтверждая удаление вы навсегда удалите ученика и всю информацию о нем!\n\n Удалить?</string>
 </resources>

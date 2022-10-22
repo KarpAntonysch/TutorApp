@@ -42,15 +42,6 @@
             android:gravity="center"
             android:textSize="16sp" />
 
-        <TextView
-            android:id="@+id/tvInactiveSchoolClass"
-            android:layout_width="10dp"
-            android:layout_height="wrap_content"
-            android:layout_margin="4dp"
-            android:layout_weight="1"
-            android:gravity="center"
-            android:textSize="16sp" />
-
         <ImageButton
             android:id="@+id/btnReturn"
             android:layout_width="15dp"
@@ -61,6 +52,18 @@
             android:layout_weight="1"
             android:backgroundTint="#D3FFFFFF"
             app:srcCompat="@drawable/ic_inactive_return"
+            tools:ignore="SpeakableTextPresentCheck,TouchTargetSizeCheck,ImageContrastCheck" />
+
+        <ImageButton
+            android:id="@+id/btnDelete"
+            android:layout_width="15dp"
+            android:layout_height="match_parent"
+            android:layout_margin="4dp"
+            android:layout_marginTop="4dp"
+            android:layout_marginBottom="4dp"
+            android:layout_weight="1"
+            android:backgroundTint="#D3FFFFFF"
+            app:srcCompat="@drawable/ic_delete"
             tools:ignore="SpeakableTextPresentCheck,TouchTargetSizeCheck" />
 
     </LinearLayout>

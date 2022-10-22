@@ -12,18 +12,21 @@ import kotlinx.coroutines.launch
 class StudentJournalViewModel(private val repository: StudentRepository,
                               private val fbRepository: FireBaseRepository) : ViewModel() {
     //Создаем переменную для получения списка из локальной БД типа LD, которая инициализируется Flow из репозитория
-    val allStudents: LiveData<List<StudentEntity>> = repository.allStudents.asLiveData()
+    private val allStudents: LiveData<List<StudentEntity>> = repository.allStudents.asLiveData()
     val allActiveStudents: LiveData<List<StudentEntity>> = repository.allActiveStudents.asLiveData()
     fun getInfo(): LiveData<MutableList<StudentForSchedule>>{
         return repository.infoForSchedule
     }
 
-    fun changeStudentActive(studentID:Int) = repository.changeStudentActive(studentID)
+    fun changeStudentActive(studentEntity: StudentEntity) {
+        repository.changeStudentActive(studentEntity.id)
+        fbRepository.changeStudentActiveToFireBase(studentEntity,false)
+    }
 
     // функция для добавления данных в локальную БД из FB, при условии пустой лБД
        fun fillingDBWithFB(){
          CoroutineScope(Dispatchers.IO).launch {
-             val fbStudentList = fbRepository.fbStudentList(/*true*/)
+             val fbStudentList = fbRepository.fbStudentList()
              if (allStudents.value.isNullOrEmpty() && !fbStudentList.isNullOrEmpty()){
                  repository.insertAllStudent(fbStudentList)
              }
@@ -36,9 +39,6 @@ class StudentJournalViewModel(private val repository: StudentRepository,
             emit(resource)
         }
     }*/
-    fun changeStudentActiveFB(studentEntity: StudentEntity){
-        fbRepository.changeStudentActiveToFireBase(studentEntity,false)
-    }
 
 }
 class StudentJournalViewModelFactory(private val repository: StudentRepository,

@@ -16,7 +16,7 @@ interface StudentDAO {
     @Insert(onConflict = OnConflictStrategy.IGNORE)
      fun insertAllStudent(studentList: List<StudentEntity> )
     @Delete
-    suspend fun deleteStudent(studentEntity: StudentEntity)// не использую
+     fun deleteStudent(studentEntity: StudentEntity)
     // добавляю функцию для получения списка всех  студентов
     @Query("SELECT * FROM studentTable")
     fun getAllStudents(): Flow<List<StudentEntity>>
