@@ -9,6 +9,7 @@ import com.example.tutor.R
 import com.example.tutor.bd.entities.StudentEntity
 import com.example.tutor.databinding.FragmentEditStudentBinding
 import com.example.tutor.dialogs.JointDialogInterface
+import com.example.tutor.fireBase.FireBaseRepository
 import com.example.tutor.journal.studentJournal.DBapplication
 import com.example.tutor.toEditable
 
@@ -16,7 +17,8 @@ import com.example.tutor.toEditable
 class EditStudentFragment : Fragment(),JointDialogInterface {
     lateinit var binding: FragmentEditStudentBinding
     private val editStudentViewModel: EditStudentViewModel by viewModels {
-        EditStudentViewModelFactory((requireActivity().application as DBapplication).studentRepository)
+        EditStudentViewModelFactory((requireActivity().application as DBapplication).studentRepository,
+            FireBaseRepository())
     }
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -69,12 +71,12 @@ class EditStudentFragment : Fragment(),JointDialogInterface {
         binding.editPrice.text = getStudentEntity()?.price?.toEditable()
     }
     private fun updateStudent(){
-        val studentID = getStudentEntity()?.id
+        val student = getStudentEntity()
         val firstName = binding.editFirstName.text.toString()
         val secondName = binding.editSecondName.text.toString()
         val schoolClass = binding.editClass.text.toString().toInt()
         val price = binding.editPrice.text.toString().toInt()
-        editStudentViewModel.updateStudent(studentID!!,firstName,secondName,schoolClass,price)
+        editStudentViewModel.updateStudent(student!!,firstName,secondName,schoolClass,price)
     }
 
 }

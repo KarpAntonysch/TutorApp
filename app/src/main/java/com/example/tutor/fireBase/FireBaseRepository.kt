@@ -20,7 +20,7 @@ class FireBaseRepository {
     suspend fun createUser(
         userName: String,
         userEmailAddress: String,
-        userLoginPassword: String
+        userLoginPassword: String,
     ): Resource<AuthResult> {
         return withContext(Dispatchers.IO) {
             safeCall {
@@ -43,21 +43,19 @@ class FireBaseRepository {
             }
         }
     }
-    // запрос на добавение студента в FB. В FB документ будет называться Имя+Фамилия+id
-    suspend fun addStudentToFBCloud(
-        studentEntityFB: StudentEntity,
-    ) {
+
+    // запрос на добавение студента в FB. В FB документ будет называться по id
+    suspend fun addStudentToFBCloud(studentEntityFB: StudentEntity) {
         fireStoreDB.collection("Users").document(
-                    "${FirebaseAuth.getInstance().currentUser?.uid}"
-                ).collection("Students").document(studentEntityFB.firstName+" "+
-                studentEntityFB.secondName+" "+ studentEntityFB.id).set(studentEntityFB).await()
+            "${FirebaseAuth.getInstance().currentUser?.uid}"
+        ).collection("Students").document( studentEntityFB.id.toString()).set(studentEntityFB).await()
     }
 
     // запрос на получение списка студентов из FB и добавление в лБД
     private fun studentQueryFromFB(): Query {
         return fireStoreDB.collection("Users").document(
-           "${FirebaseAuth.getInstance().currentUser?.uid}"
-       ).collection("Students")
+            "${FirebaseAuth.getInstance().currentUser?.uid}"
+        ).collection("Students")
     }
 
 
@@ -74,27 +72,46 @@ class FireBaseRepository {
             emit(Resource.Error(errorMessage))
         }
     }*/
-        // получение списка студентов из FB. С использованием корутины(в виде suspend).
-    suspend fun fbStudentList():List<StudentEntity> {
+    // получение списка студентов из FB. С использованием корутины(в виде suspend).
+    suspend fun fbStudentList(): List<StudentEntity> {
         val fbStudentList = studentQueryFromFB().get().await().documents.mapNotNull { doc ->
             doc.toObject(StudentEntity::class.java)
         }
         return fbStudentList
     }
-        // обновление активности ученика с true на false.
-  fun changeStudentActiveToFireBase(studentEntityFB: StudentEntity, activeStatus:Boolean){
-       fireStoreDB.collection("Users").document(
+
+    // обновление активности ученика с true на false.
+    fun changeStudentActiveToFireBase(studentEntityFB: StudentEntity, activeStatus: Boolean) {
+        fireStoreDB.collection("Users").document(
             "${FirebaseAuth.getInstance().currentUser?.uid}"
-        ).collection("Students").document(studentEntityFB.firstName+" "+
-               studentEntityFB.secondName+" "+ studentEntityFB.id).update("activeStatus",activeStatus)
-        }
-    // удаление ученика из FB
-    fun deleteStudentFromFB(studentEntityFB: StudentEntity){
-            fireStoreDB.collection("Users").document(
-                "${FirebaseAuth.getInstance().currentUser?.uid}"
-            ).collection("Students").document(studentEntityFB.firstName+" "+
-                    studentEntityFB.secondName+" "+ studentEntityFB.id).delete()
+        ).collection("Students").document(studentEntityFB.id.toString())
+            .update("activeStatus", activeStatus)
     }
+
+    // удаление ученика из FB
+    fun deleteStudentFromFB(studentEntityFB: StudentEntity) {
+        fireStoreDB.collection("Users").document(
+            "${FirebaseAuth.getInstance().currentUser?.uid}"
+        ).collection("Students").document( studentEntityFB.id.toString()).delete()
+    }
+
+    // обновление информации об ученике(полей документа)
+    fun changeStudentFieldsToFireBase(
+        studentEntityFB: StudentEntity, firstName: String, secondName: String,
+        schoolClass: Int, price: Int,
+    ) {
+        fireStoreDB.collection("Users").document(
+            "${FirebaseAuth.getInstance().currentUser?.uid}"
+        ).collection("Students").document( studentEntityFB.id.toString()).update("firstName",
+            firstName,
+            "secondName",
+            secondName,
+            "schoolClass",
+            schoolClass,
+            "price",
+            price)
+    }
+
     // функция выхода из учетной записи
     fun signOut() {
         firebaseAuth.signOut()
