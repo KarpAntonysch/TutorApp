@@ -48,7 +48,8 @@ class FireBaseRepository {
     suspend fun addStudentToFBCloud(studentEntityFB: StudentEntity) {
         fireStoreDB.collection("Users").document(
             "${FirebaseAuth.getInstance().currentUser?.uid}"
-        ).collection("Students").document( studentEntityFB.id.toString()).set(studentEntityFB).await()
+        ).collection("Students").document(studentEntityFB.id.toString()).set(studentEntityFB)
+            .await()
     }
 
     // запрос на получение списка студентов из FB и добавление в лБД
@@ -88,28 +89,37 @@ class FireBaseRepository {
             .update("activeStatus", activeStatus)
     }
 
+    // Изменение deleteStatus
+    fun changeDeleteStatusToFireBase(studentEntityFB: StudentEntity) {
+        fireStoreDB.collection("Users").document(
+            "${FirebaseAuth.getInstance().currentUser?.uid}"
+        ).collection("Students").document(studentEntityFB.id.toString())
+            .update("deleteStatus", false)
+    }
     // удаление ученика из FB
-    fun deleteStudentFromFB(studentEntityFB: StudentEntity) {
+    /*fun deleteStudentFromFB(studentEntityFB: StudentEntity) {
         fireStoreDB.collection("Users").document(
             "${FirebaseAuth.getInstance().currentUser?.uid}"
         ).collection("Students").document( studentEntityFB.id.toString()).delete()
-    }
+    }*/
 
     // обновление информации об ученике(полей документа)
     fun changeStudentFieldsToFireBase(
         studentEntityFB: StudentEntity, firstName: String, secondName: String,
-        schoolClass: Int, price: Int,
+        schoolClass: Int, price: Int, phoneNumber: String,
     ) {
         fireStoreDB.collection("Users").document(
             "${FirebaseAuth.getInstance().currentUser?.uid}"
-        ).collection("Students").document( studentEntityFB.id.toString()).update("firstName",
+        ).collection("Students").document(studentEntityFB.id.toString()).update("firstName",
             firstName,
             "secondName",
             secondName,
             "schoolClass",
             schoolClass,
             "price",
-            price)
+            price,
+            "phoneNumber",
+            phoneNumber)
     }
 
     // функция выхода из учетной записи

@@ -4,8 +4,8 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:gravity="center_horizontal|top"
-    android:orientation="vertical"
-    tools:context=".journal.studentJournal.pager.activeStudents.updatingTheStudent.EditStudentFragment">
+    tools:context=".journal.studentJournal.pager.activeStudents.updatingTheStudent.EditStudentFragment"
+    android:orientation="vertical">
 
     <androidx.appcompat.widget.Toolbar
         android:id="@+id/editToolBar"
@@ -20,11 +20,12 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="70dp"
+        android:autofillHints=""
         android:ems="10"
-        android:hint="Имя"
+        android:hint="@string/name"
         android:inputType="textPersonName"
         android:minHeight="48dp"
-        android:autofillHints="" />
+        tools:ignore="SpeakableTextPresentCheck" />
 
     <EditText
         android:id="@+id/editSecondName"
@@ -32,7 +33,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="24dp"
         android:ems="10"
-        android:hint="Фамилия"
+        android:hint="@string/lastName"
         android:inputType="textPersonName"
         android:minHeight="48dp" />
 
@@ -42,7 +43,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="24dp"
         android:ems="10"
-        android:hint="Класс"
+        android:hint="@string/schoolClass"
         android:inputType="number"
         android:minHeight="48dp" />
 
@@ -51,9 +52,20 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="24dp"
+        android:baselineAligned="false"
         android:ems="10"
-        android:hint="Стоимость занятия "
+        android:hint="@string/price"
         android:inputType="number"
+        android:minHeight="48dp" />
+    <EditText
+        android:id="@+id/edPhoneNumber"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="24dp"
+        android:baselineAligned="false"
+        android:ems="10"
+        android:hint="@string/phone"
+        android:inputType="phone"
         android:minHeight="48dp" />
 
     <Button
@@ -61,5 +73,5 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="24dp"
-        android:text="Сохранить изменения" />
+        android:text="@string/save" />
 </LinearLayout>

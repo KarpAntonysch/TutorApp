@@ -53,8 +53,7 @@ class InactiveStudentsFragment : Fragment(), InactiveJournalAdapter.Listener,Joi
     }
 
     override fun returnStudent(studentEntity: StudentEntity) {
-        inactiveViewModel.returnStudentToActive(studentEntity.id)
-        inactiveViewModel.returnStudentToActiveFB(studentEntity)
+        inactiveViewModel.returnStudentToActive(studentEntity)
     }
 
     override fun deleteStudent(studentEntity: StudentEntity) {

@@ -20,6 +20,10 @@ data class StudentEntity(
     var schoolClass: Int=0,
     @ColumnInfo(name = "activeStatus")
     var activeStatus:Boolean = true,
+    @ColumnInfo(name = "deleteStatus")
+    var deleteStatus:Boolean = true,
+    @ColumnInfo(name = "phoneNumber")
+    var phoneNumber:String? = null
 ) : Serializable, Parcelable {
     @PrimaryKey(autoGenerate = true)
     var id: Int = 0

@@ -53,6 +53,7 @@ class WatchingStudentFragment : Fragment(),JointDialogInterface {
         watchTvSndName.text = getStudentEntity()?.secondName
         watchTvClass.text = getStudentEntity()?.schoolClass.toString()
         watchTvPrice.text = "${getStudentEntity()?.price}₽"
+        watchTvNumber.text = getStudentEntity()?.phoneNumber
     }
     private fun getStudentEntity() : StudentEntity?{
         return arguments?.getParcelable("ArgForWatching: com.example.tutor.bd.entities.StudentEntity")

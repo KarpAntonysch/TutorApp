@@ -6,10 +6,10 @@ import com.example.tutor.bd.entities.StudentEntity
 import com.example.tutor.fireBase.FireBaseRepository
 import com.example.tutor.repository.StudentRepository
 
-class EditStudentViewModel(val repository: StudentRepository, val fbRepository: FireBaseRepository) : ViewModel() {
-    fun updateStudent(studentEntity: StudentEntity,firstName:String,secondName:String,schoolClass:Int,price:Int){
-        repository.updateStudent(studentEntity.id,firstName,secondName,schoolClass,price)
-        fbRepository.changeStudentFieldsToFireBase(studentEntity,firstName,secondName,schoolClass,price)
+class EditStudentViewModel(val repository: StudentRepository, private val fbRepository: FireBaseRepository) : ViewModel() {
+    fun updateStudent(studentEntity: StudentEntity,firstName:String,secondName:String,schoolClass:Int,price:Int,phoneNumber:String){
+        repository.updateStudent(studentEntity.id,firstName,secondName,schoolClass,price,phoneNumber)
+        fbRepository.changeStudentFieldsToFireBase(studentEntity,firstName,secondName,schoolClass,price,phoneNumber)
     }
 
 }

@@ -69,6 +69,7 @@ class EditStudentFragment : Fragment(),JointDialogInterface {
         binding.editSecondName.text = getStudentEntity()?.secondName?.toEditable()
         binding.editClass.text = getStudentEntity()?.schoolClass?.toEditable()
         binding.editPrice.text = getStudentEntity()?.price?.toEditable()
+        binding.edPhoneNumber.text = getStudentEntity()?.phoneNumber?.toEditable()
     }
     private fun updateStudent(){
         val student = getStudentEntity()
@@ -76,7 +77,8 @@ class EditStudentFragment : Fragment(),JointDialogInterface {
         val secondName = binding.editSecondName.text.toString()
         val schoolClass = binding.editClass.text.toString().toInt()
         val price = binding.editPrice.text.toString().toInt()
-        editStudentViewModel.updateStudent(student!!,firstName,secondName,schoolClass,price)
+        val phoneNumber = binding.edPhoneNumber.text.toString()
+        editStudentViewModel.updateStudent(student!!,firstName,secondName,schoolClass,price,phoneNumber)
     }
 
 }

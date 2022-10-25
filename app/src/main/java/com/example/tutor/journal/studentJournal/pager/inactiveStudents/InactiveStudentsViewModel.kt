@@ -12,17 +12,17 @@ class InactiveStudentsViewModel(val repository: StudentRepository,
                                 private val fbRepository: FireBaseRepository
 ) : ViewModel() {
     // получение списка неактивных студентов из БД
-    val allInactiveStudents: LiveData<List<StudentEntity>> =
+    var allInactiveStudents: LiveData<List<StudentEntity>> =
         repository.allInactiveStudents.asLiveData()
     //Изменение статуса студента на "активный" в БД
-    fun returnStudentToActive(studentID: Int) = repository.changeStudentActiveToTrue(studentID)
-    //Изменение статуса студента на "активный" в FB
-    fun returnStudentToActiveFB(studentEntityFB: StudentEntity){
-        fbRepository.changeStudentActiveToFireBase(studentEntityFB,true)
+    fun returnStudentToActive(studentEntity: StudentEntity){
+        repository.changeStudentActiveToTrue(studentEntity.id)
+        fbRepository.changeStudentActiveToFireBase(studentEntity,true)
     }
+
     fun deleteStudent(studentEntity: StudentEntity) {
-        repository.deleteStudent(studentEntity)
-        fbRepository.deleteStudentFromFB(studentEntity)
+        repository.changeDeleteStatus(studentEntity.id)
+        fbRepository.changeDeleteStatusToFireBase(studentEntity)
     }
 }
 class InactiveStudentsViewModelFactory(private val repository: StudentRepository,

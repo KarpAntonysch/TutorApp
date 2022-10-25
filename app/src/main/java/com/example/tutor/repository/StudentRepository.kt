@@ -29,10 +29,10 @@ class StudentRepository(private val studentDAO: StudentDAO) {
 
     fun changeStudentActive(studentID:Int) = studentDAO.changeStudentActive(studentID)
     fun changeStudentActiveToTrue(studentID: Int) = studentDAO.changeStudentActiveToTrue(studentID)
-    fun updateStudent(studentID:Int,firstName:String,secondName:String,schoolClass:Int,price:Int){
-        studentDAO.updateStudent(studentID,firstName,secondName,schoolClass,price)
+    fun updateStudent(studentID:Int,firstName:String,secondName:String,schoolClass:Int,price:Int,phoneNumber:String){
+        studentDAO.updateStudent(studentID,firstName,secondName,schoolClass,price,phoneNumber)
     }
-     fun deleteStudent(studentEntity: StudentEntity) = studentDAO.deleteStudent(studentEntity)
+    fun changeDeleteStatus(studentID: Int) = studentDAO.changeDeleteStatus(studentID)
 }
 
 

@@ -74,7 +74,8 @@ lateinit var binding: FragmentAddStudentToJournalBinding
         val secondName:String = binding.edSecondName.text.toString()
         val schoolClass:Int = binding.edClass.text.toString().toInt()
         val price:Int = binding.edPrice.text.toString().toInt()
-        return StudentEntity(firstName, secondName, price, schoolClass)
+        val phoneNumber:String = binding.edPhoneNamber.text.toString()
+        return StudentEntity(firstName, secondName, price, schoolClass, phoneNumber = phoneNumber)
     }
     // Проверка на заполнение полей
     private fun empty():Boolean{
