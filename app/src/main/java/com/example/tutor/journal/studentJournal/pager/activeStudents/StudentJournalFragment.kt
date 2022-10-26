@@ -1,6 +1,8 @@
 package com.example.tutor.journal.studentJournal.pager.activeStudents
 
 import android.content.DialogInterface
+import android.content.Intent
+import android.net.Uri
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -97,6 +99,10 @@ class StudentJournalFragment : Fragment(), StudentJournalAdapter.Listener,
         bundle.putParcelable("ArgForWatching: com.example.tutor.bd.entities.StudentEntity",studentEntity)
         findNavController().navigate(R.id.action_jornalPagerFragment_to_watchingStudentFragment,bundle)
     }
+
+    override fun clickToMenuCall(studentEntity: StudentEntity) {
+        val intent = Intent(Intent.ACTION_DIAL, Uri.parse("tel:${studentEntity.phoneNumber}"))
+        startActivity(intent)    }
 
     // Функция инициализации кнопок в диалоговом окне из YesOrNoDialogFragment
     private fun setupDialogFragmentListener(studentEntity: StudentEntity) {

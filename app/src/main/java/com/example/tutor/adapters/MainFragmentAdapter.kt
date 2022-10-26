@@ -1,5 +1,6 @@
 package com.example.tutor.adapters
 
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -26,6 +27,9 @@ class MainFragmentAdapter(val listener : Listener):
             btnDeleteRV2.setOnClickListener{
                 listener.onClickToDeleteSchedule(scheduleWithStudent.scheduleEntity)
             }
+            btnPhone.setOnClickListener {
+                listener.onClickToCall(scheduleWithStudent.ListOfStudentEntity.phoneNumber!!)
+            }
         }
     }
 
@@ -51,5 +55,6 @@ class MainFragmentAdapter(val listener : Listener):
     }
     interface Listener{
         fun onClickToDeleteSchedule(scheduleEntity: ScheduleEntity)
+        fun onClickToCall(phoneNumber:String)
     }
 }

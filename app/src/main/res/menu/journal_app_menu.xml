@@ -2,24 +2,31 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
     <item
-        android:title="Watch"
-        android:id="@+id/menuWatch"
-        android:icon="@drawable/ic_eye"
+        android:title="@string/edit"
+        android:id="@+id/menuEdit"
+        android:icon="@drawable/ic_editing"
         app:showAsAction="ifRoom"
         android:orderInCategory="1"
         />
     <item
-        android:title="Edit"
-        android:id="@+id/menuEdit"
-        android:icon="@drawable/ic_editing"
+        android:title="@string/delete"
+        android:id="@+id/menuDelete"
+        android:icon="@drawable/ic_delete"
         app:showAsAction="ifRoom"
         android:orderInCategory="2"
         />
     <item
-        android:title="Delete"
-        android:id="@+id/menuDelete"
-        android:icon="@drawable/ic_delete"
+        android:title="@string/watch"
+        android:id="@+id/menuWatch"
+        android:icon="@drawable/ic_eye"
         app:showAsAction="ifRoom"
         android:orderInCategory="3"
+        />
+    <item
+        android:title="@string/Call"
+        android:id="@+id/menuCall"
+        android:icon="@drawable/ic_phone_24"
+        app:showAsAction="ifRoom"
+        android:orderInCategory="4"
         />
 </menu>

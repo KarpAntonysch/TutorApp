@@ -72,5 +72,8 @@
     <string name="price">Стоимость занятия</string>
     <string name="phone">Номер телефона</string>
     <string name="add">Добавить</string>
+    <string name="edit">Изменить</string>
+    <string name="Call">Позвонить</string>
+    <string name="watch">Информация</string>
     <string name="save">Сохранить изменения</string>
 </resources>

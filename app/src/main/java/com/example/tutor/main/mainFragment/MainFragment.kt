@@ -26,6 +26,8 @@ import com.example.tutor.journal.studentJournal.pager.activeStudents.StudentJour
 import com.example.tutor.journal.studentJournal.DBapplication
 import com.google.firebase.auth.FirebaseAuth
 import java.util.*
+import android.content.Intent
+import android.net.Uri
 
 
 class MainFragment : Fragment(), MainFragmentAdapter.Listener,
@@ -173,6 +175,11 @@ class MainFragment : Fragment(), MainFragmentAdapter.Listener,
             childFragmentManager, R.string.empty, false
         )
         setupDialogFragmentListener(scheduleEntity)
+    }
+
+    override fun onClickToCall(phoneNumber: String) {
+        val intent = Intent(Intent.ACTION_DIAL, Uri.parse("tel:$phoneNumber"))
+            startActivity(intent)
     }
 
     private fun setupAddBtnDialogFragmentListener(bundleForStudent: Bundle) {

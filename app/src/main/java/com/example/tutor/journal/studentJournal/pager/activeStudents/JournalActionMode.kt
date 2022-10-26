@@ -44,6 +44,11 @@ class JournalActionModeCallback(
                 mode.finish()
                 true
             }
+            R.id.menuCall ->{
+                actionModeListener?.clickToMenuCall(studentEntity)
+                mode.finish()
+                true
+            }
             else -> false
         }
     }
@@ -71,8 +76,8 @@ class JournalActionModeCallback(
     interface ActionModeListener {
         fun clickToMenuDelete(studentEntity: StudentEntity)
         fun clickToMenuEdit(studentEntity: StudentEntity)
-        fun clickToMenuWatch(studentEntity: StudentEntity) {
-        }
+        fun clickToMenuWatch(studentEntity: StudentEntity)
+        fun clickToMenuCall(studentEntity: StudentEntity)
     }
 
     fun hideActionMode(){
