@@ -1,13 +1,19 @@
 package com.example.tutor.main.addStudentToSchedule
 
 import android.annotation.SuppressLint
+import android.app.AlarmManager
+import android.app.NotificationChannel
+import android.app.NotificationManager
+import android.graphics.Color
 import android.os.Build
 import android.os.Bundle
+import android.util.Log
 import android.view.*
 import android.widget.AdapterView
 import android.widget.ArrayAdapter
 import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.content.getSystemService
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import com.example.tutor.R
@@ -27,7 +33,7 @@ class AddStudentToDaySchedule : Fragment(),JointDialogInterface {
 
     lateinit var binding: FragmentAddStudentToDayScheduleBinding
     private val scheduleViewModel: AddStudentToScheduleViewModel by viewModels {
-        AddStudentToScheduleViewModelFactory((requireActivity().application as DBapplication).scheduleRepository)
+        AddStudentToScheduleViewModelFactory((requireActivity().application as DBapplication).scheduleRepository,requireActivity().application)
     }
     private val studentJournalViewModel: StudentJournalViewModel by viewModels {
         StudentJournalViewModelFactory((requireActivity().application as DBapplication).studentRepository,
@@ -43,6 +49,7 @@ class AddStudentToDaySchedule : Fragment(),JointDialogInterface {
     ): View {
         binding = FragmentAddStudentToDayScheduleBinding.inflate(inflater, container, false)
         setHasOptionsMenu(true)
+        createChannel(getString(R.string.push_notification_channel_id),getString(R.string.push_notification_channel_name))
         return binding.root
     }
 
@@ -63,6 +70,8 @@ class AddStudentToDaySchedule : Fragment(),JointDialogInterface {
         binding.btnAddSchedule.setOnClickListener {
                 formattedCurrentDate()
                 addScheduleToDB(getScheduleValues())
+                scheduleViewModel.setAlarm(formattedCurrentDate())
+
                 activity?.onBackPressed()/*"мягкое" закрытие фрагмента. Т.е. фрагмент просыпается из стека.
              Он не уничтожается из стека, не создается новый экземпляр этого фрагмента в стеке,
                 в отличие от findNavController().navigate(R.id.action_addStudentToDaySchedule_to_mainFragment)
@@ -164,4 +173,31 @@ class AddStudentToDaySchedule : Fragment(),JointDialogInterface {
     private fun addScheduleToDB(scheduleEntity: ScheduleEntity) {
         scheduleViewModel.insert(scheduleEntity)
     }
+
+    private fun createChannel(channelId: String, channelName: String) {
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            val notificationChannel = NotificationChannel(
+                channelId,
+                channelName,
+
+                NotificationManager.IMPORTANCE_HIGH
+            )
+                .apply {
+                    setShowBadge(false)
+                }
+
+            notificationChannel.enableLights(true)
+            notificationChannel.lightColor = Color.RED
+            notificationChannel.enableVibration(true)
+            notificationChannel.description = getString(R.string.push_message)
+
+            val notificationManager = requireActivity().getSystemService(
+                NotificationManager::class.java
+            )
+            notificationManager.createNotificationChannel(notificationChannel)
+
+        }
+    }
+
 }

@@ -61,7 +61,6 @@ class MainFragment : Fragment(), MainFragmentAdapter.Listener,
 
     @RequiresApi(Build.VERSION_CODES.O)
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        Log.v("tess", "onViewCreated")
         super.onViewCreated(view, savedInstanceState)
         toolBarSetting()
         // передадим дату (Long) через  Bundle
