@@ -10,25 +10,28 @@ import com.example.tutor.R
 
 private val NOTIFICATION_ID = 0
 private val REQUEST_CODE = 0
-private val FLAGS = 0
-fun NotificationManager.sendNotification(messageBody: String, applicationContext: Context) {
-    val intent = Intent(applicationContext, MainActivity::class.java)
 
-    val pendingIntent = PendingIntent.getActivity(applicationContext,
-        REQUEST_CODE,
-        intent,
-        PendingIntent.FLAG_UPDATE_CURRENT)
+    fun NotificationManager.sendNotification(messageBody: String, applicationContext: Context) {
+        val intent = Intent(applicationContext, MainActivity::class.java)
 
-    val builder = NotificationCompat.Builder(
-        applicationContext,
-        applicationContext.getString(R.string.push_notification_channel_id)
-    )
-        .setSmallIcon(R.drawable.ic_push)
-        .setContentTitle(applicationContext
-            .getString(R.string.push_tittle))
-        .setContentText(messageBody)
-        .setContentIntent(pendingIntent)
-        .setAutoCancel(true)
-        .setPriority(NotificationCompat.PRIORITY_HIGH)
-    notify(NOTIFICATION_ID, builder.build())
-}
+        val pendingIntent = PendingIntent.getActivity(applicationContext,
+            REQUEST_CODE,
+            intent,
+            PendingIntent.FLAG_UPDATE_CURRENT)
+
+        val builder = NotificationCompat.Builder(
+            applicationContext,
+            applicationContext.getString(R.string.push_notification_channel_id)
+        )
+            .setSmallIcon(R.drawable.ic_push)
+            .setContentTitle(applicationContext
+                .getString(R.string.push_tittle))
+            .setContentText(messageBody)
+            .setContentIntent(pendingIntent)
+            .setAutoCancel(true)
+            .setPriority(NotificationCompat.PRIORITY_HIGH)
+        notify(NOTIFICATION_ID, builder.build())
+    }
+
+
+

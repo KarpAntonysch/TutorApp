@@ -34,7 +34,7 @@ class MainFragment : Fragment(), MainFragmentAdapter.Listener,
     JointDialogInterface {
     lateinit var binding: FragmentMainBinding
     private val mainFragmentViewModel: MainFragmentViewModel by viewModels {
-        MainFragmentViewModelFactory((requireActivity().application as DBapplication).scheduleRepository)
+        MainFragmentViewModelFactory((requireActivity().application as DBapplication).scheduleRepository,requireActivity().application)
     }
     private val studentJournalViewModel: StudentJournalViewModel by viewModels {
         StudentJournalViewModelFactory((requireActivity().application as DBapplication).studentRepository,
@@ -215,8 +215,11 @@ class MainFragment : Fragment(), MainFragmentAdapter.Listener,
             this,
             FragmentResultListener { _, result ->
                 when (result.getInt(JointDialogFragment.KEY_RESPONSE)) {
-                    DialogInterface.BUTTON_POSITIVE -> mainFragmentViewModel
-                        .deleteSchedule(scheduleEntity)
+                    DialogInterface.BUTTON_POSITIVE -> {
+                        mainFragmentViewModel.deleteSchedule(scheduleEntity)
+                        mainFragmentViewModel.cancelNotification(scheduleEntity.dateWithTime.toInt())
+                        Log.v("eee","cancel ${scheduleEntity.dateWithTime.toInt()}")
+                    }
                 }
             })
     }

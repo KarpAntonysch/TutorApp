@@ -1,7 +1,6 @@
 package com.example.tutor.main.addStudentToSchedule
 
 import android.annotation.SuppressLint
-import android.app.AlarmManager
 import android.app.NotificationChannel
 import android.app.NotificationManager
 import android.graphics.Color
@@ -13,7 +12,6 @@ import android.widget.AdapterView
 import android.widget.ArrayAdapter
 import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.content.getSystemService
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import com.example.tutor.R
@@ -22,18 +20,19 @@ import com.example.tutor.convertLongToTime
 import com.example.tutor.databinding.FragmentAddStudentToDayScheduleBinding
 import com.example.tutor.dialogs.JointDialogInterface
 import com.example.tutor.fireBase.FireBaseRepository
+import com.example.tutor.journal.studentJournal.DBapplication
 import com.example.tutor.journal.studentJournal.pager.activeStudents.StudentJournalViewModel
 import com.example.tutor.journal.studentJournal.pager.activeStudents.StudentJournalViewModelFactory
-import com.example.tutor.journal.studentJournal.DBapplication
 import java.util.*
 import java.util.Calendar.getInstance
 
 
-class AddStudentToDaySchedule : Fragment(),JointDialogInterface {
+class AddStudentToDaySchedule : Fragment(), JointDialogInterface {
 
     lateinit var binding: FragmentAddStudentToDayScheduleBinding
     private val scheduleViewModel: AddStudentToScheduleViewModel by viewModels {
-        AddStudentToScheduleViewModelFactory((requireActivity().application as DBapplication).scheduleRepository,requireActivity().application)
+        AddStudentToScheduleViewModelFactory((requireActivity().application as DBapplication).scheduleRepository,
+            requireActivity().application)
     }
     private val studentJournalViewModel: StudentJournalViewModel by viewModels {
         StudentJournalViewModelFactory((requireActivity().application as DBapplication).studentRepository,
@@ -49,7 +48,8 @@ class AddStudentToDaySchedule : Fragment(),JointDialogInterface {
     ): View {
         binding = FragmentAddStudentToDayScheduleBinding.inflate(inflater, container, false)
         setHasOptionsMenu(true)
-        createChannel(getString(R.string.push_notification_channel_id),getString(R.string.push_notification_channel_name))
+        createChannel(getString(R.string.push_notification_channel_id),
+            getString(R.string.push_notification_channel_name))
         return binding.root
     }
 
@@ -67,12 +67,14 @@ class AddStudentToDaySchedule : Fragment(),JointDialogInterface {
 
     @SuppressLint("NewApi")
     private fun addingSchedule() {
+        val cal: Calendar = getInstance()
         binding.btnAddSchedule.setOnClickListener {
-                formattedCurrentDate()
-                addScheduleToDB(getScheduleValues())
-                scheduleViewModel.setAlarm(formattedCurrentDate())
-
-                activity?.onBackPressed()/*"мягкое" закрытие фрагмента. Т.е. фрагмент просыпается из стека.
+            formattedCurrentDate()
+            addScheduleToDB(getScheduleValues())
+            scheduleViewModel.setAlarm(formattedCurrentDate())
+            Log.v("eee", "${formattedCurrentDate().convertLongToTime("HH:mm: ss:sss")} " +
+                    "&& ${formattedCurrentDate().toInt()}")
+            activity?.onBackPressed()/*"мягкое" закрытие фрагмента. Т.е. фрагмент просыпается из стека.
              Он не уничтожается из стека, не создается новый экземпляр этого фрагмента в стеке,
                 в отличие от findNavController().navigate(R.id.action_addStudentToDaySchedule_to_mainFragment)
                 здесь в стек добавляется новый экземпляр фрагмента, без уничтожения старого*/
@@ -83,7 +85,7 @@ class AddStudentToDaySchedule : Fragment(),JointDialogInterface {
         // получение информации для таблицы schedule(id,firstname,secondName), реализация спинера
         studentJournalViewModel.getInfo().observe(viewLifecycleOwner, {
             //спинер
-            val spinnerCheck:Int? = scheduleViewModel.studentID/*проверка выбранного ученика
+            val spinnerCheck: Int? = scheduleViewModel.studentID/*проверка выбранного ученика
             при изменении конфигурации, если ученик был удален, то список в спинере по порядку, если
             не удален, то выбор запоминается и переживает конфигурацию*/
             val spinner = binding.spinnerForSchedule
@@ -93,7 +95,7 @@ class AddStudentToDaySchedule : Fragment(),JointDialogInterface {
                 android.R.layout.simple_spinner_dropdown_item,
                 newList
             )
-            if (spinnerCheck !== null){
+            if (spinnerCheck !== null) {
                 spinner.setSelection(scheduleViewModel.searchID(newList))
             }
             spinner.onItemSelectedListener =
@@ -106,6 +108,7 @@ class AddStudentToDaySchedule : Fragment(),JointDialogInterface {
                     ) {
                         scheduleViewModel.studentID = newList[position].id
                     }
+
                     override fun onNothingSelected(p0: AdapterView<*>?) {
                     }
                 }
@@ -131,8 +134,8 @@ class AddStudentToDaySchedule : Fragment(),JointDialogInterface {
         when (item.itemId) {
             android.R.id.home -> activity?.onBackPressed()
             R.id.info -> {
-                showJoinDialog(R.string.hint,false,R.string.good,
-                    R.string.empty,childFragmentManager,R.string.addStudentToSchedule,true)
+                showJoinDialog(R.string.hint, false, R.string.good,
+                    R.string.empty, childFragmentManager, R.string.addStudentToSchedule, true)
             }
         }
         return true
@@ -166,10 +169,11 @@ class AddStudentToDaySchedule : Fragment(),JointDialogInterface {
     // Заполнение объекта ScheduleEntity временем и id
     @SuppressLint("NewApi")
     fun getScheduleValues(): ScheduleEntity {
-        return addStudentToDayScheduleClass.getScheduleValues(formattedCurrentDate(), scheduleViewModel.studentID!!)
+        return addStudentToDayScheduleClass.getScheduleValues(formattedCurrentDate(),
+            scheduleViewModel.studentID!!)
     }
 
-    // добавление объекта расписания в БД (scheduleTable)
+    // добавление объекта расписания в БД (scheduleTable)+создание оповещения
     private fun addScheduleToDB(scheduleEntity: ScheduleEntity) {
         scheduleViewModel.insert(scheduleEntity)
     }
