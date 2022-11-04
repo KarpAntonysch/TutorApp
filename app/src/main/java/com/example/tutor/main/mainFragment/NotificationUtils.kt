@@ -8,8 +8,8 @@ import androidx.core.app.NotificationCompat
 import com.example.tutor.MainActivity
 import com.example.tutor.R
 
-private val NOTIFICATION_ID = 0
-private val REQUEST_CODE = 0
+private const val NOTIFICATION_ID = 0
+private const val REQUEST_CODE = 0
 
     fun NotificationManager.sendNotification(messageBody: String, applicationContext: Context) {
         val intent = Intent(applicationContext, MainActivity::class.java)

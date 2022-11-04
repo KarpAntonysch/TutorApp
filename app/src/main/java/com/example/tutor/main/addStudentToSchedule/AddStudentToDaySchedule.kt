@@ -6,7 +6,6 @@ import android.app.NotificationManager
 import android.graphics.Color
 import android.os.Build
 import android.os.Bundle
-import android.util.Log
 import android.view.*
 import android.widget.AdapterView
 import android.widget.ArrayAdapter
@@ -54,7 +53,6 @@ class AddStudentToDaySchedule : Fragment(), JointDialogInterface {
     }
 
 
-    @SuppressLint("NewApi")
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         toolBarSetting()
@@ -65,20 +63,19 @@ class AddStudentToDaySchedule : Fragment(), JointDialogInterface {
         addingSchedule()
     }
 
-    @SuppressLint("NewApi")
     private fun addingSchedule() {
-        val cal: Calendar = getInstance()
         binding.btnAddSchedule.setOnClickListener {
-            formattedCurrentDate()
-            addScheduleToDB(getScheduleValues())
-            scheduleViewModel.setAlarm(formattedCurrentDate())
-            Log.v("eee", "${formattedCurrentDate().convertLongToTime("HH:mm: ss:sss")} " +
-                    "&& ${formattedCurrentDate().toInt()}")
-            activity?.onBackPressed()/*"мягкое" закрытие фрагмента. Т.е. фрагмент просыпается из стека.
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+                formattedCurrentDate()
+                addScheduleToDB(getScheduleValues())
+                scheduleViewModel.setAlarm(formattedCurrentDate() - 300000)//оповещение должно приходить за 5 мин
+                activity?.onBackPressed()/*"мягкое" закрытие фрагмента. Т.е. фрагмент просыпается из стека.
              Он не уничтожается из стека, не создается новый экземпляр этого фрагмента в стеке,
                 в отличие от findNavController().navigate(R.id.action_addStudentToDaySchedule_to_mainFragment)
                 здесь в стек добавляется новый экземпляр фрагмента, без уничтожения старого*/
+            }
         }
+
     }
 
     private fun spinnerRealization() {

@@ -78,7 +78,7 @@
     <string name="save">Сохранить изменения</string>
     <string name="push_notification_channel_id" translatable="false">push-канал</string>
     <string name="push_notification_channel_name" translatable="false">Имя канала</string>
-    <string name="push_message" translatable="false">Сообщение пуша</string>
+    <string name="push_message" translatable="false">Занятие начнется через 5 минут</string>
     <string name="push_tittle" translatable="false">Скоро занятие</string>
 
 </resources>
