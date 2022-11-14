@@ -73,7 +73,7 @@ dependencies {
     implementation 'androidx.navigation:navigation-ui-ktx:2.4.2'
     implementation 'androidx.fragment:fragment-ktx:1.4.1'
     implementation "androidx.viewpager2:viewpager2:1.0.0"
-    implementation 'com.github.AAChartModel:AAChartCore-Kotlin:-SNAPSHOT'// библиотека для графиков
+    implementation 'com.github.AAChartModel:AAChartCore-Kotlin:7.1.0'// библиотека для графиков
     implementation 'androidx.recyclerview:recyclerview:1.1.0'
     implementation 'androidx.recyclerview:recyclerview-selection:1.1.0'
     testImplementation 'junit:junit:4.+'

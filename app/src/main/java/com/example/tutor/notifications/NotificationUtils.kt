@@ -17,7 +17,7 @@ private const val REQUEST_CODE = 0
         val pendingIntent = PendingIntent.getActivity(applicationContext,
             REQUEST_CODE,
             intent,
-            PendingIntent.FLAG_UPDATE_CURRENT)
+            PendingIntent.FLAG_IMMUTABLE)
 
         val builder = NotificationCompat.Builder(
             applicationContext,

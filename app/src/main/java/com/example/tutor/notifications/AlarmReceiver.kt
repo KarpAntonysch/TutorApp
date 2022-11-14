@@ -1,4 +1,4 @@
-package com.example.tutor.main.mainFragment
+package com.example.tutor.notifications
 
 import android.app.NotificationManager
 import android.content.BroadcastReceiver
@@ -6,6 +6,7 @@ import android.content.Context
 import android.content.Intent
 import androidx.core.content.ContextCompat
 import com.example.tutor.R
+import com.example.tutor.main.mainFragment.sendNotification
 
 class AlarmReceiver: BroadcastReceiver() {
 

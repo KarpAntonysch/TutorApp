@@ -17,6 +17,8 @@ import com.example.tutor.R
 import com.example.tutor.bd.entities.ScheduleEntity
 import com.example.tutor.convertLongToTime
 import com.example.tutor.databinding.FragmentAddStudentToDayScheduleBinding
+import com.example.tutor.dialogs.BottomSheetListener
+import com.example.tutor.dialogs.NotificationBottomFragment
 import com.example.tutor.dialogs.JointDialogInterface
 import com.example.tutor.fireBase.FireBaseRepository
 import com.example.tutor.journal.studentJournal.DBapplication
@@ -26,7 +28,7 @@ import java.util.*
 import java.util.Calendar.getInstance
 
 
-class AddStudentToDaySchedule : Fragment(), JointDialogInterface {
+class AddStudentToDaySchedule : Fragment(), JointDialogInterface,BottomSheetListener{
 
     lateinit var binding: FragmentAddStudentToDayScheduleBinding
     private val scheduleViewModel: AddStudentToScheduleViewModel by viewModels {
@@ -40,7 +42,6 @@ class AddStudentToDaySchedule : Fragment(), JointDialogInterface {
     }
     private var timeFromPicker: Long = 0
     private val addStudentToDayScheduleClass = AddStudentToDayScheduleClass()// объект класса логики
-
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?,
@@ -58,17 +59,30 @@ class AddStudentToDaySchedule : Fragment(), JointDialogInterface {
         toolBarSetting()
         binding.timePicker.setIs24HourView(true)
         binding.tvDate.text = getCurrentDate().convertLongToTime("dd.MM.yyyy")
+        binding.notificationValue.text = requireContext().getText(R.string.tenMinutes)
         spinnerRealization()
         getCurrentTime()
         addingSchedule()
+        showNotificationSettings()
+        showPeriodSettings()
     }
 
+    private fun showPeriodSettings(){
+        binding.periodSettings.setOnClickListener{
+        }
+    }
+
+    private fun showNotificationSettings(){
+        binding.notificationSettings.setOnClickListener{
+            NotificationBottomFragment(this).show(childFragmentManager,"tag")
+        }
+    }
     private fun addingSchedule() {
         binding.btnAddSchedule.setOnClickListener {
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
                 formattedCurrentDate()
-                addScheduleToDB(getScheduleValues())
-                scheduleViewModel.setAlarm(formattedCurrentDate() - 300000)//оповещение должно приходить за 5 мин
+                addScheduleToDB(getScheduleValues(0))
+                //scheduleViewModel.setAlarm(formattedCurrentDate() - 600000)//оповещение должно приходить за 10 мин
                 activity?.onBackPressed()/*"мягкое" закрытие фрагмента. Т.е. фрагмент просыпается из стека.
              Он не уничтожается из стека, не создается новый экземпляр этого фрагмента в стеке,
                 в отличие от findNavController().navigate(R.id.action_addStudentToDaySchedule_to_mainFragment)
@@ -165,8 +179,8 @@ class AddStudentToDaySchedule : Fragment(), JointDialogInterface {
 
     // Заполнение объекта ScheduleEntity временем и id
     @SuppressLint("NewApi")
-    fun getScheduleValues(): ScheduleEntity {
-        return addStudentToDayScheduleClass.getScheduleValues(formattedCurrentDate(),
+    fun getScheduleValues(nextLesson:Long): ScheduleEntity {
+        return addStudentToDayScheduleClass.getScheduleValues(formattedCurrentDate()+nextLesson,
             scheduleViewModel.studentID!!)
     }
 
@@ -200,5 +214,26 @@ class AddStudentToDaySchedule : Fragment(), JointDialogInterface {
 
         }
     }
+
+    override fun ac1() {
+       binding.notificationValue.text = requireContext().getText(R.string.tenMinutes)
+        scheduleViewModel.sss.value=1
+    }
+
+    override fun ac2() {
+        binding.notificationValue.text = requireContext().getText(R.string.fifteensMinutes)
+        scheduleViewModel.sss.value=2
+    }
+
+    override fun ac3() {
+        binding.notificationValue.text = requireContext().getText(R.string.thirteensMinutes)
+        scheduleViewModel.sss.value=3
+    }
+
+    override fun ac4() {
+        binding.notificationValue.text = requireContext().getText(R.string.cancelNotification)
+        scheduleViewModel.sss.value=4
+    }
+
 
 }

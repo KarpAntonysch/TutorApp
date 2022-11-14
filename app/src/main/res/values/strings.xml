@@ -65,7 +65,7 @@
     <string name="warning">Предупреждение</string>
     <string name="warningText">Добавьте ученика в раздел \"Журнал\"!\n\n Невозможно добавить занятия без учеников.</string>
     <string name="delete">Удаление</string>
-    <string name="foreverDelete">Подтверждая удаление вы навсегда удалите ученика и всю информацию о нем, включая занятия!\n\n Удалить?</string>
+    <string name="foreverDelete">Подтверждая удаление вы навсегда удалите ученика и всю информацию о нем! \n\n Удалить?</string>
     <string name="name">Имя</string>
     <string name="lastName">Фамилия</string>
     <string name="schoolClass">Класс</string>
@@ -78,7 +78,21 @@
     <string name="save">Сохранить изменения</string>
     <string name="push_notification_channel_id" translatable="false">push-канал</string>
     <string name="push_notification_channel_name" translatable="false">Имя канала</string>
-    <string name="push_message" translatable="false">Занятие начнется через 5 минут</string>
+    <string name="push_message" translatable="false">Занятие начнется через 10 минут</string>
     <string name="push_tittle" translatable="false">Скоро занятие</string>
+    <string name="period_setting" translatable="false">Выбор периода</string>
+    <string name="notification_setting" translatable="false">Настройки уведомлений</string>
+    <string name="tenMinutes" translatable="false">10 минут</string>
+    <string name="fifteensMinutes" translatable="false">15 минут</string>
+    <string name="thirteensMinutes" translatable="false">30 минут</string>
+    <string name="cancelNotification" translatable="false">Выкл.</string>
+    <string name="weekPeriod" translatable="false">В этот же день на неделю</string>
+    <string name="monthPeriod" translatable="false">В этот же день на месяц</string>
+    <string name="halfYearPeriod" translatable="false">В этот же день на полгода</string>
+    <string name="yearPeriod" translatable="false">В этот же день на год</string>
+    <string name="ten" translatable="false">10 мин.</string>
+    <string name="fifteen" translatable="false">15 мин.</string>
+    <string name="thirty" translatable="false">30 мин.</string>
+    <string name="cancel" translatable="false">Выкл.</string>
 
 </resources>

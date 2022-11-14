@@ -5,16 +5,16 @@ import android.app.Application
 import android.app.PendingIntent
 import android.content.Context
 import android.content.Intent
-import androidx.lifecycle.AndroidViewModel
-import androidx.lifecycle.ViewModel
-import androidx.lifecycle.ViewModelProvider
-import androidx.lifecycle.viewModelScope
+import android.util.Log
+import androidx.lifecycle.*
+import com.example.tutor.R
 import com.example.tutor.bd.entities.ScheduleEntity
 import com.example.tutor.bd.entities.StudentForSchedule
 import com.example.tutor.bd.entities.StudentForSpinnerModel
-import com.example.tutor.main.mainFragment.AlarmReceiver
+import com.example.tutor.notifications.AlarmReceiver
 import com.example.tutor.repository.ScheduleRepository
 import com.example.tutor.toSpinnerModel
+import kotlinx.coroutines.Delay
 import kotlinx.coroutines.launch
 import java.util.*
 
@@ -23,7 +23,8 @@ class AddStudentToScheduleViewModel(
     private val app: Application,
 ) : AndroidViewModel(app) {
     var studentID: Int? = null
-
+    var delay:Long = 600000
+    val sss:MutableLiveData<Int> = MutableLiveData(0)
     // получение из List<StudentForSchedule> List<StudentForSpinnerModel>
     fun getNewList(infoList: MutableList<StudentForSchedule>): List<StudentForSpinnerModel> {
         return infoList.map { item -> item.toSpinnerModel() }
@@ -33,12 +34,28 @@ class AddStudentToScheduleViewModel(
         return list.indices.find { list[it] == list.first { o -> o.id == studentID } }!!
     }
 
-    fun insert(scheduleEntity: ScheduleEntity) = viewModelScope.launch {
-        repository.insertSchedule(scheduleEntity)
+    fun insert(scheduleEntity: ScheduleEntity) {
 
+        if (sss.value == 1 || sss.value == 0){
+            delay=600000
+            setAlarm(scheduleEntity.dateWithTime-delay)// перенес сюда вместо отдельного метода в фрагменте
+        }
+        if (sss.value==2){
+            delay=900000
+            setAlarm(scheduleEntity.dateWithTime-delay)// перенес сюда вместо отдельного метода в фрагменте
+        }
+        if (sss.value==3){
+            delay=1800000
+            setAlarm(scheduleEntity.dateWithTime-delay)// перенес сюда вместо отдельного метода в фрагменте
+        }
+        if (sss.value==4)
+
+        viewModelScope.launch {
+            repository.insertSchedule(scheduleEntity)
+        }
     }
 
-    fun setAlarm(time: Long) {
+    private fun setAlarm(time: Long) {
         val cal: Calendar = Calendar.getInstance()
         if (cal.timeInMillis < time) {
             val alarmManager = app.getSystemService(Context.ALARM_SERVICE) as AlarmManager

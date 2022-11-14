@@ -24,7 +24,7 @@
             android:exported="true">
         </activity>
         <receiver
-            android:name=".main.mainFragment.AlarmReceiver"
+            android:name=".notifications.AlarmReceiver"
             android:enabled="true"
             android:exported="false"
             android:permission="android.permission.RECEIVE_BOOT_COMPLETED">

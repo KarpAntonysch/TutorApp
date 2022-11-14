@@ -22,4 +22,22 @@
     <style name="SplashScreen" parent="Theme.MaterialComponents.DayNight.DarkActionBar">
         <item name="android:windowBackground">@drawable/splashscreen</item>
           </style>
+
+    <style name="BottomSheetAnim">
+        <item name="android:windowEnterAnimation">
+            @anim/in_bottom_slide
+        </item>
+        <item name="android:windowExitAnimation">
+            @anim/out_bottom_slide
+        </item>
+        </style>
+    <style name="AppBottomSheetDialogTheme"
+        parent="Theme.Design.Light.BottomSheetDialog">
+        <item name="bottomSheetStyle">@style/AppModalStyle</item>
+    </style>
+
+    <style name="AppModalStyle"
+        parent="Widget.Design.BottomSheet.Modal">
+        <item name="android:background">@drawable/bottom_sheet_shape</item>
+    </style>
 </resources>

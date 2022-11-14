@@ -4,6 +4,7 @@
     <option name="filePathToZoomLevelMap">
       <map>
         <entry key="..\:/Users/ANTON/AndroidStudioProjects/Tutor/app/src/main/res/drawable-v24/ic_launcher_foreground.xml" value="0.17447916666666666" />
+        <entry key="..\:/Users/ANTON/AndroidStudioProjects/Tutor/app/src/main/res/drawable/bottom_sheet_shape.xml" value="0.2703125" />
         <entry key="..\:/Users/ANTON/AndroidStudioProjects/Tutor/app/src/main/res/drawable/ic_add_student_to_journal.xml" value="0.2175925925925926" />
         <entry key="..\:/Users/ANTON/AndroidStudioProjects/Tutor/app/src/main/res/drawable/ic_calendar.xml" value="0.2703125" />
         <entry key="..\:/Users/ANTON/AndroidStudioProjects/Tutor/app/src/main/res/drawable/ic_delete.xml" value="0.2703125" />
@@ -29,8 +30,10 @@
         <entry key="..\:/Users/ANTON/AndroidStudioProjects/Tutor/app/src/main/res/layout/activity_enterance.xml" value="0.4" />
         <entry key="..\:/Users/ANTON/AndroidStudioProjects/Tutor/app/src/main/res/layout/activity_entrance.xml" value="0.25416666666666665" />
         <entry key="..\:/Users/ANTON/AndroidStudioProjects/Tutor/app/src/main/res/layout/activity_main.xml" value="0.25416666666666665" />
+        <entry key="..\:/Users/ANTON/AndroidStudioProjects/Tutor/app/src/main/res/layout/bottom_sheet_layout.xml" value="0.15353260869565216" />
+        <entry key="..\:/Users/ANTON/AndroidStudioProjects/Tutor/app/src/main/res/layout/bottomsheet_layout.xml" value="0.25416666666666665" />
         <entry key="..\:/Users/ANTON/AndroidStudioProjects/Tutor/app/src/main/res/layout/dddd.xml" value="0.25416666666666665" />
-        <entry key="..\:/Users/ANTON/AndroidStudioProjects/Tutor/app/src/main/res/layout/fragment_add_student_to_day_schedule.xml" value="0.25416666666666665" />
+        <entry key="..\:/Users/ANTON/AndroidStudioProjects/Tutor/app/src/main/res/layout/fragment_add_student_to_day_schedule.xml" value="0.4" />
         <entry key="..\:/Users/ANTON/AndroidStudioProjects/Tutor/app/src/main/res/layout/fragment_add_student_to_journal.xml" value="0.25416666666666665" />
         <entry key="..\:/Users/ANTON/AndroidStudioProjects/Tutor/app/src/main/res/layout/fragment_amount_statistic.xml" value="0.264" />
         <entry key="..\:/Users/ANTON/AndroidStudioProjects/Tutor/app/src/main/res/layout/fragment_edit_student.xml" value="0.25416666666666665" />
@@ -44,6 +47,11 @@
         <entry key="..\:/Users/ANTON/AndroidStudioProjects/Tutor/app/src/main/res/layout/fragment_student_journal.xml" value="0.2" />
         <entry key="..\:/Users/ANTON/AndroidStudioProjects/Tutor/app/src/main/res/layout/fragment_watching_student.xml" value="0.536" />
         <entry key="..\:/Users/ANTON/AndroidStudioProjects/Tutor/app/src/main/res/layout/inactive_student_item.xml" value="0.264" />
+        <entry key="..\:/Users/ANTON/AndroidStudioProjects/Tutor/app/src/main/res/layout/notification_bottom_sheet_layout.xml" value="0.19902912621359223" />
+        <entry key="..\:/Users/ANTON/AndroidStudioProjects/Tutor/app/src/main/res/layout/notification_settings_bsh.xml" value="0.264" />
+        <entry key="..\:/Users/ANTON/AndroidStudioProjects/Tutor/app/src/main/res/layout/notification_settings_layout.xml" value="0.18614130434782608" />
+        <entry key="..\:/Users/ANTON/AndroidStudioProjects/Tutor/app/src/main/res/layout/period_bottom_sheet_fragment.xml" value="0.25052083333333336" />
+        <entry key="..\:/Users/ANTON/AndroidStudioProjects/Tutor/app/src/main/res/layout/period_settings_bsh.xml" value="0.4" />
         <entry key="..\:/Users/ANTON/AndroidStudioProjects/Tutor/app/src/main/res/layout/qqqq.xml" value="0.25416666666666665" />
         <entry key="..\:/Users/ANTON/AndroidStudioProjects/Tutor/app/src/main/res/layout/recycler_view_shedule_item.xml" value="0.4" />
         <entry key="..\:/Users/ANTON/AndroidStudioProjects/Tutor/app/src/main/res/layout/student_journal_item.xml" value="0.4" />
