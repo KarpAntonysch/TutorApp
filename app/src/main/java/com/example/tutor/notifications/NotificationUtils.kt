@@ -4,6 +4,8 @@ import android.app.NotificationManager
 import android.app.PendingIntent
 import android.content.Context
 import android.content.Intent
+import android.media.RingtoneManager
+import android.provider.Settings
 import androidx.core.app.NotificationCompat
 import com.example.tutor.MainActivity
 import com.example.tutor.R
@@ -30,6 +32,8 @@ private const val REQUEST_CODE = 0
             .setContentIntent(pendingIntent)
             .setAutoCancel(true)
             .setPriority(NotificationCompat.PRIORITY_HIGH)
+            .setSound(RingtoneManager
+                .getDefaultUri(RingtoneManager.TYPE_NOTIFICATION))
         notify(NOTIFICATION_ID, builder.build())
     }
 
