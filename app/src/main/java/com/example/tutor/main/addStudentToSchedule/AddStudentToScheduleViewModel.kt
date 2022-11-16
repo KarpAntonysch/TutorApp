@@ -5,16 +5,13 @@ import android.app.Application
 import android.app.PendingIntent
 import android.content.Context
 import android.content.Intent
-import android.util.Log
 import androidx.lifecycle.*
-import com.example.tutor.R
 import com.example.tutor.bd.entities.ScheduleEntity
 import com.example.tutor.bd.entities.StudentForSchedule
 import com.example.tutor.bd.entities.StudentForSpinnerModel
 import com.example.tutor.notifications.AlarmReceiver
 import com.example.tutor.repository.ScheduleRepository
 import com.example.tutor.toSpinnerModel
-import kotlinx.coroutines.Delay
 import kotlinx.coroutines.launch
 import java.util.*
 
@@ -23,8 +20,9 @@ class AddStudentToScheduleViewModel(
     private val app: Application,
 ) : AndroidViewModel(app) {
     var studentID: Int? = null
-    var delay:Long = 600000
-    val sss:MutableLiveData<Int> = MutableLiveData(0)
+    private var delay:Long = 600000
+    val notificationCondition:MutableLiveData<String> = MutableLiveData("ten")
+    val periodCondition:MutableLiveData<String> = MutableLiveData("day")
     // получение из List<StudentForSchedule> List<StudentForSpinnerModel>
     fun getNewList(infoList: MutableList<StudentForSchedule>): List<StudentForSpinnerModel> {
         return infoList.map { item -> item.toSpinnerModel() }
@@ -33,26 +31,50 @@ class AddStudentToScheduleViewModel(
     fun searchID(list: List<StudentForSpinnerModel>): Int {
         return list.indices.find { list[it] == list.first { o -> o.id == studentID } }!!
     }
+    fun insertWithPeriod(scheduleEntity: ScheduleEntity){
+        if (periodCondition.value=="day"){
+            insert(scheduleEntity)
+        }
+        if (periodCondition.value == "week"){
+            periodInserting(scheduleEntity,1)
+        }
+        if (periodCondition.value == "month"){
+            periodInserting(scheduleEntity,3)
+        }
+        if (periodCondition.value == "halfYear"){
+            periodInserting(scheduleEntity,26)
+        }
+        if (periodCondition.value == "year"){
+            periodInserting(scheduleEntity,51)
+        }
+    }
+    private fun periodInserting(scheduleEntity: ScheduleEntity, number:Int){
+        val week = 604800000L
+        val numberList = (0..number).toList()
+        val weekList = numberList.map { it * week }
+        weekList.forEach {
+            val scheduleEntity1 = ScheduleEntity(scheduleEntity.dateWithTime+it,scheduleEntity.studentId)
+            insert(scheduleEntity1)
+        }
+    }
+    private fun insert(scheduleEntity: ScheduleEntity) {
 
-    fun insert(scheduleEntity: ScheduleEntity) {
-
-        if (sss.value == 1 || sss.value == 0){
+        if (notificationCondition.value == "ten"){
             delay=600000
             setAlarm(scheduleEntity.dateWithTime-delay)// перенес сюда вместо отдельного метода в фрагменте
         }
-        if (sss.value==2){
+        if (notificationCondition.value == "fifteen"){
             delay=900000
             setAlarm(scheduleEntity.dateWithTime-delay)// перенес сюда вместо отдельного метода в фрагменте
         }
-        if (sss.value==3){
+        if (notificationCondition.value == "thirty"){
             delay=1800000
             setAlarm(scheduleEntity.dateWithTime-delay)// перенес сюда вместо отдельного метода в фрагменте
         }
-        if (sss.value==4)
 
-        viewModelScope.launch {
-            repository.insertSchedule(scheduleEntity)
-        }
+            viewModelScope.launch {
+                repository.insertSchedule(scheduleEntity)
+            }
     }
 
     private fun setAlarm(time: Long) {

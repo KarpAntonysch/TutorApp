@@ -86,10 +86,18 @@
     <string name="fifteensMinutes" translatable="false">15 минут</string>
     <string name="thirteensMinutes" translatable="false">30 минут</string>
     <string name="cancelNotification" translatable="false">Выкл.</string>
+    <string name="thisDayPeriod" translatable="false"> В этот день</string>
+    <string name="thisDayPeriod1" translatable="false"> В этот же день</string>
     <string name="weekPeriod" translatable="false">В этот же день на неделю</string>
     <string name="monthPeriod" translatable="false">В этот же день на месяц</string>
     <string name="halfYearPeriod" translatable="false">В этот же день на полгода</string>
     <string name="yearPeriod" translatable="false">В этот же день на год</string>
+    <string name="day" translatable="false">На день</string>
+    <string name="day1" translatable="false">На этот день</string>
+    <string name="week" translatable="false">На неделю</string>
+    <string name="month" translatable="false">На месяц</string>
+    <string name="halfYear" translatable="false">На полгода</string>
+    <string name="year" translatable="false">На год</string>
     <string name="ten" translatable="false">10 мин.</string>
     <string name="fifteen" translatable="false">15 мин.</string>
     <string name="thirty" translatable="false">30 мин.</string>

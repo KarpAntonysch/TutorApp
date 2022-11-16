@@ -13,7 +13,7 @@ import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 
 private const val COLLAPSED_HEIGHT = 500
 
-class PeriodBottomFragment : BottomSheetDialogFragment() {
+class PeriodBottomFragment(private val periodListener: PeriodListener) : BottomSheetDialogFragment() {
 
     lateinit var binding: PeriodBottomSheetFragmentBinding
 
@@ -49,25 +49,37 @@ class PeriodBottomFragment : BottomSheetDialogFragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        val item11 = binding.periodItem1
-        val item12 = binding.periodItem2
-        val item13 = binding.periodItem3
-        val item14 = binding.periodItem4
 
-        item11.setOnClickListener {
-            dialog?.dismiss()
+        with(binding){
+            periodDay.setOnClickListener {
+                periodListener.period0()
+                dialog?.dismiss()
+            }
+            periodWeek.setOnClickListener {
+                periodListener.period1()
+                dialog?.dismiss()
+            }
+            monthPeriod.setOnClickListener {
+                periodListener.period2()
+                dialog?.dismiss()
+            }
+            halfYearPeriod.setOnClickListener {
+                periodListener.period3()
+                dialog?.dismiss()
+            }
+            yearPeriod.setOnClickListener {
+                periodListener.period4()
+                dialog?.dismiss()
+            }
         }
-        item12.setOnClickListener {
-            dialog?.dismiss()
-        }
-        item13.setOnClickListener {
-            dialog?.dismiss()
-        }
-        item14.setOnClickListener {
-            dialog?.dismiss()
-        }
-
     }
+}
+interface PeriodListener{
+    fun period0()
+    fun period1()
+    fun period2()
+    fun period3()
+    fun period4()
 }
 
 

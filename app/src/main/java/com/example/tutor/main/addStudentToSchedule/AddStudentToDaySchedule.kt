@@ -17,9 +17,7 @@ import com.example.tutor.R
 import com.example.tutor.bd.entities.ScheduleEntity
 import com.example.tutor.convertLongToTime
 import com.example.tutor.databinding.FragmentAddStudentToDayScheduleBinding
-import com.example.tutor.dialogs.BottomSheetListener
-import com.example.tutor.dialogs.NotificationBottomFragment
-import com.example.tutor.dialogs.JointDialogInterface
+import com.example.tutor.dialogs.*
 import com.example.tutor.fireBase.FireBaseRepository
 import com.example.tutor.journal.studentJournal.DBapplication
 import com.example.tutor.journal.studentJournal.pager.activeStudents.StudentJournalViewModel
@@ -28,7 +26,7 @@ import java.util.*
 import java.util.Calendar.getInstance
 
 
-class AddStudentToDaySchedule : Fragment(), JointDialogInterface,BottomSheetListener{
+class AddStudentToDaySchedule : Fragment(), JointDialogInterface,NotificationListener,PeriodListener{
 
     lateinit var binding: FragmentAddStudentToDayScheduleBinding
     private val scheduleViewModel: AddStudentToScheduleViewModel by viewModels {
@@ -60,15 +58,18 @@ class AddStudentToDaySchedule : Fragment(), JointDialogInterface,BottomSheetList
         binding.timePicker.setIs24HourView(true)
         binding.tvDate.text = getCurrentDate().convertLongToTime("dd.MM.yyyy")
         binding.notificationValue.text = requireContext().getText(R.string.tenMinutes)
+        binding.periodValue.text = requireContext().getText(R.string.day1)
         spinnerRealization()
         getCurrentTime()
         addingSchedule()
         showNotificationSettings()
         showPeriodSettings()
+
     }
 
     private fun showPeriodSettings(){
         binding.periodSettings.setOnClickListener{
+            PeriodBottomFragment(this).show(childFragmentManager,"tag1")
         }
     }
 
@@ -81,7 +82,7 @@ class AddStudentToDaySchedule : Fragment(), JointDialogInterface,BottomSheetList
         binding.btnAddSchedule.setOnClickListener {
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
                 formattedCurrentDate()
-                addScheduleToDB(getScheduleValues(0))
+                addScheduleToDB(getScheduleValues())
                 //scheduleViewModel.setAlarm(formattedCurrentDate() - 600000)//оповещение должно приходить за 10 мин
                 activity?.onBackPressed()/*"мягкое" закрытие фрагмента. Т.е. фрагмент просыпается из стека.
              Он не уничтожается из стека, не создается новый экземпляр этого фрагмента в стеке,
@@ -179,14 +180,14 @@ class AddStudentToDaySchedule : Fragment(), JointDialogInterface,BottomSheetList
 
     // Заполнение объекта ScheduleEntity временем и id
     @SuppressLint("NewApi")
-    fun getScheduleValues(nextLesson:Long): ScheduleEntity {
-        return addStudentToDayScheduleClass.getScheduleValues(formattedCurrentDate()+nextLesson,
+    fun getScheduleValues(): ScheduleEntity {
+        return addStudentToDayScheduleClass.getScheduleValues(formattedCurrentDate(),
             scheduleViewModel.studentID!!)
     }
 
     // добавление объекта расписания в БД (scheduleTable)+создание оповещения
     private fun addScheduleToDB(scheduleEntity: ScheduleEntity) {
-        scheduleViewModel.insert(scheduleEntity)
+        scheduleViewModel.insertWithPeriod(scheduleEntity)
     }
 
     private fun createChannel(channelId: String, channelName: String) {
@@ -214,25 +215,50 @@ class AddStudentToDaySchedule : Fragment(), JointDialogInterface,BottomSheetList
 
         }
     }
-
-    override fun ac1() {
+// коллбэк для notificationBottomSheet
+    override fun notification1() {
        binding.notificationValue.text = requireContext().getText(R.string.tenMinutes)
-        scheduleViewModel.sss.value=1
+        scheduleViewModel.notificationCondition.value="ten"
     }
 
-    override fun ac2() {
+    override fun notification2() {
         binding.notificationValue.text = requireContext().getText(R.string.fifteensMinutes)
-        scheduleViewModel.sss.value=2
+        scheduleViewModel.notificationCondition.value="fifteen"
     }
 
-    override fun ac3() {
+    override fun notification3() {
         binding.notificationValue.text = requireContext().getText(R.string.thirteensMinutes)
-        scheduleViewModel.sss.value=3
+        scheduleViewModel.notificationCondition.value="thirty"
     }
 
-    override fun ac4() {
+    override fun notification4() {
         binding.notificationValue.text = requireContext().getText(R.string.cancelNotification)
-        scheduleViewModel.sss.value=4
+        scheduleViewModel.notificationCondition.value="cancel"
+    }
+    // коллбэк для periodBottomSheet
+    override fun period0() {
+        binding.periodValue.text = requireContext().getText(R.string.day1)
+        scheduleViewModel.periodCondition.value = "day"
+    }
+
+    override fun period1() {
+        binding.periodValue.text = requireContext().getText(R.string.week)
+        scheduleViewModel.periodCondition.value = "week"
+    }
+
+    override fun period2() {
+        binding.periodValue.text = requireContext().getText(R.string.month)
+        scheduleViewModel.periodCondition.value = "month"
+    }
+
+    override fun period3() {
+        binding.periodValue.text = requireContext().getText(R.string.halfYear)
+        scheduleViewModel.periodCondition.value = "halfYear"
+    }
+
+    override fun period4() {
+        binding.periodValue.text = requireContext().getText(R.string.year)
+        scheduleViewModel.periodCondition.value = "year"
     }
 
 

@@ -12,7 +12,7 @@ import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 
 private const val COLLAPSED_HEIGHT = 500
 
-class NotificationBottomFragment(private val bottomSheetListener: BottomSheetListener) : BottomSheetDialogFragment() {
+class NotificationBottomFragment(private val notificationListener: NotificationListener) : BottomSheetDialogFragment() {
     lateinit var binding: NotificationBottomSheetLayoutBinding
 
     override fun getTheme() = R.style.AppBottomSheetDialogTheme
@@ -50,19 +50,19 @@ class NotificationBottomFragment(private val bottomSheetListener: BottomSheetLis
 
         with(binding){
             tenMinutes.setOnClickListener {
-                bottomSheetListener.ac1()
+                notificationListener.notification1()
                 dialog?.dismiss()
             }
             fifteensMinutes.setOnClickListener {
-                bottomSheetListener.ac2()
+                notificationListener.notification2()
                 dialog?.dismiss()
             }
             thirteensMinutes.setOnClickListener {
-                bottomSheetListener.ac3()
+                notificationListener.notification3()
                 dialog?.dismiss()
             }
             cancelNotifications.setOnClickListener {
-                bottomSheetListener.ac4()
+                notificationListener.notification4()
                 dialog?.dismiss()
             }
         }
@@ -70,11 +70,11 @@ class NotificationBottomFragment(private val bottomSheetListener: BottomSheetLis
     }
 }
 
-interface BottomSheetListener{
-    fun ac1()
-    fun ac2()
-    fun ac3()
-    fun ac4()
+interface NotificationListener{
+    fun notification1()
+    fun notification2()
+    fun notification3()
+    fun notification4()
 }
 
 
