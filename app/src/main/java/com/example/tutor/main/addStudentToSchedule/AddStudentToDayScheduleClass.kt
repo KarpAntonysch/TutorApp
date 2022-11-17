@@ -25,9 +25,9 @@ class AddStudentToDayScheduleClass {
     }
 
     @SuppressLint("NewApi")
-     fun getScheduleValues(formattedCurrentDate:Long,studentID:Int): ScheduleEntity {
+     fun getScheduleValues(formattedCurrentDate:Long,studentID:Int,notificationDelay:Long): ScheduleEntity {
         val dateWithTime: Long = formattedCurrentDate
         val studentId: Int = studentID
-        return ScheduleEntity(dateWithTime, studentId)
+        return ScheduleEntity(dateWithTime, studentId,notificationDelay)
     }
 }

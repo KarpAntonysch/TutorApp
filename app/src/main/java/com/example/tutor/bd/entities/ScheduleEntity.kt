@@ -12,7 +12,9 @@ data class ScheduleEntity(
     val dateWithTime:Long,
     // указываем id студента,для дальнейшего связывания таблиц
     @ColumnInfo(name ="studentId")
-    val studentId:Int
+    val studentId:Int,
+    @ColumnInfo(name ="notificationDelay")
+    val notificationDelay:Long
 ) : Serializable{
     @PrimaryKey(autoGenerate = true)
     var id:Int=0

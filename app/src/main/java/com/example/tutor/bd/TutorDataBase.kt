@@ -11,7 +11,7 @@ import com.example.tutor.bd.dao.StudentDAO
 import com.example.tutor.bd.entities.ScheduleEntity
 import com.example.tutor.bd.entities.StudentEntity
 
-@Database(entities = [StudentEntity::class, ScheduleEntity::class], version = 10)
+@Database(entities = [StudentEntity::class, ScheduleEntity::class], version = 11)
 abstract class TutorDataBase : RoomDatabase() {
     // для каждой DAO определяем метод для свзязи с этой DAO
     abstract fun getStudentDAO(): StudentDAO
@@ -25,7 +25,7 @@ abstract class TutorDataBase : RoomDatabase() {
         fun getDataBase(context: Context): TutorDataBase { //  инициализируем БД
             return if (database == null) {
                 database = Room.databaseBuilder(context, TutorDataBase::class.java, "bd")
-                    .addMigrations(MIGRATION_9_10)
+                    .addMigrations(MIGRATION_10_11)
                     .allowMainThreadQueries()
                     .build()
                 database as TutorDataBase
@@ -56,6 +56,11 @@ val MIGRATION_9_10 = object : Migration(9, 10) {
     override fun migrate(database: SupportSQLiteDatabase) {
         database.execSQL("ALTER TABLE studentTable ADD COLUMN deleteStatus INTEGER NOT NULL DEFAULT 1")
         database.execSQL("ALTER TABLE studentTable ADD COLUMN phoneNumber TEXT  DEFAULT NULL")
+    }
+}
+val MIGRATION_10_11 = object : Migration(10, 11) {
+    override fun migrate(database: SupportSQLiteDatabase) {
+        database.execSQL("ALTER TABLE schedeulTable ADD COLUMN notificationDelay INTEGER NOT NULL DEFAULT 0")
     }
 }
 

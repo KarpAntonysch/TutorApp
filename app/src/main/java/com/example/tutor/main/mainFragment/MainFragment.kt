@@ -217,8 +217,8 @@ class MainFragment : Fragment(), MainFragmentAdapter.Listener,
                 when (result.getInt(JointDialogFragment.KEY_RESPONSE)) {
                     DialogInterface.BUTTON_POSITIVE -> {
                         mainFragmentViewModel.deleteSchedule(scheduleEntity)
-                        mainFragmentViewModel.cancelNotification(scheduleEntity.dateWithTime.toInt())
-                        Log.v("eee","cancel ${scheduleEntity.dateWithTime.toInt()}")
+                        mainFragmentViewModel.cancelNotification((scheduleEntity.dateWithTime-scheduleEntity.notificationDelay).toInt())
+                    // исправить отмену, так как request code это не время, а время - задержка
                     }
                 }
             })

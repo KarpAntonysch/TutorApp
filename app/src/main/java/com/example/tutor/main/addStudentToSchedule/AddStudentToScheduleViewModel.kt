@@ -21,8 +21,9 @@ class AddStudentToScheduleViewModel(
 ) : AndroidViewModel(app) {
     var studentID: Int? = null
     private var delay:Long = 600000
-    val notificationCondition:MutableLiveData<String> = MutableLiveData("ten")
-    val periodCondition:MutableLiveData<String> = MutableLiveData("day")
+    val notificationCondition:MutableLiveData<String> = MutableLiveData("ten")//Условие для настройки боттомшит с оповещениями
+    val periodCondition:MutableLiveData<String> = MutableLiveData("day")// Условие для настройки боттомшит с периодом
+    val notificationDelay:MutableLiveData<Long> = MutableLiveData(600000)// параметр для заполнения свойства notificationDelay в scheduleTntity
     // получение из List<StudentForSchedule> List<StudentForSpinnerModel>
     fun getNewList(infoList: MutableList<StudentForSchedule>): List<StudentForSpinnerModel> {
         return infoList.map { item -> item.toSpinnerModel() }
@@ -53,7 +54,7 @@ class AddStudentToScheduleViewModel(
         val numberList = (0..number).toList()
         val weekList = numberList.map { it * week }
         weekList.forEach {
-            val scheduleEntity1 = ScheduleEntity(scheduleEntity.dateWithTime+it,scheduleEntity.studentId)
+            val scheduleEntity1 = ScheduleEntity(scheduleEntity.dateWithTime+it,scheduleEntity.studentId,it)// уточнить и проверить !!!!
             insert(scheduleEntity1)
         }
     }
@@ -87,6 +88,8 @@ class AddStudentToScheduleViewModel(
             alarmManager.setExact(AlarmManager.RTC_WAKEUP, time, pendingIntent)
         }
     }
+
+    fun updateNotificationDelay(delay:Long,id:Int) = repository.updateNotificationDelay(delay,id)
 }
 
 // эта конструкция необходима для того, что б проинициализировать VM в фрагменте с передачей в

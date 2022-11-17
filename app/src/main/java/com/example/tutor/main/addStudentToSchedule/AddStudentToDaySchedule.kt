@@ -6,6 +6,7 @@ import android.app.NotificationManager
 import android.graphics.Color
 import android.os.Build
 import android.os.Bundle
+import android.util.Log
 import android.view.*
 import android.widget.AdapterView
 import android.widget.ArrayAdapter
@@ -83,7 +84,7 @@ class AddStudentToDaySchedule : Fragment(), JointDialogInterface,NotificationLis
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
                 formattedCurrentDate()
                 addScheduleToDB(getScheduleValues())
-                //scheduleViewModel.setAlarm(formattedCurrentDate() - 600000)//оповещение должно приходить за 10 мин
+                //TODO
                 activity?.onBackPressed()/*"мягкое" закрытие фрагмента. Т.е. фрагмент просыпается из стека.
              Он не уничтожается из стека, не создается новый экземпляр этого фрагмента в стеке,
                 в отличие от findNavController().navigate(R.id.action_addStudentToDaySchedule_to_mainFragment)
@@ -181,8 +182,9 @@ class AddStudentToDaySchedule : Fragment(), JointDialogInterface,NotificationLis
     // Заполнение объекта ScheduleEntity временем и id
     @SuppressLint("NewApi")
     fun getScheduleValues(): ScheduleEntity {
+        val delay = scheduleViewModel.notificationDelay.value
         return addStudentToDayScheduleClass.getScheduleValues(formattedCurrentDate(),
-            scheduleViewModel.studentID!!)
+            scheduleViewModel.studentID!!, delay!!)
     }
 
     // добавление объекта расписания в БД (scheduleTable)+создание оповещения
@@ -224,16 +226,19 @@ class AddStudentToDaySchedule : Fragment(), JointDialogInterface,NotificationLis
     override fun notification2() {
         binding.notificationValue.text = requireContext().getText(R.string.fifteensMinutes)
         scheduleViewModel.notificationCondition.value="fifteen"
+        scheduleViewModel.notificationDelay.value = 900000
     }
 
     override fun notification3() {
         binding.notificationValue.text = requireContext().getText(R.string.thirteensMinutes)
         scheduleViewModel.notificationCondition.value="thirty"
+        scheduleViewModel.notificationDelay.value = 1800000
     }
 
     override fun notification4() {
         binding.notificationValue.text = requireContext().getText(R.string.cancelNotification)
         scheduleViewModel.notificationCondition.value="cancel"
+        scheduleViewModel.notificationDelay.value = 0
     }
     // коллбэк для periodBottomSheet
     override fun period0() {
