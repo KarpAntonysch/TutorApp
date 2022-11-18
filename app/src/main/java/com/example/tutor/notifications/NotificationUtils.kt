@@ -5,15 +5,16 @@ import android.app.PendingIntent
 import android.content.Context
 import android.content.Intent
 import android.media.RingtoneManager
-import android.provider.Settings
 import androidx.core.app.NotificationCompat
 import com.example.tutor.MainActivity
 import com.example.tutor.R
+import com.example.tutor.main.addStudentToSchedule.AddStudentToScheduleViewModel
 
 private const val NOTIFICATION_ID = 0
 private const val REQUEST_CODE = 0
 
     fun NotificationManager.sendNotification(messageBody: String, applicationContext: Context) {
+
         val intent = Intent(applicationContext, MainActivity::class.java)
 
         val pendingIntent = PendingIntent.getActivity(applicationContext,

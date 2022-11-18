@@ -12,10 +12,6 @@ interface ScheduleDAO {
     @Insert(onConflict = OnConflictStrategy.IGNORE)
     suspend fun insertSchedule(scheduleEntity: ScheduleEntity)
 
-    // обновление параметра delay
-    @Query("UPDATE schedeulTable SET notificationDelay = :notificationDelay WHERE id = :id ")
-    fun updateNotificationDelay(notificationDelay:Long,id:Int)
-
     // запрос для получения списка студентов(запрос к двум таблицам. Получения дня, времени, свойств студента) конкретный день
     @Query("SELECT * FROM schedeulTable WHERE strftime('%d-%m-%Y',dateWithTime/1000.0,'unixepoch') = :date")
     fun getScheduleForDay(date: String): LiveData<List<ScheduleWithStudent>>

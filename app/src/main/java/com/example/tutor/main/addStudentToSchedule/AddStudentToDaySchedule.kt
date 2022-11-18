@@ -6,7 +6,6 @@ import android.app.NotificationManager
 import android.graphics.Color
 import android.os.Build
 import android.os.Bundle
-import android.util.Log
 import android.view.*
 import android.widget.AdapterView
 import android.widget.ArrayAdapter
@@ -32,7 +31,7 @@ class AddStudentToDaySchedule : Fragment(), JointDialogInterface,NotificationLis
     lateinit var binding: FragmentAddStudentToDayScheduleBinding
     private val scheduleViewModel: AddStudentToScheduleViewModel by viewModels {
         AddStudentToScheduleViewModelFactory((requireActivity().application as DBapplication).scheduleRepository,
-            requireActivity().application)
+            requireActivity().application, FireBaseRepository())
     }
     private val studentJournalViewModel: StudentJournalViewModel by viewModels {
         StudentJournalViewModelFactory((requireActivity().application as DBapplication).studentRepository,
@@ -84,7 +83,6 @@ class AddStudentToDaySchedule : Fragment(), JointDialogInterface,NotificationLis
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
                 formattedCurrentDate()
                 addScheduleToDB(getScheduleValues())
-                //TODO
                 activity?.onBackPressed()/*"мягкое" закрытие фрагмента. Т.е. фрагмент просыпается из стека.
              Он не уничтожается из стека, не создается новый экземпляр этого фрагмента в стеке,
                 в отличие от findNavController().navigate(R.id.action_addStudentToDaySchedule_to_mainFragment)
@@ -219,19 +217,19 @@ class AddStudentToDaySchedule : Fragment(), JointDialogInterface,NotificationLis
     }
 // коллбэк для notificationBottomSheet
     override fun notification1() {
-       binding.notificationValue.text = requireContext().getText(R.string.tenMinutes)
-        scheduleViewModel.notificationCondition.value="ten"
+       binding.notificationValue.text = requireContext().getText(R.string.ten)
+        scheduleViewModel.notificationCondition.value= requireContext().getString(R.string.ten)
     }
 
     override fun notification2() {
-        binding.notificationValue.text = requireContext().getText(R.string.fifteensMinutes)
-        scheduleViewModel.notificationCondition.value="fifteen"
+        binding.notificationValue.text = requireContext().getText(R.string.fifteen)
+        scheduleViewModel.notificationCondition.value=requireContext().getString(R.string.fifteen)
         scheduleViewModel.notificationDelay.value = 900000
     }
 
     override fun notification3() {
-        binding.notificationValue.text = requireContext().getText(R.string.thirteensMinutes)
-        scheduleViewModel.notificationCondition.value="thirty"
+        binding.notificationValue.text = requireContext().getText(R.string.thirty)
+        scheduleViewModel.notificationCondition.value=requireContext().getString(R.string.thirty)
         scheduleViewModel.notificationDelay.value = 1800000
     }
 

@@ -1,7 +1,9 @@
 package com.example.tutor.fireBase
 
 
+import com.example.tutor.bd.entities.ScheduleEntity
 import com.example.tutor.bd.entities.StudentEntity
+import com.example.tutor.convertLongToTime
 import com.google.firebase.auth.AuthResult
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.UserProfileChangeRequest
@@ -51,6 +53,14 @@ class FireBaseRepository {
         ).collection("Students").document(studentEntityFB.id.toString()).set(studentEntityFB)
             .await()
     }
+    // запрос на добавение занятия в FB. В FB документ будет называться по id занятия
+    suspend fun addLessonsToFBCloud(scheduleEntityFB: ScheduleEntity) {
+        fireStoreDB.collection("Users").document(
+            "${FirebaseAuth.getInstance().currentUser?.uid}"
+        ).collection("Lessons").document(scheduleEntityFB.dateWithTime
+            .convertLongToTime("dd.MM.yyyy HH:mm")).set(scheduleEntityFB)
+            .await()
+    }
 
     // запрос на получение списка студентов из FB и добавление в лБД
     private fun studentQueryFromFB(): Query {
@@ -95,6 +105,13 @@ class FireBaseRepository {
             "${FirebaseAuth.getInstance().currentUser?.uid}"
         ).collection("Students").document(studentEntityFB.id.toString())
             .update("deleteStatus", false)
+    }
+    fun deleteScheduleFromFB(scheduleEntityFB: ScheduleEntity){
+        fireStoreDB.collection("Users").document(
+            "${FirebaseAuth.getInstance().currentUser?.uid}"
+        ).collection("Lessons").document(scheduleEntityFB.dateWithTime
+            .convertLongToTime("dd.MM.yyyy HH:mm"))
+            .delete()
     }
     // удаление ученика из FB
     /*fun deleteStudentFromFB(studentEntityFB: StudentEntity) {

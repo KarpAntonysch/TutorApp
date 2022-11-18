@@ -9,11 +9,13 @@ import android.util.Log
 import androidx.lifecycle.*
 import com.example.tutor.bd.entities.ScheduleEntity
 import com.example.tutor.bd.entities.ScheduleWithStudent
+import com.example.tutor.fireBase.FireBaseRepository
 import com.example.tutor.notifications.AlarmReceiver
 import com.example.tutor.repository.ScheduleRepository
 import kotlinx.coroutines.launch
 
 class MainFragmentViewModel(private val repository: ScheduleRepository,private val app: Application,
+                            private val fbRepository: FireBaseRepository
 ): AndroidViewModel(app){
 
     fun getScheduleOfDay(date:String) :LiveData<List<ScheduleWithStudent>> = repository.scheduleOfDay(date)
@@ -29,17 +31,21 @@ class MainFragmentViewModel(private val repository: ScheduleRepository,private v
         Log.v("eee","cancel $requestCode")
 
     }
+    fun deleteScheduleFromFB(scheduleEntity: ScheduleEntity){
+        fbRepository.deleteScheduleFromFB(scheduleEntity)
+    }
 }
 
 
 class MainFragmentViewModelFactory(private val repository: ScheduleRepository, private val app: Application,
+                                   private val fbRepository: FireBaseRepository
 ) :
     ViewModelProvider.Factory {
     override fun <T : ViewModel> create(modelClass: Class<T>): T {
         if (modelClass.isAssignableFrom(MainFragmentViewModel::class.java)) {
             //тестовая аннотация для обнаружения ошибок. Означает, что тестовый метод не будет включен в набор тестов
             @Suppress("UNCHECKED_CAST")
-            return MainFragmentViewModel(repository,app) as T
+            return MainFragmentViewModel(repository,app,fbRepository) as T
         }
         throw IllegalArgumentException("Unknown VM")
     }

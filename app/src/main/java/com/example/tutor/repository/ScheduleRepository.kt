@@ -14,7 +14,6 @@ class ScheduleRepository(private val scheduleDAO: ScheduleDAO){
     suspend fun insertSchedule(scheduleEntity: ScheduleEntity) {
         scheduleDAO.insertSchedule(scheduleEntity)
     }
-    fun updateNotificationDelay(notificationDelay:Long,id:Int) = scheduleDAO.updateNotificationDelay(notificationDelay,id)
 
     fun scheduleOfDay(date:String): LiveData<List<ScheduleWithStudent>> = scheduleDAO.getScheduleForDay(date)
 
