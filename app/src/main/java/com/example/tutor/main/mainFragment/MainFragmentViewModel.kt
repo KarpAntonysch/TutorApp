@@ -12,6 +12,8 @@ import com.example.tutor.bd.entities.ScheduleWithStudent
 import com.example.tutor.fireBase.FireBaseRepository
 import com.example.tutor.notifications.AlarmReceiver
 import com.example.tutor.repository.ScheduleRepository
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
 class MainFragmentViewModel(private val repository: ScheduleRepository,private val app: Application,
@@ -34,6 +36,18 @@ class MainFragmentViewModel(private val repository: ScheduleRepository,private v
     fun deleteScheduleFromFB(scheduleEntity: ScheduleEntity){
         fbRepository.deleteScheduleFromFB(scheduleEntity)
     }
+
+   // private val allLessons: LiveData<List<ScheduleEntity>> = repository.getAllLessons().asLiveData()
+
+   /* fun fillingScheduleDataBase(){
+        CoroutineScope(Dispatchers.IO).launch {
+            val fbLessonList = fbRepository.fbLessonList()
+            if (allLessons.value.isNullOrEmpty() && !fbLessonList.isNullOrEmpty()){
+                repository.insertAllLessons(fbLessonList)
+            }
+        }
+    }*/
+
 }
 
 

@@ -5,15 +5,22 @@ import androidx.lifecycle.LiveData
 import com.example.tutor.bd.dao.ScheduleDAO
 import com.example.tutor.bd.entities.ScheduleEntity
 import com.example.tutor.bd.entities.ScheduleWithStudent
+import com.example.tutor.bd.entities.StudentEntity
 import kotlinx.coroutines.flow.Flow
 
 class ScheduleRepository(private val scheduleDAO: ScheduleDAO){
 
     @Suppress("RedundantSuspendModifier")
     @WorkerThread
-    suspend fun insertSchedule(scheduleEntity: ScheduleEntity) {
-        scheduleDAO.insertSchedule(scheduleEntity)
+    suspend fun insertSchedule(scheduleEntity: ScheduleEntity):Long {
+        return scheduleDAO.insertSchedule(scheduleEntity)
     }
+    fun getAllLessons():Flow<List<ScheduleEntity>> =scheduleDAO.getAllLessons()// полуить список всех занятий
+    fun insertAllLessons(scheduleList:List<ScheduleEntity>){
+        scheduleDAO.insertAllLessons(scheduleList)
+    }
+    fun getScheduleId(studentId:Int,dateWithTime:Long)=scheduleDAO.getScheduleId(studentId,dateWithTime)
+
 
     fun scheduleOfDay(date:String): LiveData<List<ScheduleWithStudent>> = scheduleDAO.getScheduleForDay(date)
 

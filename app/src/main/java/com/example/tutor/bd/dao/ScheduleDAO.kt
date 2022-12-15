@@ -4,13 +4,26 @@ import androidx.lifecycle.LiveData
 import androidx.room.*
 import com.example.tutor.bd.entities.ScheduleEntity
 import com.example.tutor.bd.entities.ScheduleWithStudent
+import com.example.tutor.bd.entities.StudentEntity
 import kotlinx.coroutines.flow.Flow
 
 
 @Dao
 interface ScheduleDAO {
     @Insert(onConflict = OnConflictStrategy.IGNORE)
-    suspend fun insertSchedule(scheduleEntity: ScheduleEntity)
+    suspend fun insertSchedule(scheduleEntity: ScheduleEntity):Long
+
+    // запрос на получение id занятия из времени и id студента
+    @Query("SELECT id FROM schedeulTable WHERE studentId = :studentId AND dateWithTime =:dateWithTime ")
+    fun getScheduleId(studentId:Int,dateWithTime:Long):Int
+
+    // запрос на получение списка всех занятий из БД
+    @Query("SELECT * FROM schedeulTable ")
+    fun getAllLessons():Flow<List<ScheduleEntity>>
+
+    // запрос на добавление всех занятий из FB в ЛБД
+    @Insert(onConflict = OnConflictStrategy.IGNORE)
+    fun insertAllLessons(scheduleList: List<ScheduleEntity> )
 
     // запрос для получения списка студентов(запрос к двум таблицам. Получения дня, времени, свойств студента) конкретный день
     @Query("SELECT * FROM schedeulTable WHERE strftime('%d-%m-%Y',dateWithTime/1000.0,'unixepoch') = :date")

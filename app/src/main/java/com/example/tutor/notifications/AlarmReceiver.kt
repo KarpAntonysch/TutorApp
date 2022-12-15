@@ -11,16 +11,15 @@ import com.example.tutor.main.mainFragment.sendNotification
 class AlarmReceiver: BroadcastReceiver() {
 
     override fun onReceive(context: Context, intent: Intent) {
+            val notificationManager = ContextCompat.getSystemService(
+                context,
+                NotificationManager::class.java
+            ) as NotificationManager
 
-        val notificationManager = ContextCompat.getSystemService(
-            context,
-            NotificationManager::class.java
-        ) as NotificationManager
-
-        notificationManager.sendNotification(
-            context.getText(R.string.push_message).toString(),
-            context
-        )
+            notificationManager.sendNotification(
+                context.getText(R.string.push_message).toString(),
+                context
+            )
 
     }
 

@@ -42,6 +42,7 @@ class AddStudentToScheduleViewModel(
     fun insertWithPeriod(scheduleEntity: ScheduleEntity) {
         if (periodCondition.value == "day") {
             insert(scheduleEntity)
+            getScheduleId(scheduleEntity) // обновление id в FB
         }
         if (periodCondition.value == "week") {
             periodInserting(scheduleEntity, 1)
@@ -66,8 +67,13 @@ class AddStudentToScheduleViewModel(
                 scheduleEntity.studentId,
                 scheduleEntity.notificationDelay)
             insert(scheduleEntity1)
+            getScheduleId(scheduleEntity1) // обновление id в FB
         }
     }
+
+    private fun getScheduleId(scheduleEntity: ScheduleEntity) = fbRepository
+        .changeScheduleIDToFireBase(scheduleEntity, repository
+            .getScheduleId(scheduleEntity.studentId, scheduleEntity.dateWithTime))
 
     private fun insert(scheduleEntity: ScheduleEntity) {
 

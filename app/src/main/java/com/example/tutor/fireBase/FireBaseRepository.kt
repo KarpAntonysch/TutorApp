@@ -53,7 +53,7 @@ class FireBaseRepository {
         ).collection("Students").document(studentEntityFB.id.toString()).set(studentEntityFB)
             .await()
     }
-    // запрос на добавение занятия в FB. В FB документ будет называться по id занятия
+    // запрос на добавение занятия в FB.
     suspend fun addLessonsToFBCloud(scheduleEntityFB: ScheduleEntity) {
         fireStoreDB.collection("Users").document(
             "${FirebaseAuth.getInstance().currentUser?.uid}"
@@ -61,12 +61,24 @@ class FireBaseRepository {
             .convertLongToTime("dd.MM.yyyy HH:mm")).set(scheduleEntityFB)
             .await()
     }
-
+    // запрос на изменение scheduleId в занятии FB
+    fun changeScheduleIDToFireBase(scheduleEntityFB: ScheduleEntity, scheduleId: Int) {
+        fireStoreDB.collection("Users").document(
+            "${FirebaseAuth.getInstance().currentUser?.uid}"
+        ).collection("Lessons").document(scheduleEntityFB.dateWithTime
+            .convertLongToTime("dd.MM.yyyy HH:mm"))
+            .update("id", scheduleId)
+    }
     // запрос на получение списка студентов из FB и добавление в лБД
     private fun studentQueryFromFB(): Query {
         return fireStoreDB.collection("Users").document(
             "${FirebaseAuth.getInstance().currentUser?.uid}"
         ).collection("Students")
+    }
+    private fun lessonQueryFromFB(): Query {
+        return fireStoreDB.collection("Users").document(
+            "${FirebaseAuth.getInstance().currentUser?.uid}"
+        ).collection("Lessons")
     }
 
 
@@ -91,6 +103,13 @@ class FireBaseRepository {
         return fbStudentList
     }
 
+  /*  suspend fun fbLessonList(): List<ScheduleEntity> {
+        val fbLessonList = lessonQueryFromFB().get().await().documents.mapNotNull { doc ->
+            doc.toObject(ScheduleEntity::class.java)
+        }
+        return fbLessonList
+    }*/
+
     // обновление активности ученика с true на false.
     fun changeStudentActiveToFireBase(studentEntityFB: StudentEntity, activeStatus: Boolean) {
         fireStoreDB.collection("Users").document(
@@ -113,12 +132,6 @@ class FireBaseRepository {
             .convertLongToTime("dd.MM.yyyy HH:mm"))
             .delete()
     }
-    // удаление ученика из FB
-    /*fun deleteStudentFromFB(studentEntityFB: StudentEntity) {
-        fireStoreDB.collection("Users").document(
-            "${FirebaseAuth.getInstance().currentUser?.uid}"
-        ).collection("Students").document( studentEntityFB.id.toString()).delete()
-    }*/
 
     // обновление информации об ученике(полей документа)
     fun changeStudentFieldsToFireBase(
@@ -138,6 +151,7 @@ class FireBaseRepository {
             "phoneNumber",
             phoneNumber)
     }
+
 
     // функция выхода из учетной записи
     fun signOut() {
