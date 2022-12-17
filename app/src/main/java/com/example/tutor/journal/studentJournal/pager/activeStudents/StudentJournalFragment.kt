@@ -25,16 +25,16 @@ import com.example.tutor.journal.studentJournal.DBapplication
 
 
 class StudentJournalFragment : Fragment(), StudentJournalAdapter.Listener,
-    JournalActionModeCallback.ActionModeListener,JointDialogInterface {
+    JournalActionModeCallback.ActionModeListener, JointDialogInterface {
     lateinit var binding: FragmentStudentJournalBinding
     lateinit var recyclerView: RecyclerView
     private var adapter = StudentJournalAdapter(this)
     private val studentJournalViewModel: StudentJournalViewModel by viewModels {
         StudentJournalViewModelFactory((requireActivity().application as DBapplication).studentRepository,
-        FireBaseRepository()
+            FireBaseRepository()
         )
     }
-    private lateinit  var actionMode: JournalActionModeCallback
+    private lateinit var actionMode: JournalActionModeCallback
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -62,10 +62,10 @@ class StudentJournalFragment : Fragment(), StudentJournalAdapter.Listener,
     private fun realizationOfRV() {
         recyclerView = binding.allStudentsRV
         recyclerView.adapter = adapter
-        studentJournalViewModel.fillingDBWithFB()// заполнение лБД списком объектов FB
-       studentJournalViewModel.allActiveStudents.observe(viewLifecycleOwner)
+        //studentJournalViewModel.fillingDBWithFB()// заполнение лБД списком объектов FB
+        studentJournalViewModel.allActiveStudents.observe(viewLifecycleOwner)
         { studentList ->
-            studentList.let { adapter.submitList(it.sortedBy {order -> order.id }) }
+            studentList.let { adapter.submitList(it.sortedBy { order -> order.id }) }
         }
     }
 
@@ -83,26 +83,32 @@ class StudentJournalFragment : Fragment(), StudentJournalAdapter.Listener,
 
     // Реализация метода интерфейса ActionModeListener для удаления ученика через диалог фрагмент
     override fun clickToMenuDelete(studentEntity: StudentEntity) {
-        showJoinDialog(R.string.deleteQuestion,true,R.string.yes,R.string.no,
-        childFragmentManager,R.string.empty,false)
+        showJoinDialog(R.string.deleteQuestion, true, R.string.yes, R.string.no,
+            childFragmentManager, R.string.empty, false)
         setupDialogFragmentListener(studentEntity)
     }
+
     // Реализация метода интерфейса ActionModeListener для редактирования ученика
     override fun clickToMenuEdit(studentEntity: StudentEntity) {
-        val bundle =Bundle()
-        bundle.putParcelable("ArgForStudentEditing: com.example.tutor.bd.entities.StudentEntity",studentEntity)
-        findNavController().navigate(R.id.action_jornalPagerFragment_to_editStudentFragment,bundle)
+        val bundle = Bundle()
+        bundle.putParcelable("ArgForStudentEditing: com.example.tutor.bd.entities.StudentEntity",
+            studentEntity)
+        findNavController().navigate(R.id.action_jornalPagerFragment_to_editStudentFragment, bundle)
     }
+
     // Реализация метода интерфейса ActionModeListener для просмотра ученика
     override fun clickToMenuWatch(studentEntity: StudentEntity) {
         val bundle = Bundle()
-        bundle.putParcelable("ArgForWatching: com.example.tutor.bd.entities.StudentEntity",studentEntity)
-        findNavController().navigate(R.id.action_jornalPagerFragment_to_watchingStudentFragment,bundle)
+        bundle.putParcelable("ArgForWatching: com.example.tutor.bd.entities.StudentEntity",
+            studentEntity)
+        findNavController().navigate(R.id.action_jornalPagerFragment_to_watchingStudentFragment,
+            bundle)
     }
 
     override fun clickToMenuCall(studentEntity: StudentEntity) {
         val intent = Intent(Intent.ACTION_DIAL, Uri.parse("tel:${studentEntity.phoneNumber}"))
-        startActivity(intent)    }
+        startActivity(intent)
+    }
 
     // Функция инициализации кнопок в диалоговом окне из YesOrNoDialogFragment
     private fun setupDialogFragmentListener(studentEntity: StudentEntity) {
@@ -114,7 +120,9 @@ class StudentJournalFragment : Fragment(), StudentJournalAdapter.Listener,
                         studentJournalViewModel.changeStudentActive(
                             studentEntity)
                         actionMode.hideActionMode()
-                        Toast.makeText(requireContext(), "Перенесено в \"ВЫПУСКНИКИ\" ", Toast.LENGTH_SHORT).show()
+                        Toast.makeText(requireContext(),
+                            "Перенесено в \"ВЫПУСКНИКИ\" ",
+                            Toast.LENGTH_SHORT).show()
                     }
                 }
             })
@@ -137,14 +145,14 @@ class StudentJournalFragment : Fragment(), StudentJournalAdapter.Listener,
         })
     }
     // Функция для получения списка из FB c использованием состояний sealed склассаи корутин. оставлена для примера
-   /* private fun getStudentsFromFB(){
-        studentJournalViewModel.getStudentsFromFB().observe(this,{response ->
-            when(response){
-                is Resource.Success -> {
-                    val fbList = response.data
-                }
-                is Resource.Error -> Toast.makeText(requireContext(), "Ошибка ФБ", Toast.LENGTH_SHORT).show()
-            }
-        })
-    }*/
+    /* private fun getStudentsFromFB(){
+         studentJournalViewModel.getStudentsFromFB().observe(this,{response ->
+             when(response){
+                 is Resource.Success -> {
+                     val fbList = response.data
+                 }
+                 is Resource.Error -> Toast.makeText(requireContext(), "Ошибка ФБ", Toast.LENGTH_SHORT).show()
+             }
+         })
+     }*/
 }

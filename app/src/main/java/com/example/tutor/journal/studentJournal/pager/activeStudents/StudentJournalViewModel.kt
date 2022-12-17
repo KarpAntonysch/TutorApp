@@ -5,32 +5,20 @@ import com.example.tutor.bd.entities.StudentEntity
 import com.example.tutor.bd.entities.StudentForSchedule
 import com.example.tutor.fireBase.FireBaseRepository
 import com.example.tutor.repository.StudentRepository
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.launch
 
-class StudentJournalViewModel(private val repository: StudentRepository,
-                              private val fbRepository: FireBaseRepository) : ViewModel() {
-    //Создаем переменную для получения списка из локальной БД типа LD, которая инициализируется Flow из репозитория
-    private val allStudents: LiveData<List<StudentEntity>> = repository.allStudents.asLiveData()
+class StudentJournalViewModel(
+    private val repository: StudentRepository,
+    private val fbRepository: FireBaseRepository,
+) : ViewModel() {
+
     val allActiveStudents: LiveData<List<StudentEntity>> = repository.allActiveStudents.asLiveData()
-    fun getInfo(): LiveData<MutableList<StudentForSchedule>>{
+    fun getInfo(): LiveData<MutableList<StudentForSchedule>> {
         return repository.infoForSchedule
     }
 
     fun changeStudentActive(studentEntity: StudentEntity) {
         repository.changeStudentActive(studentEntity.id)
-        fbRepository.changeStudentActiveToFireBase(studentEntity,false)
-    }
-
-    // функция для добавления данных в локальную БД из FB, при условии пустой лБД
-       fun fillingDBWithFB(){
-         CoroutineScope(Dispatchers.IO).launch {
-             val fbStudentList = fbRepository.fbStudentList()
-             if (allStudents.value.isNullOrEmpty() && !fbStudentList.isNullOrEmpty()){
-                 repository.insertAllStudent(fbStudentList)
-             }
-         }
+        fbRepository.changeStudentActiveToFireBase(studentEntity, false)
     }
 
     //Получение списка всех студентов из FB. Не используется. Оставлена для примера
@@ -41,14 +29,17 @@ class StudentJournalViewModel(private val repository: StudentRepository,
     }*/
 
 }
-class StudentJournalViewModelFactory(private val repository: StudentRepository,
-                                     private val fbRepository: FireBaseRepository) :
+
+class StudentJournalViewModelFactory(
+    private val repository: StudentRepository,
+    private val fbRepository: FireBaseRepository,
+) :
     ViewModelProvider.Factory {
     override fun <T : ViewModel> create(modelClass: Class<T>): T {
         if (modelClass.isAssignableFrom(StudentJournalViewModel::class.java)) {
             //тестовая аннотация для обнаружения ошибок. Означает, что тестовый метод не будет включен в набор тестов
             @Suppress("UNCHECKED_CAST")
-            return StudentJournalViewModel(repository,fbRepository) as T
+            return StudentJournalViewModel(repository, fbRepository) as T
         }
         throw IllegalArgumentException("Unknown VM")
     }

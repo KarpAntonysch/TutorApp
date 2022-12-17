@@ -3,7 +3,6 @@ package com.example.tutor.main.mainFragment
 import android.content.DialogInterface
 import android.os.Build
 import android.os.Bundle
-import android.util.Log
 import android.view.*
 import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
@@ -35,7 +34,7 @@ class MainFragment : Fragment(), MainFragmentAdapter.Listener,
     lateinit var binding: FragmentMainBinding
     private val mainFragmentViewModel: MainFragmentViewModel by viewModels {
         MainFragmentViewModelFactory((requireActivity().application as DBapplication).scheduleRepository,requireActivity().application,
-            FireBaseRepository())
+            FireBaseRepository(),(requireActivity().application as DBapplication).studentRepository)
     }
     private val studentJournalViewModel: StudentJournalViewModel by viewModels {
         StudentJournalViewModelFactory((requireActivity().application as DBapplication).studentRepository,
@@ -62,6 +61,8 @@ class MainFragment : Fragment(), MainFragmentAdapter.Listener,
 
     @RequiresApi(Build.VERSION_CODES.O)
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        mainFragmentViewModel.fillingDBWithStudentsFromFB() // загружаем список всех студентов из FB
+        mainFragmentViewModel.fillingDBWithLessonsFromFB() // загружаем список всех занятий из FB
         super.onViewCreated(view, savedInstanceState)
         toolBarSetting()
         // передадим дату (Long) через  Bundle
@@ -82,7 +83,7 @@ class MainFragment : Fragment(), MainFragmentAdapter.Listener,
             dateDisplaying(currentDate)
         }
 
-        studentJournalViewModel.allActiveStudents.observe(viewLifecycleOwner, {
+        studentJournalViewModel.allActiveStudents.observe(viewLifecycleOwner) {
             if (it.isNullOrEmpty()) {
                 binding.btnAddToCalendar.setOnClickListener {
                     //проверка на нулевой или пустой список в Журнале (==пустой список в спинере)
@@ -101,7 +102,7 @@ class MainFragment : Fragment(), MainFragmentAdapter.Listener,
                     )
                 }
             }
-        })
+        }
         hideFAB()
     }
 

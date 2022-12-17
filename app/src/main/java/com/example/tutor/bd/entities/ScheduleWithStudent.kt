@@ -10,4 +10,4 @@ data class ScheduleWithStudent(
         entityColumn = "id"
     )
     val ListOfStudentEntity: StudentEntity
-)
+    )

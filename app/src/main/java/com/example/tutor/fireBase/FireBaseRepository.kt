@@ -82,6 +82,7 @@ class FireBaseRepository {
     }
 
 
+
     /*функция чтения из бд. Альтернативное исопльзование корутин без suspend, но с flow(предпочтитльнее для
     получения нескольких объектов).обработка ошибок не через общую функцию высшего порядка,
     а напрямую в методе.НЕ ИСПОЛЬЗУЮ, ДЛЯ ПРИМЕРА*/
@@ -102,13 +103,13 @@ class FireBaseRepository {
         }
         return fbStudentList
     }
-
-  /*  suspend fun fbLessonList(): List<ScheduleEntity> {
+    // получение списка уроков из FB. С использованием корутины(в виде suspend).
+   suspend fun fbLessonList(): List<ScheduleEntity> {
         val fbLessonList = lessonQueryFromFB().get().await().documents.mapNotNull { doc ->
             doc.toObject(ScheduleEntity::class.java)
         }
         return fbLessonList
-    }*/
+    }
 
     // обновление активности ученика с true на false.
     fun changeStudentActiveToFireBase(studentEntityFB: StudentEntity, activeStatus: Boolean) {
