@@ -6,6 +6,7 @@ import android.app.PendingIntent
 import android.content.Context
 import android.content.Intent
 import androidx.lifecycle.*
+import com.example.tutor.R
 import com.example.tutor.bd.entities.ScheduleEntity
 import com.example.tutor.bd.entities.StudentForSchedule
 import com.example.tutor.bd.entities.StudentForSpinnerModel
@@ -28,7 +29,8 @@ class AddStudentToScheduleViewModel(
     val periodCondition: MutableLiveData<String> =
         MutableLiveData("day")// Условие для настройки боттомшит с периодом
     val notificationDelay: MutableLiveData<Long> =
-        MutableLiveData(600000)// параметр для заполнения свойства notificationDelay в scheduleTntity
+        MutableLiveData(600000)// параметр для заполнения свойства notificationDelay в scheduleEntity
+
 
     // получение из List<StudentForSchedule> List<StudentForSpinnerModel>
     fun getNewList(infoList: MutableList<StudentForSchedule>): List<StudentForSpinnerModel> {
@@ -79,15 +81,15 @@ class AddStudentToScheduleViewModel(
 
         if (notificationCondition.value == "10 мин.") {
             delay = 600000
-            setAlarm(scheduleEntity.dateWithTime - delay)// перенес сюда вместо отдельного метода в фрагменте
+            setAlarm(scheduleEntity.dateWithTime - delay, app.getString(R.string.push_message10))// перенес сюда вместо отдельного метода в фрагменте
         }
         if (notificationCondition.value == "15 мин.") {
             delay = 900000
-            setAlarm(scheduleEntity.dateWithTime - delay)// перенес сюда вместо отдельного метода в фрагменте
+            setAlarm(scheduleEntity.dateWithTime - delay,app.getString(R.string.push_message15))// перенес сюда вместо отдельного метода в фрагменте
         }
         if (notificationCondition.value == "30 мин.") {
             delay = 1800000
-            setAlarm(scheduleEntity.dateWithTime - delay)// перенес сюда вместо отдельного метода в фрагменте
+            setAlarm(scheduleEntity.dateWithTime - delay,app.getString(R.string.push_message30))// перенес сюда вместо отдельного метода в фрагменте
         }
 
         viewModelScope.launch {
@@ -98,11 +100,12 @@ class AddStudentToScheduleViewModel(
         }
     }
 
-    private fun setAlarm(time: Long) {
+    private fun setAlarm(time: Long, message:String) {
         val cal: Calendar = Calendar.getInstance()
         if (cal.timeInMillis < time) {
             val alarmManager = app.getSystemService(Context.ALARM_SERVICE) as AlarmManager
             val intent = Intent(app, AlarmReceiver::class.java)
+            intent.putExtra("notificationMessage",message)// передача сообщения для разных оповещений в BroadcastReceiver, при вызове этого ресивера
             val pendingIntent = PendingIntent.getBroadcast(app, time.toInt(), intent,
                 PendingIntent.FLAG_UPDATE_CURRENT)
             alarmManager.setExact(AlarmManager.RTC_WAKEUP, time, pendingIntent)

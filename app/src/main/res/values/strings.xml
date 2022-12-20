@@ -80,7 +80,9 @@
     <string name="save">Сохранить изменения</string>
     <string name="push_notification_channel_id" translatable="false">push-канал</string>
     <string name="push_notification_channel_name" translatable="false">Имя канала</string>
-    <string name="push_message" translatable="false">Занятие начнется 10 минут </string>
+    <string name="push_message10" translatable="false">Занятие начнется 10 минут </string>
+    <string name="push_message15" translatable="false">Занятие начнется 15 минут </string>
+    <string name="push_message30" translatable="false">Занятие начнется 30 минут </string>
     <string name="push_tittle" translatable="false">Скоро занятие</string>
     <string name="period_setting" translatable="false">Выбор периода</string>
     <string name="notification_setting" translatable="false">Настройки уведомлений</string>

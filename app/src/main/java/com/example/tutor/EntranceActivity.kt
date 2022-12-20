@@ -65,7 +65,7 @@ class EntranceActivity : AppCompatActivity() {
                     is Resource.Success -> {
                         Toast.makeText(applicationContext, "Регистрация прошла успешно", Toast.LENGTH_SHORT).show()
                         val userName = UserProfileChangeRequest.Builder()
-                            .setDisplayName(binding.edRegName.text.toString()+binding.edRegSecondName.text.toString()).build()
+                            .setDisplayName(binding.edRegName.text.toString()+" "+ binding.edRegSecondName.text.toString()).build()
                         auth.currentUser?.updateProfile(userName)
                         transition()
                     }

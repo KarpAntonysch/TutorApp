@@ -94,7 +94,7 @@ class AddStudentToDaySchedule : Fragment(), JointDialogInterface,NotificationLis
 
     private fun spinnerRealization() {
         // получение информации для таблицы schedule(id,firstname,secondName), реализация спинера
-        studentJournalViewModel.getInfo().observe(viewLifecycleOwner, {
+        studentJournalViewModel.getInfo().observe(viewLifecycleOwner) {
             //спинер
             val spinnerCheck: Int? = scheduleViewModel.studentID/*проверка выбранного ученика
             при изменении конфигурации, если ученик был удален, то список в спинере по порядку, если
@@ -123,7 +123,7 @@ class AddStudentToDaySchedule : Fragment(), JointDialogInterface,NotificationLis
                     override fun onNothingSelected(p0: AdapterView<*>?) {
                     }
                 }
-        })
+        }
     }
 
     private fun toolBarSetting() {
@@ -206,7 +206,7 @@ class AddStudentToDaySchedule : Fragment(), JointDialogInterface,NotificationLis
             notificationChannel.enableLights(true)
             notificationChannel.lightColor = Color.RED
             notificationChannel.enableVibration(true)
-            notificationChannel.description = getString(R.string.push_message)
+            notificationChannel.description = getString(R.string.push_message10)
 
             val notificationManager = requireActivity().getSystemService(
                 NotificationManager::class.java
